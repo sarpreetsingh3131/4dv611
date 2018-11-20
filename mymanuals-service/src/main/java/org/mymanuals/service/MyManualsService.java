@@ -16,8 +16,7 @@ public class MyManualsService {
                 .sources(Domain.class,
                         CompanyService.class,
                         ConsumerService.class,
-                        MyManualsService.class
-                )
+                        MyManualsService.class)
                 .run(args);
     }
 }
