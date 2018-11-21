@@ -2,6 +2,7 @@ package org.company.service.controller;
 
 import org.company.service.service.CompanyService;
 import org.domain.model.Company;
+import org.domain.utils.Credentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +29,10 @@ public class CompanyController {
     @GetMapping("/{id}")
     public Company findById(@PathVariable String id) {
         return service.findById(id);
+    }
+
+    @PutMapping(value = "/login", consumes = "application/json")
+    public String login(@RequestBody Credentials credentials) {
+        return service.login(credentials);
     }
 }

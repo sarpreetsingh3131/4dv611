@@ -5,8 +5,8 @@ import org.representative.service.service.RepresentativeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.sasl.AuthenticationException;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -17,13 +17,14 @@ public class RepresentativeController {
     @Autowired
     private RepresentativeService service;
 
-    @PostMapping(value = "/{companyId}", consumes = "application/json")
-    public Representative save(@RequestBody @Valid Representative representative, @PathVariable @NotNull String companyId) {
-        return service.save(representative, companyId);
+    @PostMapping(consumes = "application/json")
+    public Representative save(@RequestBody @Valid Representative representative,
+                               @RequestHeader("Authorization") String token) throws AuthenticationException {
+        return service.save(representative, token);
     }
 
-    @GetMapping("/{companyId}")
-    public List<Representative> findByCompanyId(@PathVariable String companyId) {
-        return service.findByCompanyId(companyId);
+    @GetMapping
+    public List<Representative> findByCompany(@RequestHeader("Authorization") String token) throws AuthenticationException {
+        return service.findByCompany(token);
     }
 }

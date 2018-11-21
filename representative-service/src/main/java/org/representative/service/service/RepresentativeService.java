@@ -1,11 +1,13 @@
 package org.representative.service.service;
 
-import org.domain.model.Company;
 import org.domain.model.Representative;
+import org.domain.repository.CompanyRepository;
 import org.domain.repository.RepresentativeRepository;
+import org.domain.utils.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.security.sasl.AuthenticationException;
 import java.util.List;
 
 @Service
@@ -14,13 +16,20 @@ public class RepresentativeService {
     @Autowired
     private RepresentativeRepository representativeRepository;
 
+    @Autowired
+    private CompanyRepository companyRepository;
 
-    public Representative save(Representative representative, String companyId) {
-        representative.setCompany(new Company(new Long(companyId)));
+    @Autowired
+    private Authentication authentication;
+
+    public Representative save(Representative representative, String token) throws AuthenticationException {
+        String companyUsername = authentication.validateAuthorization(token, companyRepository);
+        representative.setCompany(companyRepository.findByUsername(companyUsername));
         return representativeRepository.save(representative);
     }
 
-    public List<Representative> findByCompanyId(String companyId) {
-        return representativeRepository.findByCompanyId(new Long(companyId));
+    public List<Representative> findByCompany(String token) throws AuthenticationException {
+        String companyUsername = authentication.validateAuthorization(token, companyRepository);
+        return representativeRepository.findByCompanyId(companyRepository.findByUsername(companyUsername).getId());
     }
 }
