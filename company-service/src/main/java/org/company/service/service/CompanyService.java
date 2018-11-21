@@ -33,6 +33,6 @@ public class CompanyService {
     }
 
     public String login(Credentials credentials) {
-        return authentication.login(credentials, repository);
+        return authentication.companyLogin(credentials, repository);
     }
 }
