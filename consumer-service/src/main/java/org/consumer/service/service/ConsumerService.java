@@ -7,7 +7,7 @@ import org.domain.utils.Credentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.activity.InvalidActivityException;
 
 @Service
 public class ConsumerService {
@@ -22,7 +22,7 @@ public class ConsumerService {
         return repository.save(consumer);
     }
 
-    public String login(Credentials credentials) {
+    public String login(Credentials credentials) throws InvalidActivityException {
         return authentication.consumerLogin(credentials, repository);
     }
 }

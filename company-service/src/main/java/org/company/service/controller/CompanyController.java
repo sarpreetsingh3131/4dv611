@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.activity.InvalidActivityException;
+
 @RestController
 @RequestMapping(value = "/api/company", produces = "application/json")
 @ResponseBody
@@ -32,7 +34,7 @@ public class CompanyController {
     }
 
     @PutMapping(value = "/login", consumes = "application/json")
-    public String login(@RequestBody Credentials credentials) {
+    public String login(@RequestBody Credentials credentials) throws InvalidActivityException {
         return service.login(credentials);
     }
 }

@@ -6,8 +6,8 @@ import org.domain.utils.Credentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.activity.InvalidActivityException;
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/consumer", produces = "application/json")
@@ -23,7 +23,7 @@ public class ConsumerController {
     }
 
     @PutMapping(value = "/login", consumes = "application/json")
-    public String login(@RequestBody @Valid Credentials credentials) {
+    public String login(@RequestBody @Valid Credentials credentials) throws InvalidActivityException {
         return service.login(credentials);
     }
 }

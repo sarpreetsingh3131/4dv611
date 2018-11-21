@@ -4,8 +4,8 @@ import org.domain.repository.CompanyRepository;
 import org.domain.repository.ConsumerRepository;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.stereotype.Service;
-import sun.plugin.dom.exception.InvalidAccessException;
 
+import javax.activity.InvalidActivityException;
 import javax.security.sasl.AuthenticationException;
 import java.util.Optional;
 
@@ -14,17 +14,17 @@ public class Authentication {
 
     private String PASSWORD = "mymanuals";
 
-    public String companyLogin(Credentials credentials, CompanyRepository repository) {
+    public String companyLogin(Credentials credentials, CompanyRepository repository) throws InvalidActivityException {
         Optional
                 .of(repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword()))
-                .orElseThrow(() -> new InvalidAccessException("Invalid credentials"));
+                .orElseThrow(() -> new InvalidActivityException("Invalid credentials"));
         return encrypt(credentials.getUsername());
     }
 
-    public String consumerLogin(Credentials credentials, ConsumerRepository repository) {
+    public String consumerLogin(Credentials credentials, ConsumerRepository repository) throws InvalidActivityException {
         Optional
                 .of(repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword()))
-                .orElseThrow(() -> new InvalidAccessException("Invalid credentials"));
+                .orElseThrow(() -> new InvalidActivityException("Invalid credentials"));
         return encrypt(credentials.getUsername());
     }
 

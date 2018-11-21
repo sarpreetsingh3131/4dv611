@@ -7,6 +7,7 @@ import org.domain.utils.Credentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.activity.InvalidActivityException;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class CompanyService {
                 .orElseThrow(() -> new EntityNotFoundException("No company with id = " + id));
     }
 
-    public String login(Credentials credentials) {
+    public String login(Credentials credentials) throws InvalidActivityException {
         return authentication.companyLogin(credentials, repository);
     }
 }

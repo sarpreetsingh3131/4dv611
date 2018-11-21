@@ -13,7 +13,7 @@ public class CORSFilter implements Filter {
             throws IOException, ServletException {
         HttpServletResponse http = (HttpServletResponse) response;
         http.setHeader("Access-Control-Allow-Origin", "*");
-        http.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        http.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         http.setHeader("Access-Control-Max-Age", "3600");
         http.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
         filter.doFilter(request, response);
