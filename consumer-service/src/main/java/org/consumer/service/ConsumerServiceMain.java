@@ -1,8 +1,8 @@
-package org.representative.service;
+package org.consumer.service;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RepresentativeService {
+public class ConsumerServiceMain {
 
 }

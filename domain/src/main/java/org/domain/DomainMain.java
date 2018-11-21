@@ -1,8 +1,8 @@
-package org.company.service;
+package org.domain;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CompanyService {
+public class DomainMain {
 
 }

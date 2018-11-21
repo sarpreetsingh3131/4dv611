@@ -1,8 +1,8 @@
-package org.domain;
+package org.representative.service;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Domain {
+public class RepresentativeServiceMain {
 
 }

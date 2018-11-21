@@ -1,5 +1,7 @@
 package org.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -22,6 +24,7 @@ public class Representative {
     private String password;
 
     @ManyToOne
+    @JsonIgnore
     private Company company;
 
     public Representative() {
@@ -72,5 +75,16 @@ public class Representative {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    @Override
+    public String toString() {
+        return "Representative{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", company=" + company +
+                '}';
     }
 }
