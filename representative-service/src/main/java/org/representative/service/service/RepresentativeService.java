@@ -30,6 +30,6 @@ public class RepresentativeService {
 
     public List<Representative> findByCompany(String token) throws AuthenticationException {
         String companyUsername = authentication.validateCompanyAuthorization(token, companyRepository);
-        return representativeRepository.findByCompanyId(companyRepository.findByUsername(companyUsername).getId());
+        return representativeRepository.findByCompanyUsername(companyUsername);
     }
 }
