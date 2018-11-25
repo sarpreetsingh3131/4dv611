@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "consumer")
+@Table
 public class Consumer {
 
     @Id
@@ -12,24 +12,16 @@ public class Consumer {
     private Long id;
 
     @NotNull
+    @Column(nullable = false)
     private String name;
 
     @NotNull
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
     @NotNull
+    @Column(nullable = false)
     private String password;
-
-    public Consumer() {
-
-    }
-
-    public Consumer(String name, String username, String password) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-    }
 
     public Long getId() {
         return id;

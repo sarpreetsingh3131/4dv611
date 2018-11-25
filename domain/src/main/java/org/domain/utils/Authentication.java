@@ -2,6 +2,7 @@ package org.domain.utils;
 
 import org.domain.repository.CompanyRepository;
 import org.domain.repository.ConsumerRepository;
+import org.domain.repository.RepresentativeRepository;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Service
 public class Authentication {
 
-    private String PASSWORD = "mymanuals";
+    private final String PASSWORD = "mymanuals";
 
     public String companyLogin(Credentials credentials, CompanyRepository repository) throws InvalidActivityException {
         Optional
@@ -28,6 +29,13 @@ public class Authentication {
         return encrypt(credentials.getUsername());
     }
 
+    public String representativeLogin(Credentials credentials, RepresentativeRepository repository) throws InvalidActivityException {
+        Optional
+                .of(repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword()))
+                .orElseThrow(() -> new InvalidActivityException("Invalid credentials"));
+        return encrypt(credentials.getUsername());
+    }
+
     public String validateCompanyAuthorization(String token, CompanyRepository repository) throws AuthenticationException {
         String username = decrypt(token);
         Optional
@@ -37,6 +45,14 @@ public class Authentication {
     }
 
     public String validateConsumerAuthorization(String token, ConsumerRepository repository) throws AuthenticationException {
+        String username = decrypt(token);
+        Optional
+                .of(repository.findByUsername(username))
+                .orElseThrow(() -> new AuthenticationException("Invalid token"));
+        return username;
+    }
+
+    public String validateRepresentativeAuthorization(String token, RepresentativeRepository repository) throws AuthenticationException {
         String username = decrypt(token);
         Optional
                 .of(repository.findByUsername(username))

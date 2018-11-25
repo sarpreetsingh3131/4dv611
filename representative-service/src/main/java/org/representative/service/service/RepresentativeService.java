@@ -4,9 +4,11 @@ import org.domain.model.Representative;
 import org.domain.repository.CompanyRepository;
 import org.domain.repository.RepresentativeRepository;
 import org.domain.utils.Authentication;
+import org.domain.utils.Credentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.activity.InvalidActivityException;
 import javax.security.sasl.AuthenticationException;
 import java.util.List;
 
@@ -31,5 +33,9 @@ public class RepresentativeService {
     public List<Representative> findByCompany(String token) throws AuthenticationException {
         String companyUsername = authentication.validateCompanyAuthorization(token, companyRepository);
         return representativeRepository.findByCompanyUsername(companyUsername);
+    }
+
+    public String login(Credentials credentials) throws InvalidActivityException {
+        return authentication.representativeLogin(credentials, representativeRepository);
     }
 }

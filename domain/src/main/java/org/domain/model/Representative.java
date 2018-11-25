@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "representative")
+@Table
 public class Representative {
 
     @Id
@@ -14,28 +14,20 @@ public class Representative {
     private Long id;
 
     @NotNull
+    @Column(nullable = false)
     private String name;
 
     @NotNull
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
     @NotNull
+    @Column(nullable = false)
     private String password;
 
     @ManyToOne
     @JsonIgnore
     private Company company;
-
-    public Representative() {
-
-    }
-
-    public Representative(String name, String username, String password) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-    }
 
     public Long getId() {
         return id;

@@ -51,10 +51,11 @@
     </dependencies>
 
     <modules>
+        <module>domain</module>
         <module>company-service</module>
         <module>consumer-service</module>
         <module>representative-service</module>
-        <module>domain</module>
         <module>mymanuals-service</module>
+        <module>product-service</module>
     </modules>
 </project>

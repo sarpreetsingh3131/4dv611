@@ -1,10 +1,12 @@
 package org.representative.service.controller;
 
 import org.domain.model.Representative;
+import org.domain.utils.Credentials;
 import org.representative.service.service.RepresentativeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.activity.InvalidActivityException;
 import javax.security.sasl.AuthenticationException;
 import javax.validation.Valid;
 import java.util.List;
@@ -26,5 +28,10 @@ public class RepresentativeController {
     @GetMapping
     public List<Representative> findByCompany(@RequestHeader("Authorization") String token) throws AuthenticationException {
         return service.findByCompany(token);
+    }
+
+    @PutMapping(value = "/login", consumes = "application/json")
+    public String login(@RequestBody Credentials credentials) throws InvalidActivityException {
+        return service.login(credentials);
     }
 }
