@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ConsumerRepository extends JpaRepository<Consumer, Long> {
 
+    Consumer findByUsernameAndPassword(String username, String password);
+
+    Consumer findByUsername(String username);
 }

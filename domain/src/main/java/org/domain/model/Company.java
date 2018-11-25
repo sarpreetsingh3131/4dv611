@@ -11,22 +11,26 @@ public class Company {
     @GeneratedValue
     private Long id;
 
-    @NotNull(message = "Company name cannot be null or empty")
+    @NotNull
     @Column(unique = true)
     private String name;
 
-    @NotNull(message = "Company description cannot be null or empty")
+    @NotNull
     private String description;
 
-    @NotNull(message = "Company username cannot be null or empty")
+    @NotNull
     @Column(unique = true)
     private String username;
 
-    @NotNull(message = "Company password cannot be null or empty")
+    @NotNull
     private String password;
 
     public Company() {
 
+    }
+
+    public Company(Long id) {
+        this.id = id;
     }
 
     public Company(String name, String description, String username, String password) {
@@ -74,5 +78,16 @@ public class Company {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
