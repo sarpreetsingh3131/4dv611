@@ -25,14 +25,14 @@ public class RepresentativeService {
     private Authentication authentication;
 
     public Representative save(Representative representative, String token) throws AuthenticationException {
-        String companyUsername = authentication.validateCompanyAuthorization(token, companyRepository);
-        representative.setCompany(companyRepository.findByUsername(companyUsername));
+        String username = authentication.validateCompanyAuthorization(token, companyRepository);
+        representative.setCompany(companyRepository.findByUsername(username));
         return representativeRepository.save(representative);
     }
 
     public List<Representative> findByCompany(String token) throws AuthenticationException {
-        String companyUsername = authentication.validateCompanyAuthorization(token, companyRepository);
-        return representativeRepository.findByCompanyUsername(companyUsername);
+        String username = authentication.validateCompanyAuthorization(token, companyRepository);
+        return representativeRepository.findByCompanyUsername(username);
     }
 
     public String login(Credentials credentials) throws InvalidActivityException {

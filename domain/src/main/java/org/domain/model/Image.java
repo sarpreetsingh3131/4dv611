@@ -3,7 +3,7 @@ package org.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table
@@ -13,15 +13,15 @@ public class Image {
     @GeneratedValue
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String name;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String type;
 
-    @NotNull
+    @NotBlank
     @Lob
     @Column(nullable = false)
     private String data;

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.security.sasl.AuthenticationException;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping(value = "/api/product", produces = "application/json")
@@ -18,7 +19,7 @@ public class ProductController {
 
     @PostMapping(consumes = "application/json")
     public Product save(@RequestBody @Valid Product product,
-                        @RequestHeader("Authorization") String token) throws AuthenticationException {
+                        @RequestHeader("Authorization") @NotBlank String token) throws AuthenticationException {
         return service.save(token, product);
     }
 }

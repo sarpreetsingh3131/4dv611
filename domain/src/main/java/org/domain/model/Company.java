@@ -1,7 +1,7 @@
 package org.domain.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table
@@ -11,19 +11,19 @@ public class Company {
     @GeneratedValue
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(unique = true, nullable = false)
     private String name;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String description;
 
-    @NotNull
+    @NotBlank
     @Column(unique = true, nullable = false)
     private String username;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String password;
 

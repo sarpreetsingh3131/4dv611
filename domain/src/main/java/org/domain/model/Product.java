@@ -3,6 +3,7 @@ package org.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -14,9 +15,11 @@ public class Product {
     @GeneratedValue
     private Long id;
 
+    @NotBlank
     @Column(nullable = false)
     private String name;
 
+    @NotBlank
     @Column(unique = true, nullable = false)
     private String model;
 

@@ -17,29 +17,14 @@ public class HttpExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseEntity<?> defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
-        e.printStackTrace();
-        if (e instanceof NoSuchElementException || e.getCause() instanceof NoSuchElementException
-                || e instanceof NullPointerException || e.getCause() instanceof NoSuchElementException
-                || e instanceof EntityNotFoundException || e.getCause() instanceof EntityNotFoundException) {
+        String error = "{\"error\": \"" + e.toString() + "\"}";
+        if (e instanceof NoSuchElementException || e instanceof NullPointerException || e instanceof EntityNotFoundException) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body(new MyError(e.getMessage(), "Entity not found"));
+                    .body(error);
         }
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new MyError(e.getMessage(), "Bad request"));
-    }
-
-    private class MyError {
-
-        private String error;
-
-        public MyError(String message, String defaultMessage) {
-            this.error = (message == null || message.isEmpty()) ? defaultMessage : message;
-        }
-
-        public String getError() {
-            return this.error;
-        }
+                .body(error);
     }
 }

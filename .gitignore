@@ -19,6 +19,13 @@ pom.xml.next
 release.properties
 
 ##########################
+## Gradle
+##########################
+*.bin
+*.lock
+*.properties
+
+##########################
 ## IntelliJ
 ##########################
 *.iml

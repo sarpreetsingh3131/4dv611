@@ -15,12 +15,8 @@ public class MyManualsServiceMain {
     public static void main(String[] args) {
         new SpringApplicationBuilder()
                 .bannerMode(Banner.Mode.CONSOLE)
-                .sources(DomainMain.class,
-                        CompanyServiceMain.class,
-                        ConsumerServiceMain.class,
-                        RepresentativeServiceMain.class,
-                        ProductServiceMain.class,
-                        MyManualsServiceMain.class)
+                .sources(DomainMain.class, CompanyServiceMain.class, ConsumerServiceMain.class,
+                        RepresentativeServiceMain.class, ProductServiceMain.class, MyManualsServiceMain.class)
                 .run(args);
     }
 }

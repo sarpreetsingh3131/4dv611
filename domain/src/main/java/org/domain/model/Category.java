@@ -1,7 +1,7 @@
 package org.domain.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table
@@ -11,7 +11,7 @@ public class Category {
     @GeneratedValue
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String name;
 
