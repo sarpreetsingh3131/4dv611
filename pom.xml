@@ -57,5 +57,6 @@
         <module>representative-service</module>
         <module>mymanuals-service</module>
         <module>product-service</module>
+        <module>category-service</module>
     </modules>
 </project>

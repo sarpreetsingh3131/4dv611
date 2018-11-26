@@ -1,5 +1,6 @@
 package org.mymanuals.service;
 
+import org.category.service.CategoryServiceMain;
 import org.company.service.CompanyServiceMain;
 import org.consumer.service.ConsumerServiceMain;
 import org.domain.DomainMain;
@@ -16,7 +17,8 @@ public class MyManualsServiceMain {
         new SpringApplicationBuilder()
                 .bannerMode(Banner.Mode.CONSOLE)
                 .sources(DomainMain.class, CompanyServiceMain.class, ConsumerServiceMain.class,
-                        RepresentativeServiceMain.class, ProductServiceMain.class, MyManualsServiceMain.class)
+                        RepresentativeServiceMain.class, ProductServiceMain.class, CategoryServiceMain.class,
+                        MyManualsServiceMain.class)
                 .run(args);
     }
 }
