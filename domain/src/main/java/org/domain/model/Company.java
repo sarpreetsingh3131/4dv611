@@ -1,44 +1,31 @@
 package org.domain.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "company")
+@Table
 public class Company {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @NotNull
-    @Column(unique = true)
+    @NotBlank
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @NotNull
+    @NotBlank
+    @Column(nullable = false)
     private String description;
 
-    @NotNull
-    @Column(unique = true)
+    @NotBlank
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @NotNull
+    @NotBlank
+    @Column(nullable = false)
     private String password;
-
-    public Company() {
-
-    }
-
-    public Company(Long id) {
-        this.id = id;
-    }
-
-    public Company(String name, String description, String username, String password) {
-        this.name = name;
-        this.description = description;
-        this.username = username;
-        this.password = password;
-    }
 
     public Long getId() {
         return id;
