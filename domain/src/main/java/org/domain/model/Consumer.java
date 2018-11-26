@@ -1,35 +1,27 @@
 package org.domain.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "consumer")
+@Table
 public class Consumer {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @NotNull
+    @NotBlank
+    @Column(nullable = false)
     private String name;
 
-    @NotNull
-    @Column(unique = true)
+    @NotBlank
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @NotNull
+    @NotBlank
+    @Column(nullable = false)
     private String password;
-
-    public Consumer() {
-
-    }
-
-    public Consumer(String name, String username, String password) {
-        this.name = name;
-        this.username = username;
-        this.password = password;
-    }
 
     public Long getId() {
         return id;

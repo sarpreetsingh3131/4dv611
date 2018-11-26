@@ -6,9 +6,10 @@ import org.domain.utils.Credentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import javax.activity.InvalidActivityException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/company", produces = "application/json")
@@ -19,7 +20,7 @@ public class CompanyController {
     private CompanyService service;
 
     @PostMapping(consumes = "application/json")
-    public Company save(@RequestBody Company company) {
+    public Company save(@RequestBody @Valid Company company) {
         return service.save(company);
     }
 
@@ -29,12 +30,12 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}")
-    public Company findById(@PathVariable String id) {
+    public Company findById(@PathVariable @NotBlank String id) {
         return service.findById(id);
     }
 
     @PutMapping(value = "/login", consumes = "application/json")
-    public String login(@RequestBody Credentials credentials) throws InvalidActivityException {
+    public String login(@RequestBody @Valid Credentials credentials) throws InvalidActivityException {
         return service.login(credentials);
     }
 }

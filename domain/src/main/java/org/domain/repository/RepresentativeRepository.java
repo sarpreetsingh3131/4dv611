@@ -10,4 +10,8 @@ import java.util.List;
 public interface RepresentativeRepository extends JpaRepository<Representative, Long> {
 
     List<Representative> findByCompanyUsername(String username);
+
+    Representative findByUsernameAndPassword(String username, String password);
+
+    Representative findByUsername(String username);
 }
