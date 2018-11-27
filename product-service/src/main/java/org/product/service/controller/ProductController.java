@@ -24,8 +24,6 @@ public class ProductController {
     public Product save(@RequestBody @Valid Product product,
                         @RequestHeader("Authorization") @NotBlank String token) throws AuthenticationException {
         return service.save(token, product);
-        
-        
     }  
     
     @GetMapping("/{id}")
