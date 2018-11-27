@@ -1,6 +1,5 @@
 package org.product.service.controller;
 
-import org.domain.model.Company;
 import org.domain.model.Product;
 import org.product.service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
