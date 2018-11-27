@@ -4,7 +4,6 @@ import org.domain.repository.CompanyRepository;
 import org.domain.repository.ConsumerRepository;
 import org.domain.repository.RepresentativeRepository;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.activity.InvalidActivityException;
