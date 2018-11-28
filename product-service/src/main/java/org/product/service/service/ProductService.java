@@ -11,9 +11,8 @@ import org.domain.utils.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 import javax.security.sasl.AuthenticationException;
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -44,8 +43,8 @@ public class ProductService {
                 .forEach(manual -> manual.setId(manualRepository.save(new Manual(manual, savedProduct)).getId()));
         return product;
     }
-   
-  public List<Product> findByCategoryId(Long id){
-        return productRepository.findByCategoryId(id);	  
-  }
+
+    public List<Product> findByCategoryId(Long id) {
+        return productRepository.findByCategoryId(id);
+    }
 }

@@ -5,11 +5,10 @@ import org.product.service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import javax.security.sasl.AuthenticationException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/product", produces = "application/json")
@@ -23,10 +22,10 @@ public class ProductController {
     public Product save(@RequestBody @Valid Product product,
                         @RequestHeader("Authorization") @NotBlank String token) throws AuthenticationException {
         return service.save(token, product);
-    }  
-    
+    }
+
     @GetMapping("/{id}")
-    public List<Product> findByCategoryId(@PathVariable @NotBlank String id) {
-        return service.findByCategoryId(Long.parseLong(id));
+    public List<Product> findByCategoryId(@RequestParam("categoryId") @NotBlank String id) {
+        return service.findByCategoryId(new Long(id));
     }
 }
