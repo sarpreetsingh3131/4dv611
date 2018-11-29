@@ -1,0 +1,10 @@
+UPDATE PUBLIC.COMPANY SET DESCRIPTION = 'Sony is one of the largest electronics companies, producing a wide range of electronics, from shavers and fridges, to game consoles and phones', NAME = 'Sony', PASSWORD = 'sony', USERNAME = 'sony' WHERE ID = 0;
+UPDATE PUBLIC.COMPANY SET DESCRIPTION = 'Tiger is a small multinational electronics manufacturer that focuses on consumer electronics', NAME = 'Tiger Corporation', PASSWORD = 'tiger', USERNAME = 'tiger' WHERE ID = 1;
+UPDATE PUBLIC.COMPANY SET DESCRIPTION = 'Samsung is one of the biggest manufacturer of electronic devices', NAME = 'Samsung', PASSWORD = 'samsung', USERNAME = 'samsung' WHERE ID = 2;
+UPDATE PUBLIC.COMPANY SET DESCRIPTION = 'Siemens is one of the biggest German electronic goods manufacturer', NAME = 'Siemens', PASSWORD = 'siemens', USERNAME = 'siemens' WHERE ID = 3;
+UPDATE PUBLIC.COMPANY SET DESCRIPTION = 'LG is one of the most known manufacturer of eletronics', NAME = 'LG', PASSWORD = 'lg', USERNAME = 'lg' WHERE ID = 4;
+UPDATE PUBLIC.COMPANY SET DESCRIPTION = 'Sharp mostly known for their Tvs, but they also produce a lot of other eletronic devices', NAME = 'Sharp', PASSWORD = 'sharp', USERNAME = 'sharp' WHERE ID = 5;
+UPDATE PUBLIC.COMPANY SET DESCRIPTION = 'HP is one of the well known manufacturer of computer and computer peripherals', NAME = 'HP', PASSWORD = 'hp', USERNAME = 'hp' WHERE ID = 6;
+UPDATE PUBLIC.COMPANY SET DESCRIPTION = 'Acer mostly manufactures laptops', NAME = 'Acer', PASSWORD = 'acer', USERNAME = 'acer' WHERE ID = 7;
+UPDATE PUBLIC.COMPANY SET DESCRIPTION = 'Dell is one of the biggest manufacturer of computers, whether for business or private use', NAME = 'Dell', PASSWORD = 'dell', USERNAME = 'dell' WHERE ID = 8;
+UPDATE PUBLIC.COMPANY SET DESCRIPTION = 'Philips is mostly known for their home appliances', NAME = 'Philips', PASSWORD = 'philips', USERNAME = 'philips' WHERE ID = 9;
