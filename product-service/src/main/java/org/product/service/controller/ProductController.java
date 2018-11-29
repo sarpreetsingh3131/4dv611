@@ -24,7 +24,7 @@ public class ProductController {
         return service.save(token, product);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping
     public List<Product> findByCategoryId(@RequestParam("categoryId") @NotBlank String id) {
         return service.findByCategoryId(new Long(id));
     }
