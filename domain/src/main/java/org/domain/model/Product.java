@@ -3,8 +3,6 @@ package org.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -15,23 +13,18 @@ public class Product {
     @GeneratedValue
     private Long id;
 
-    @NotBlank
     @Column(nullable = false)
     private String name;
 
-    @NotBlank
     @Column(unique = true, nullable = false)
     private String model;
 
-    @NotNull
     @OneToMany(mappedBy = "product")
     private List<Image> images;
 
-    @NotNull
     @OneToMany(mappedBy = "product")
     private List<Manual> manuals;
 
-    @NotNull
     @OneToOne
     private Category category;
 

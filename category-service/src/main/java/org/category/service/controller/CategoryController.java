@@ -28,7 +28,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public Category findById(@PathVariable @NotBlank String id) {
+    public Category findById(@PathVariable @NotBlank String id) throws Exception {
         return service.findById(id);
     }
 }

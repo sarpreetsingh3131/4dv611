@@ -5,13 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RepresentativeRepository extends JpaRepository<Representative, Long> {
 
     List<Representative> findByCompanyUsername(String username);
 
-    Representative findByUsernameAndPassword(String username, String password);
+    Optional<Representative> findByUsernameAndPassword(String username, String password);
 
-    Representative findByUsername(String username);
+    Optional<Representative> findByUsername(String username);
 }

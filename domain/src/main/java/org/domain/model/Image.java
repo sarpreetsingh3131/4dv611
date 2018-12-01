@@ -3,7 +3,6 @@ package org.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table
@@ -13,31 +12,15 @@ public class Image {
     @GeneratedValue
     private Long id;
 
-    @NotBlank
-    @Column(nullable = false)
-    private String name;
-
-    @NotBlank
-    @Column(nullable = false)
-    private String type;
-
-    @NotBlank
-    @Lob
-    @Column(nullable = false)
-    private String data;
+    @Column(nullable = false, unique = true)
+    private String url;
 
     @ManyToOne
     @JsonIgnore
     private Product product;
 
-    public Image() {
-
-    }
-
-    public Image(Image image, Product product) {
-        this.name = image.name;
-        this.type = image.type;
-        this.data = image.data;
+    public Image(String url, Product product) {
+        this.url = url;
         this.product = product;
     }
 
@@ -49,28 +32,12 @@ public class Image {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUrl() {
+        return url;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Product getProduct() {
@@ -85,9 +52,7 @@ public class Image {
     public String toString() {
         return "Image{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", data='" + data + '\'' +
+                ", url='" + url + '\'' +
                 ", product=" + product +
                 '}';
     }

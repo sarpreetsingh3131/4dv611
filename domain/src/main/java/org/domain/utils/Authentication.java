@@ -6,57 +6,47 @@ import org.domain.repository.RepresentativeRepository;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.stereotype.Service;
 
-import javax.activity.InvalidActivityException;
-import javax.security.sasl.AuthenticationException;
-import java.util.Optional;
-
 @Service
 public class Authentication {
 
     private final String PASSWORD = "mymanuals";
 
-    public String companyLogin(Credentials credentials, CompanyRepository repository) throws InvalidActivityException {
-        Optional
-                .of(repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword()))
-                .orElseThrow(() -> new InvalidActivityException("Invalid credentials"));
+    public String companyLogin(Credentials credentials, CompanyRepository repository) throws Exception {
+        repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword())
+                .orElseThrow(() -> new Exception("Invalid credentials"));
         return encrypt(credentials.getUsername());
     }
 
-    public String consumerLogin(Credentials credentials, ConsumerRepository repository) throws InvalidActivityException {
-        Optional
-                .of(repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword()))
-                .orElseThrow(() -> new InvalidActivityException("Invalid credentials"));
+    public String consumerLogin(Credentials credentials, ConsumerRepository repository) throws Exception {
+        repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword())
+                .orElseThrow(() -> new Exception("Invalid credentials"));
         return encrypt(credentials.getUsername());
     }
 
-    public String representativeLogin(Credentials credentials, RepresentativeRepository repository) throws InvalidActivityException {
-        Optional
-                .of(repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword()))
-                .orElseThrow(() -> new InvalidActivityException("Invalid credentials"));
+    public String representativeLogin(Credentials credentials, RepresentativeRepository repository) throws Exception {
+        repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword())
+                .orElseThrow(() -> new Exception("Invalid credentials"));
         return encrypt(credentials.getUsername());
     }
 
-    public String validateCompanyAuthorization(String token, CompanyRepository repository) throws AuthenticationException {
+    public String validateCompanyAuthorization(String token, CompanyRepository repository) throws Exception {
         String username = decrypt(token);
-        Optional
-                .of(repository.findByUsername(username))
-                .orElseThrow(() -> new AuthenticationException("Invalid token"));
+        repository.findByUsername(username)
+                .orElseThrow(() -> new Exception("Invalid token"));
         return username;
     }
 
-    public String validateConsumerAuthorization(String token, ConsumerRepository repository) throws AuthenticationException {
+    public String validateConsumerAuthorization(String token, ConsumerRepository repository) throws Exception {
         String username = decrypt(token);
-        Optional
-                .of(repository.findByUsername(username))
-                .orElseThrow(() -> new AuthenticationException("Invalid token"));
+        repository.findByUsername(username)
+                .orElseThrow(() -> new Exception("Invalid token"));
         return username;
     }
 
-    public String validateRepresentativeAuthorization(String token, RepresentativeRepository repository) throws AuthenticationException {
+    public String validateRepresentativeAuthorization(String token, RepresentativeRepository repository) throws Exception {
         String username = decrypt(token);
-        Optional
-                .of(repository.findByUsername(username))
-                .orElseThrow(() -> new AuthenticationException("Invalid token"));
+        repository.findByUsername(username)
+                .orElseThrow(() -> new Exception("Invalid token"));
         return username;
     }
 

@@ -6,10 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.NoSuchElementException;
 
 @ControllerAdvice
 public class HttpExceptionHandler {
@@ -17,14 +15,23 @@ public class HttpExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseEntity<?> defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
-        String error = "{\"error\": \"" + e.toString() + "\"}";
-        if (e instanceof NoSuchElementException || e instanceof NullPointerException || e instanceof EntityNotFoundException) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(error);
-        }
+        MyError myError = new MyError();
+        myError.setError(e.getMessage());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(error);
+                .body(myError);
+    }
+
+    private class MyError {
+
+        private String error = "";
+
+        public String getError() {
+            return error;
+        }
+
+        public void setError(String error) {
+            this.error = error;
+        }
     }
 }

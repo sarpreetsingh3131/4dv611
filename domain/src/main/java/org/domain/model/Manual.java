@@ -3,7 +3,6 @@ package org.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table
@@ -13,31 +12,19 @@ public class Manual {
     @GeneratedValue
     private Long id;
 
-    @NotBlank
-    @Column(nullable = false)
-    private String name;
+    @Column(nullable = false, unique = true)
+    private String url;
 
-    @NotBlank
     @Column(nullable = false)
-    private String type;
-
-    @NotBlank
-    @Lob
-    @Column(nullable = false)
-    private String data;
+    private String description;
 
     @ManyToOne
     @JsonIgnore
     private Product product;
 
-    public Manual() {
-
-    }
-
-    public Manual(Manual manual, Product product) {
-        this.name = manual.name;
-        this.type = manual.type;
-        this.data = manual.data;
+    public Manual(String url, String description, Product product) {
+        this.url = url;
+        this.description = description;
         this.product = product;
     }
 
@@ -49,28 +36,20 @@ public class Manual {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUrl() {
+        return url;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getType() {
-        return type;
+    public String getDescription() {
+        return description;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Product getProduct() {
@@ -85,9 +64,8 @@ public class Manual {
     public String toString() {
         return "Manual{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", data='" + data + '\'' +
+                ", url='" + url + '\'' +
+                ", description='" + description + '\'' +
                 ", product=" + product +
                 '}';
     }

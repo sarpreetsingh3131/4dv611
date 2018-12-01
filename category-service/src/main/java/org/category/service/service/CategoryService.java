@@ -5,7 +5,6 @@ import org.domain.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -22,8 +21,8 @@ public class CategoryService {
         return repository.findAll();
     }
 
-    public Category findById(String id) {
+    public Category findById(String id) throws Exception {
         return repository.findById(new Long(id))
-                .orElseThrow(() -> new EntityNotFoundException("No category with id = " + id));
+                .orElseThrow(() -> new Exception("No category with id = " + id));
     }
 }
