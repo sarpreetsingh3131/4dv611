@@ -24,8 +24,13 @@ public class ProductController {
         return service.save(token, productDao);
     }
 
-    @GetMapping
-    public List<Product> findByCategoryId(@RequestParam("categoryId") @NotBlank String id) {
+    @GetMapping("/category/{id}")
+    public List<Product> findByCategoryId(@PathVariable @NotBlank String id) {
         return service.findByCategoryId(new Long(id));
+    }
+
+    @GetMapping
+    public List<Product> search(@RequestParam("search") @NotBlank String query) {
+        return service.search(query);
     }
 }
