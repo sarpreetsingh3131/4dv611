@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @Entity
 public class Manual {
@@ -19,5 +21,6 @@ public class Manual {
     private String description;
 
     @ManyToOne
+    @JsonIgnore
     private Product product;
 }
