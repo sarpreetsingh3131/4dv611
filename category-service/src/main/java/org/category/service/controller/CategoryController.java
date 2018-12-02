@@ -1,12 +1,13 @@
 package org.category.service.controller;
 
+import org.category.service.dao.CategoryDao;
 import org.category.service.service.CategoryService;
 import org.domain.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -18,8 +19,8 @@ public class CategoryController {
     private CategoryService service;
 
     @PostMapping(consumes = "application/json")
-    public Category save(@RequestBody @Valid Category category) {
-        return service.save(category);
+    public Category save(@RequestBody @Valid CategoryDao categoryDao) {
+        return service.save(categoryDao);
     }
 
     @GetMapping
@@ -28,7 +29,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public Category findById(@PathVariable @NotBlank String id) throws Exception {
+    public Category findById(@PathVariable @NotNull Long id) throws Exception {
         return service.findById(id);
     }
 }

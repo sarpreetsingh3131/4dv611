@@ -48,6 +48,11 @@
             <artifactId>jasypt</artifactId>
             <version>1.9.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
 
     <modules>
@@ -58,5 +63,6 @@
         <module>mymanuals-service</module>
         <module>product-service</module>
         <module>category-service</module>
+        <module>material-service</module>
     </modules>
 </project>

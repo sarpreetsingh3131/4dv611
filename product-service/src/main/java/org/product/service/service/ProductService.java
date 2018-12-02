@@ -1,12 +1,10 @@
 package org.product.service.service;
 
+import org.category.service.service.CategoryService;
 import org.domain.model.Product;
-import org.domain.repository.CategoryRepository;
-import org.domain.repository.CompanyRepository;
 import org.domain.repository.ProductRepository;
-import org.domain.repository.RepresentativeRepository;
-import org.domain.utils.Authentication;
 import org.product.service.dao.ProductDao;
+import org.representative.service.service.RepresentativeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,52 +14,39 @@ import java.util.List;
 public class ProductService {
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductRepository repository;
 
     @Autowired
-    private RepresentativeRepository representativeRepository;
+    private RepresentativeService representativeService;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
-    @Autowired
-    private CompanyRepository companyRepository;
+    public Product save(ProductDao productDao, String token) throws Exception {
+        String username = representativeService.validateAuthorization(token);
+        return repository.save(productDaoToProduct(new Product(), productDao, username));
+    }
 
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private ManualService manualService;
-
-    @Autowired
-    private Authentication authentication;
-
-    public Product save(String token, ProductDao productDao) throws Exception {
-        String username = authentication.validateRepresentativeAuthorization(token, representativeRepository);
-        Product product = productRepository.save(productDaoToProduct(productDao, username));
-        product.setImages(imageService.save(productDao.getImages(), product));
-        product.setManuals(manualService.save(productDao.getManuals(), product));
-        return product;
+    public Product findById(Long id) throws Exception {
+        return repository.findById(id)
+                .orElseThrow(() -> new Exception("No product with id = " + id));
     }
 
     public List<Product> findByCategoryId(Long id) {
-        return productRepository.findByCategoryId(id);
+        return repository.findByCategoryId(id);
     }
 
     public List<Product> search(String query) {
-        return productRepository
+        return repository
                 .findTop10ByNameIgnoreCaseContainingOrModelIgnoreCaseContainingOrCategoryNameIgnoreCaseContaining(
                         query, query, query);
     }
 
-    private Product productDaoToProduct(ProductDao productDao, String username) throws Exception {
-        Product product = new Product();
+    private Product productDaoToProduct(Product product, ProductDao productDao, String username) throws Exception {
         product.setName(productDao.getName());
         product.setModel(productDao.getModel());
-        product.setCompany(companyRepository.findByUsername(username)
-                .orElseThrow(() -> new Exception("No company with username = " + username)));
-        product.setCategory(categoryRepository.findById(new Long(productDao.getCategoryId()))
-                .orElseThrow(() -> new Exception("No category with id = " + productDao.getCategoryId())));
+        product.setCategory(categoryService.findById(productDao.getCategoryId()));
+        product.setCompany(representativeService.findByUsername(username).getCompany());
         return product;
     }
 }

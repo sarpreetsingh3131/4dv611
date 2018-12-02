@@ -1,74 +1,19 @@
 package org.product.service.dao;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
+@Data
 public class ProductDao {
 
-    @NotBlank
+    @NotBlank(message = "Product name is missing")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Product model is missing")
     private String model;
 
-    @NotNull
-    private List<ImageDao> images;
-
-    @NotNull
-    private List<ManualDao> manuals;
-
-    @NotBlank
-    private String categoryId;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public List<ImageDao> getImages() {
-        return images;
-    }
-
-    public void setImages(List<ImageDao> images) {
-        this.images = images;
-    }
-
-    public List<ManualDao> getManuals() {
-        return manuals;
-    }
-
-    public void setManuals(List<ManualDao> manuals) {
-        this.manuals = manuals;
-    }
-
-    public String getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    @Override
-    public String toString() {
-        return "ProductDao{" +
-                "name='" + name + '\'' +
-                ", model='" + model + '\'' +
-                ", images=" + images +
-                ", manuals=" + manuals +
-                ", categoryId='" + categoryId + '\'' +
-                '}';
-    }
+    @NotNull(message = "Product's category id is missing")
+    private Long categoryId;
 }

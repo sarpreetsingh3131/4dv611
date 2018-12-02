@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -21,16 +22,21 @@ public class ProductController {
     @PostMapping(consumes = "application/json")
     public Product save(@RequestBody @Valid ProductDao productDao,
                         @RequestHeader("Authorization") @NotBlank String token) throws Exception {
-        return service.save(token, productDao);
+        return service.save(productDao, token);
     }
 
-    @GetMapping("/category/{id}")
-    public List<Product> findByCategoryId(@PathVariable @NotBlank String id) {
-        return service.findByCategoryId(new Long(id));
+    @GetMapping(value = "/category/{id}")
+    public List<Product> findByCategoryId(@PathVariable @NotNull Long id) {
+        return service.findByCategoryId(id);
     }
 
     @GetMapping
     public List<Product> search(@RequestParam("search") @NotBlank String query) {
         return service.search(query);
+    }
+
+    @GetMapping(value = "/{id}")
+    public Product findById(@PathVariable @NotNull Long id) throws Exception {
+        return service.findById(id);
     }
 }

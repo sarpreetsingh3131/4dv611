@@ -1,13 +1,14 @@
 package org.company.service.controller;
 
+import org.company.service.dao.CompanyDao;
 import org.company.service.service.CompanyService;
+import org.domain.dao.CredentialDao;
 import org.domain.model.Company;
-import org.domain.utils.Credentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -19,8 +20,8 @@ public class CompanyController {
     private CompanyService service;
 
     @PostMapping(consumes = "application/json")
-    public Company save(@RequestBody @Valid Company company) {
-        return service.save(company);
+    public Company save(@RequestBody @Valid CompanyDao companyDao) {
+        return service.save(companyDao);
     }
 
     @GetMapping
@@ -29,12 +30,12 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}")
-    public Company findById(@PathVariable @NotBlank String id) throws Exception {
+    public Company findById(@PathVariable @NotNull Long id) throws Exception {
         return service.findById(id);
     }
 
     @PutMapping(value = "/login", consumes = "application/json")
-    public String login(@RequestBody @Valid Credentials credentials) throws Exception {
-        return service.login(credentials);
+    public String login(@RequestBody @Valid CredentialDao credentialDao) throws Exception {
+        return service.login(credentialDao);
     }
 }

@@ -1,5 +1,6 @@
 package org.domain.utils;
 
+import org.domain.dao.CredentialDao;
 import org.domain.repository.CompanyRepository;
 import org.domain.repository.ConsumerRepository;
 import org.domain.repository.RepresentativeRepository;
@@ -11,22 +12,22 @@ public class Authentication {
 
     private final String PASSWORD = "mymanuals";
 
-    public String companyLogin(Credentials credentials, CompanyRepository repository) throws Exception {
-        repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword())
+    public String companyLogin(CredentialDao credentialDao, CompanyRepository repository) throws Exception {
+        repository.findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
                 .orElseThrow(() -> new Exception("Invalid credentials"));
-        return encrypt(credentials.getUsername());
+        return encrypt(credentialDao.getUsername());
     }
 
-    public String consumerLogin(Credentials credentials, ConsumerRepository repository) throws Exception {
-        repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword())
+    public String consumerLogin(CredentialDao credentialDao, ConsumerRepository repository) throws Exception {
+        repository.findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
                 .orElseThrow(() -> new Exception("Invalid credentials"));
-        return encrypt(credentials.getUsername());
+        return encrypt(credentialDao.getUsername());
     }
 
-    public String representativeLogin(Credentials credentials, RepresentativeRepository repository) throws Exception {
-        repository.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword())
+    public String representativeLogin(CredentialDao credentialDao, RepresentativeRepository repository) throws Exception {
+        repository.findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
                 .orElseThrow(() -> new Exception("Invalid credentials"));
-        return encrypt(credentials.getUsername());
+        return encrypt(credentialDao.getUsername());
     }
 
     public String validateCompanyAuthorization(String token, CompanyRepository repository) throws Exception {

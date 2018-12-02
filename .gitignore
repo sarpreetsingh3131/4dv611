@@ -34,6 +34,7 @@ release.properties
 *.iws
 out/
 .idea_modules/
+.factorypath
 
 ##########################
 ## Eclipse
