@@ -35,7 +35,7 @@ public class RepresentativeService {
     }
 
     public String login(CredentialDao credentialDao) throws Exception {
-        return authentication.representativeLogin(credentialDao, repository);
+        return authentication.login(credentialDao, repository);
     }
 
     public Representative findByUsername(String username) throws Exception {
@@ -44,7 +44,7 @@ public class RepresentativeService {
     }
 
     public String validateAuthorization(String token) throws Exception {
-        return authentication.validateRepresentativeAuthorization(token, repository);
+        return authentication.validateAuthorization(token, repository);
     }
 
     private Representative representativeDaoToRepresentative(Representative representative,

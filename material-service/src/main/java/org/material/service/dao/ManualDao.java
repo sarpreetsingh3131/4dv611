@@ -6,11 +6,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @ToString
 @NoArgsConstructor
 public class ManualDao {
+
+    @Getter
+    @Setter
+    private Long id;
 
     @Setter
     @NotBlank(message = "Manual data is missing")
@@ -18,13 +21,12 @@ public class ManualDao {
 
     @Getter
     @Setter
-    @NotBlank(message = "Manual description is missing")
-    private String description;
+    private String url;
 
     @Getter
     @Setter
-    @NotNull(message = "Manuals's product id is missing")
-    private Long productId;
+    @NotBlank(message = "Manual description is missing")
+    private String description;
 
     public String getData() {
         return data.split(",")[1];

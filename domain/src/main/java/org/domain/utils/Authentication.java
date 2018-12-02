@@ -1,65 +1,74 @@
 package org.domain.utils;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.domain.dao.CredentialDao;
 import org.domain.repository.CompanyRepository;
 import org.domain.repository.ConsumerRepository;
 import org.domain.repository.RepresentativeRepository;
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.stereotype.Service;
+
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class Authentication {
 
-    private final String PASSWORD = "mymanuals";
+    private final byte[] SECRET = UUID.randomUUID().toString().getBytes();
 
-    public String companyLogin(CredentialDao credentialDao, CompanyRepository repository) throws Exception {
-        repository.findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
-                .orElseThrow(() -> new Exception("Invalid credentials"));
-        return encrypt(credentialDao.getUsername());
+    public String login(CredentialDao credentialDao, Object repository) throws Exception {
+        Object user = null;
+        if (repository instanceof RepresentativeRepository) {
+            user = ((RepresentativeRepository) repository)
+                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword());
+        } else if (repository instanceof ConsumerRepository) {
+            user = ((ConsumerRepository) repository)
+                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword());
+        } else if (repository instanceof CompanyRepository) {
+            user = ((CompanyRepository) repository)
+                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword());
+        }
+        if (user == null) {
+            throw new Exception("Invalid credentials");
+        }
+        return assignToken(credentialDao);
     }
 
-    public String consumerLogin(CredentialDao credentialDao, ConsumerRepository repository) throws Exception {
-        repository.findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
-                .orElseThrow(() -> new Exception("Invalid credentials"));
-        return encrypt(credentialDao.getUsername());
-    }
-
-    public String representativeLogin(CredentialDao credentialDao, RepresentativeRepository repository) throws Exception {
-        repository.findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
-                .orElseThrow(() -> new Exception("Invalid credentials"));
-        return encrypt(credentialDao.getUsername());
-    }
-
-    public String validateCompanyAuthorization(String token, CompanyRepository repository) throws Exception {
-        String username = decrypt(token);
-        repository.findByUsername(username)
-                .orElseThrow(() -> new Exception("Invalid token"));
+    public String validateAuthorization(String token, Object repository) throws Exception {
+        String username = parseToken(token);
+        Object user = null;
+        if (repository instanceof RepresentativeRepository) {
+            user = ((RepresentativeRepository) repository).findByUsername(username);
+        } else if (repository instanceof ConsumerRepository) {
+            user = ((ConsumerRepository) repository).findByUsername(username);
+        } else if (repository instanceof CompanyRepository) {
+            user = ((CompanyRepository) repository).findByUsername(username);
+        }
+        if (user == null) {
+            throw new Exception("Invalid token");
+        }
         return username;
     }
 
-    public String validateConsumerAuthorization(String token, ConsumerRepository repository) throws Exception {
-        String username = decrypt(token);
-        repository.findByUsername(username)
-                .orElseThrow(() -> new Exception("Invalid token"));
-        return username;
+    private String assignToken(CredentialDao credentialDao) {
+        return "{\"token\": \"" +
+                Jwts.builder()
+                        .setId(credentialDao.getUsername())
+                        .setIssuedAt(new Date(System.currentTimeMillis()))
+                        .setSubject("my-manuals")
+                        .setIssuer("my-manuals")
+                        .signWith(new SecretKeySpec(SECRET, SignatureAlgorithm.HS256.getJcaName()), SignatureAlgorithm.HS256)
+                        .setExpiration(new Date(System.currentTimeMillis() * 1000))
+                        .compact()
+                + "\"}";
     }
 
-    public String validateRepresentativeAuthorization(String token, RepresentativeRepository repository) throws Exception {
-        String username = decrypt(token);
-        repository.findByUsername(username)
-                .orElseThrow(() -> new Exception("Invalid token"));
-        return username;
-    }
-
-    private String encrypt(String username) {
-        StandardPBEStringEncryptor stringEncryptor = new StandardPBEStringEncryptor();
-        stringEncryptor.setPassword(PASSWORD);
-        return "{\"token\": \"" + stringEncryptor.encrypt(username) + "\"}";
-    }
-
-    private String decrypt(String token) {
-        StandardPBEStringEncryptor stringEncryptor = new StandardPBEStringEncryptor();
-        stringEncryptor.setPassword(PASSWORD);
-        return stringEncryptor.decrypt(token);
+    private String parseToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET)
+                .parseClaimsJws(token)
+                .getBody()
+                .getId();
     }
 }

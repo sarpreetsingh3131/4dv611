@@ -33,11 +33,11 @@ public class CompanyService {
     }
 
     public String login(CredentialDao credentialDao) throws Exception {
-        return authentication.companyLogin(credentialDao, repository);
+        return authentication.login(credentialDao, repository);
     }
 
     public String validateAuthorization(String token) throws Exception {
-        return authentication.validateCompanyAuthorization(token, repository);
+        return authentication.validateAuthorization(token, repository);
     }
 
     public Company findByUsername(String username) throws Exception {

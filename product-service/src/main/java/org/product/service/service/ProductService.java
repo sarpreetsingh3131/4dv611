@@ -3,6 +3,8 @@ package org.product.service.service;
 import org.category.service.service.CategoryService;
 import org.domain.model.Product;
 import org.domain.repository.ProductRepository;
+import org.material.service.service.ImageService;
+import org.material.service.service.ManualService;
 import org.product.service.dao.ProductDao;
 import org.representative.service.service.RepresentativeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,18 @@ public class ProductService {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private ImageService imageService;
+
+    @Autowired
+    private ManualService manualService;
+
     public Product save(ProductDao productDao, String token) throws Exception {
         String username = representativeService.validateAuthorization(token);
-        return repository.save(productDaoToProduct(new Product(), productDao, username));
+        Product product = repository.save(productDaoToProduct(new Product(), productDao, username));
+        product.setImages(imageService.saveAll(productDao.getImages(), product));
+        product.setManuals(manualService.saveAll(productDao.getManuals(), product));
+        return product;
     }
 
     public Product findById(Long id) throws Exception {

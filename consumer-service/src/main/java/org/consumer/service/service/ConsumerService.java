@@ -22,7 +22,7 @@ public class ConsumerService {
     }
 
     public String login(CredentialDao credentialDao) throws Exception {
-        return authentication.consumerLogin(credentialDao, repository);
+        return authentication.login(credentialDao, repository);
     }
 
     private Consumer consumerDaoToConsumer(Consumer consumer, ConsumerDao consumerDao) {
