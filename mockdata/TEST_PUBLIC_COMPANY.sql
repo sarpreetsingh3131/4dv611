@@ -1,0 +1,10 @@
+INSERT INTO PUBLIC.COMPANY (ID, DESCRIPTION, NAME, PASSWORD, USERNAME) VALUES (0, 'Sony is one of the largest electronics companies, producing a wide range of electronics, from shavers and fridges, to game consoles and phones', 'Sony', 'sony', 'sony');
+INSERT INTO PUBLIC.COMPANY (ID, DESCRIPTION, NAME, PASSWORD, USERNAME) VALUES (1, 'Tiger is a small multinational electronics manufacturer that focuses on consumer electronics', 'Tiger Corporation', 'tiger', 'tiger');
+INSERT INTO PUBLIC.COMPANY (ID, DESCRIPTION, NAME, PASSWORD, USERNAME) VALUES (2, 'Samsung is one of the biggest manufacturer of electronic devices', 'Samsung', 'samsung', 'samsung');
+INSERT INTO PUBLIC.COMPANY (ID, DESCRIPTION, NAME, PASSWORD, USERNAME) VALUES (3, 'Siemens is one of the biggest German electronic goods manufacturer', 'Siemens', 'siemens', 'siemens');
+INSERT INTO PUBLIC.COMPANY (ID, DESCRIPTION, NAME, PASSWORD, USERNAME) VALUES (4, 'LG is one of the most known manufacturer of eletronics', 'LG', 'lg', 'lg');
+INSERT INTO PUBLIC.COMPANY (ID, DESCRIPTION, NAME, PASSWORD, USERNAME) VALUES (5, 'Sharp mostly known for their Tvs, but they also produce a lot of other eletronic devices', 'Sharp', 'sharp', 'sharp');
+INSERT INTO PUBLIC.COMPANY (ID, DESCRIPTION, NAME, PASSWORD, USERNAME) VALUES (6, 'HP is one of the well known manufacturer of computer and computer peripherals', 'HP', 'hp', 'hp');
+INSERT INTO PUBLIC.COMPANY (ID, DESCRIPTION, NAME, PASSWORD, USERNAME) VALUES (7, 'Acer mostly manufactures laptops', 'Acer', 'acer', 'acer');
+INSERT INTO PUBLIC.COMPANY (ID, DESCRIPTION, NAME, PASSWORD, USERNAME) VALUES (8, 'Dell is one of the biggest manufacturer of computers, whether for business or private use', 'Dell', 'dell', 'dell');
+INSERT INTO PUBLIC.COMPANY (ID, DESCRIPTION, NAME, PASSWORD, USERNAME) VALUES (9, 'Philips is mostly known for their home appliances', 'Philips', 'philips', 'philips');
