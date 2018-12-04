@@ -39,4 +39,9 @@ public class ProductController {
     public Product findById(@PathVariable @NotNull Long id) throws Exception {
         return service.findById(id);
     }
+
+    @GetMapping(value = "/latest")
+    public List<Product> findLatest10ByIdDesc(){
+        return service.findTop10ByOrderByIdDesc();
+    }
 }

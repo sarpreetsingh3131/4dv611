@@ -13,4 +13,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findTop10ByNameIgnoreCaseContainingOrModelIgnoreCaseContainingOrCategoryNameIgnoreCaseContaining(
             String name, String model, String categoryName);
+
+    List<Product> findTop10ByOrderByIdDesc();
 }

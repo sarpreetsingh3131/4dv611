@@ -60,4 +60,9 @@ public class ProductService {
         product.setCompany(representativeService.findByUsername(username).getCompany());
         return product;
     }
+
+    public List<Product> findTop10ByOrderByIdDesc() {
+        return repository.findTop10ByOrderByIdDesc();
+    }
+
 }
