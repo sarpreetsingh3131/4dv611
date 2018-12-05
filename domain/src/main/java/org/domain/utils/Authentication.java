@@ -18,35 +18,36 @@ public class Authentication {
     private final byte[] SECRET = UUID.randomUUID().toString().getBytes();
 
     public String login(CredentialDao credentialDao, Object repository) throws Exception {
-        Object user = null;
         if (repository instanceof RepresentativeRepository) {
-            user = ((RepresentativeRepository) repository)
-                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword());
+            ((RepresentativeRepository) repository)
+                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
+                    .orElseThrow(() -> new Exception("Invalid credentials"));
         } else if (repository instanceof ConsumerRepository) {
-            user = ((ConsumerRepository) repository)
-                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword());
+            ((ConsumerRepository) repository)
+                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
+                    .orElseThrow(() -> new Exception("Invalid credentials"));
         } else if (repository instanceof CompanyRepository) {
-            user = ((CompanyRepository) repository)
-                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword());
-        }
-        if (user == null) {
-            throw new Exception("Invalid credentials");
+            ((CompanyRepository) repository)
+                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
+                    .orElseThrow(() -> new Exception("Invalid credentials"));
         }
         return assignToken(credentialDao);
     }
 
     public String validateAuthorization(String token, Object repository) throws Exception {
         String username = parseToken(token);
-        Object user = null;
         if (repository instanceof RepresentativeRepository) {
-            user = ((RepresentativeRepository) repository).findByUsername(username);
+            ((RepresentativeRepository) repository)
+                    .findByUsername(username)
+                    .orElseThrow(() -> new Exception("Invalid token"));
         } else if (repository instanceof ConsumerRepository) {
-            user = ((ConsumerRepository) repository).findByUsername(username);
+            ((ConsumerRepository) repository)
+                    .findByUsername(username)
+                    .orElseThrow(() -> new Exception("Invalid token"));
         } else if (repository instanceof CompanyRepository) {
-            user = ((CompanyRepository) repository).findByUsername(username);
-        }
-        if (user == null) {
-            throw new Exception("Invalid token");
+            ((CompanyRepository) repository)
+                    .findByUsername(username)
+                    .orElseThrow(() -> new Exception("Invalid token"));
         }
         return username;
     }
