@@ -1,4 +1,4 @@
-package org.consumer.service.dao;
+package org.product.service.dao;
 
 import lombok.Data;
 

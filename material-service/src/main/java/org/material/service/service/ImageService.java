@@ -29,6 +29,18 @@ public class ImageService {
         return images;
     }
 
+    public Image findById(Long id) throws Exception {
+        return repository.findById(id)
+                .orElseThrow(() -> new Exception("No image with id " + id));
+    }
+
+    public Image deleteById(Long id) throws Exception {
+        Image image = findById(id);
+        FileHandler.deleteFile(image.getUrl());
+        repository.delete(image);
+        return image;
+    }
+
     private Image imageDaoToImage(Image image, ImageDao imageDao, Product product) throws Exception {
         image.setUrl(FileHandler.writeFile(imageDao.getData(), imageDao.getExtension()));
         image.setProduct(product);

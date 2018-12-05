@@ -29,6 +29,18 @@ public class ManualService {
         return manuals;
     }
 
+    public Manual findById(Long id) throws Exception {
+        return repository.findById(id)
+                .orElseThrow(() -> new Exception("No manual with id " + id));
+    }
+
+    public Manual deleteById(Long id) throws Exception {
+        Manual manual = findById(id);
+        FileHandler.deleteFile(manual.getUrl());
+        repository.delete(manual);
+        return manual;
+    }
+
     private Manual manualDaoToManual(Manual manual, ManualDao manualDao, Product product) throws Exception {
         manual.setUrl(FileHandler.writeFile(manualDao.getData(), manualDao.getExtension()));
         manual.setDescription(manualDao.getDescription());

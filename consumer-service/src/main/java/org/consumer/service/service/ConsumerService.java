@@ -1,13 +1,11 @@
 package org.consumer.service.service;
 
-import org.consumer.service.dao.BadgeDao;
 import org.consumer.service.dao.ConsumerDao;
 import org.domain.dao.CredentialDao;
 import org.domain.model.Consumer;
 import org.domain.model.Product;
 import org.domain.repository.ConsumerRepository;
 import org.domain.utils.Authentication;
-import org.product.service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +14,6 @@ public class ConsumerService {
 
     @Autowired
     private ConsumerRepository repository;
-
-    @Autowired
-    private ProductService productService;
 
     @Autowired
     private Authentication authentication;
@@ -36,21 +31,18 @@ public class ConsumerService {
                 .orElseThrow(() -> new Exception("No consumer with username = " + username));
     }
 
+    public Consumer save(Consumer consumer) {
+        return repository.save(consumer);
+    }
+
     public String validateAuthorization(String token) throws Exception {
         return authentication.validateAuthorization(token, repository);
     }
 
-    public Product badge(BadgeDao badgeDao, String token) throws Exception {
-        String username = validateAuthorization(token);
-        Consumer consumer = findByUsername(username);
-        Product product = productService.findById(badgeDao.getProductId());
-        if (badgeDao.getBadge()) {
-            consumer.getProducts().add(product);
-        } else {
-            consumer.getProducts().remove(product);
-        }
-        repository.save(consumer);
-        return product;
+    public Boolean hasBadge(String username, Product product) throws Exception {
+        return findByUsername(username)
+                .getProducts()
+                .contains(product);
     }
 
     private Consumer consumerDaoToConsumer(Consumer consumer, ConsumerDao consumerDao) {
