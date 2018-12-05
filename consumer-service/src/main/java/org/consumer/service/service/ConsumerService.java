@@ -11,8 +11,6 @@ import org.product.service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class ConsumerService {
 
@@ -33,30 +31,32 @@ public class ConsumerService {
         return authentication.login(credentialDao, repository);
     }
 
+    public Consumer findByUsername(String username) throws Exception {
+        return repository.findByUsername(username)
+                .orElseThrow(() -> new Exception("No consumer with username = " + username));
+    }
+
+    public String validateAuthorization(String token) throws Exception {
+        return authentication.validateAuthorization(token, repository);
+    }
+
+    public Product badge(BadgeDao badgeDao, String token) throws Exception {
+        String username = validateAuthorization(token);
+        Consumer consumer = findByUsername(username);
+        Product product = productService.findById(badgeDao.getProductId());
+        if (badgeDao.getBadge()) {
+            consumer.getProducts().add(product);
+        } else {
+            consumer.getProducts().remove(product);
+        }
+        repository.save(consumer);
+        return product;
+    }
+
     private Consumer consumerDaoToConsumer(Consumer consumer, ConsumerDao consumerDao) {
         consumer.setName(consumerDao.getName());
         consumer.setUsername(consumerDao.getUsername());
         consumer.setPassword(consumerDao.getPassword());
         return consumer;
-    }
-
-    public Consumer validateAuthorizationAndGet(String token) throws Exception {
-        String username = authentication.validateAuthorization(token, repository);
-        Optional<Consumer> optionalConsumer = repository.findByUsername(username);
-        return optionalConsumer.get();
-    }
-
-    public Product badge(BadgeDao badgeDao, String token) throws Exception {
-        Consumer consumer = this.validateAuthorizationAndGet(token);
-        Product product = productService.findById(badgeDao.getProductId());
-        Boolean badge = badgeDao.getBadge();
-        if(badge){
-            consumer.getProducts().add(product);
-        }
-        else{
-            consumer.getProducts().remove(product);
-        }
-        repository.save(consumer);
-        return product;
     }
 }

@@ -41,7 +41,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/latest")
-    public List<Product> findLatest10ByIdDesc(){
+    public List<Product> findLatest10ByIdDesc() {
         return service.findTop10ByOrderByIdDesc();
     }
 }

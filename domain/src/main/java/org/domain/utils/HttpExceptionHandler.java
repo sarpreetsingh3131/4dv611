@@ -1,5 +1,6 @@
 package org.domain.utils;
 
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,7 +15,7 @@ public class HttpExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseEntity<?> defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
+    public ResponseEntity<MyError> defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
         MyError myError = new MyError();
         myError.setError(e.getMessage());
         return ResponseEntity
@@ -22,16 +23,9 @@ public class HttpExceptionHandler {
                 .body(myError);
     }
 
+    @Data
     private class MyError {
 
-        private String error = "";
-
-        public String getError() {
-            return error;
-        }
-
-        public void setError(String error) {
-            this.error = error;
-        }
+        private String error;
     }
 }

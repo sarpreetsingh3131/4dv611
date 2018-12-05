@@ -6,9 +6,10 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class BadgeDao {
-    @NotNull
+
+    @NotNull(message = "badge is missing")
     private Boolean badge;
 
-    @NotNull
+    @NotNull(message = "product id is missing")
     private Long productId;
 }

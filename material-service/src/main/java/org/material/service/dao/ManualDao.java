@@ -16,7 +16,6 @@ public class ManualDao {
     private Long id;
 
     @Setter
-    @NotBlank(message = "Manual data is missing")
     private String data;
 
     @Getter

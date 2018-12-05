@@ -53,6 +53,10 @@ public class ProductService {
                         query, query, query);
     }
 
+    public List<Product> findTop10ByOrderByIdDesc() {
+        return repository.findTop10ByOrderByIdDesc();
+    }
+
     private Product productDaoToProduct(Product product, ProductDao productDao, String username) throws Exception {
         product.setName(productDao.getName());
         product.setModel(productDao.getModel());
@@ -60,9 +64,4 @@ public class ProductService {
         product.setCompany(representativeService.findByUsername(username).getCompany());
         return product;
     }
-
-    public List<Product> findTop10ByOrderByIdDesc() {
-        return repository.findTop10ByOrderByIdDesc();
-    }
-
 }
