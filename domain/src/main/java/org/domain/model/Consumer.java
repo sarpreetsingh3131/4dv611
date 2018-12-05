@@ -2,10 +2,8 @@ package org.domain.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,4 +21,7 @@ public class Consumer {
 
     @Column(nullable = false)
     private String password;
+
+    @ManyToMany
+    private List<Product> products;
 }
