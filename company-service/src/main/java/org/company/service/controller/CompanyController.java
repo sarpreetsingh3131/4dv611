@@ -5,6 +5,7 @@ import org.company.service.service.CompanyService;
 import org.domain.dao.CredentialDao;
 import org.domain.model.Company;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -12,14 +13,14 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/company", produces = "application/json")
+@RequestMapping(value = "/api/company", produces = MediaType.APPLICATION_JSON_VALUE)
 @ResponseBody
 public class CompanyController {
 
     @Autowired
     private CompanyService service;
 
-    @PostMapping(consumes = "application/json")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Company save(@RequestBody @Valid CompanyDao companyDao) {
         return service.save(companyDao);
     }
@@ -34,7 +35,7 @@ public class CompanyController {
         return service.findById(id);
     }
 
-    @PutMapping(value = "/login", consumes = "application/json")
+    @PutMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String login(@RequestBody @Valid CredentialDao credentialDao) throws Exception {
         return service.login(credentialDao);
     }

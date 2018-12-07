@@ -6,6 +6,7 @@ import org.product.service.dao.ProductDao;
 import org.product.service.dto.ProductDto;
 import org.product.service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,14 +15,14 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/product", produces = "application/json")
+@RequestMapping(value = "/api/product", produces = MediaType.APPLICATION_JSON_VALUE)
 @ResponseBody
 public class ProductController {
 
     @Autowired
     private ProductService service;
 
-    @PostMapping(consumes = "application/json")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Product save(@RequestBody @Valid ProductDao productDao,
                         @RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.save(productDao, token);
@@ -38,8 +39,8 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{id}")
-    public ProductDto findById(@PathVariable @NotNull Long id,
-                               @RequestHeader("Authorization") String token) throws Exception {
+    public ProductDto findById(@RequestHeader(value = "Authorization", required = false, defaultValue = "") String token,
+                               @PathVariable @NotNull Long id) throws Exception {
         return service.findById(id, token);
     }
 
@@ -60,7 +61,7 @@ public class ProductController {
         return service.deleteManualById(id, token);
     }
 
-    @PostMapping(value = "/badge", consumes = "application/json")
+    @PostMapping(value = "/badge", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ProductDto badge(@RequestBody @Valid BadgeDao badgeDao,
                             @RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.badge(badgeDao, token);

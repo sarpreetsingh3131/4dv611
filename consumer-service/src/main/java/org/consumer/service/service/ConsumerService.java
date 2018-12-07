@@ -45,10 +45,16 @@ public class ConsumerService {
                 .contains(product);
     }
 
+    public Consumer findProfile(String token) throws Exception {
+        String username = validateAuthorization(token);
+        return findByUsername(username);
+    }
+
     private Consumer consumerDaoToConsumer(Consumer consumer, ConsumerDao consumerDao) {
         consumer.setName(consumerDao.getName());
         consumer.setUsername(consumerDao.getUsername());
         consumer.setPassword(consumerDao.getPassword());
+        consumer.setEmail(consumerDao.getEmail());
         return consumer;
     }
 }

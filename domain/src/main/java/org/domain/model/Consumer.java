@@ -22,6 +22,9 @@ public class Consumer {
     @Column(nullable = false)
     private String password;
 
+    @Column(unique = true, nullable = false)
+    private String email;
+
     @ManyToMany
     private List<Product> products;
 }
