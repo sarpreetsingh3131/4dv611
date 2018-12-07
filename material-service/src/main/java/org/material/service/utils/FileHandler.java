@@ -12,6 +12,7 @@ import java.util.UUID;
 public class FileHandler {
 
     private final String DIR = System.getProperty("user.dir");
+    private final String HOST = "http://localhost:8080";
 
     public String writeFile(String data, String extension) throws Exception {
         File file = new File(Paths.get(DIR).resolve(UUID.randomUUID().toString() + extension).toUri());
@@ -23,11 +24,11 @@ public class FileHandler {
         } catch (Exception e) {
             throw new Exception("Cannot write image to path = " + file.getPath());
         }
-        return file.getAbsolutePath().replace(DIR, "");
+        return HOST + file.getAbsolutePath().replace(DIR, "");
     }
 
     public Boolean deleteFile(String url) throws Exception {
-        File file = new File(Paths.get(DIR).resolve(url.substring(1)).toUri());
+        File file = new File(Paths.get(DIR).resolve(url.replace(HOST, "").substring(1)).toUri());
         if (file.exists()) {
             return file.delete();
         }
