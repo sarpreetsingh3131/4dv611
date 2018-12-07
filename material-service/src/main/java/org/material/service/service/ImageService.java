@@ -17,6 +17,9 @@ public class ImageService {
     @Autowired
     private ImageRepository repository;
 
+    @Autowired
+    private FileHandler fileHandler;
+
     public Image save(ImageDao imageDao, Product product) throws Exception {
         return repository.save(imageDaoToImage(new Image(), imageDao, product));
     }
@@ -36,13 +39,13 @@ public class ImageService {
 
     public Image deleteById(Long id) throws Exception {
         Image image = findById(id);
-        FileHandler.deleteFile(image.getUrl());
+        fileHandler.deleteFile(image.getUrl());
         repository.delete(image);
         return image;
     }
 
     private Image imageDaoToImage(Image image, ImageDao imageDao, Product product) throws Exception {
-        image.setUrl(FileHandler.writeFile(imageDao.getData(), imageDao.getExtension()));
+        image.setUrl(fileHandler.writeFile(imageDao.getData(), imageDao.getExtension()));
         image.setProduct(product);
         return image;
     }

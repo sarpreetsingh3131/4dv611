@@ -17,6 +17,9 @@ public class ManualService {
     @Autowired
     private ManualRepository repository;
 
+    @Autowired
+    private FileHandler fileHandler;
+
     public Manual save(ManualDao manualDao, Product product) throws Exception {
         return repository.save(manualDaoToManual(new Manual(), manualDao, product));
     }
@@ -36,13 +39,13 @@ public class ManualService {
 
     public Manual deleteById(Long id) throws Exception {
         Manual manual = findById(id);
-        FileHandler.deleteFile(manual.getUrl());
+        fileHandler.deleteFile(manual.getUrl());
         repository.delete(manual);
         return manual;
     }
 
     private Manual manualDaoToManual(Manual manual, ManualDao manualDao, Product product) throws Exception {
-        manual.setUrl(FileHandler.writeFile(manualDao.getData(), manualDao.getExtension()));
+        manual.setUrl(fileHandler.writeFile(manualDao.getData(), manualDao.getExtension()));
         manual.setDescription(manualDao.getDescription());
         manual.setProduct(product);
         return manual;
