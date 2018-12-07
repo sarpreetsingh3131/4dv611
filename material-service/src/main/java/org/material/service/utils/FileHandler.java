@@ -1,6 +1,6 @@
 package org.material.service.utils;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-@Component
+@Service
 public class FileHandler {
 
     private final String DIR = System.getProperty("user.dir");

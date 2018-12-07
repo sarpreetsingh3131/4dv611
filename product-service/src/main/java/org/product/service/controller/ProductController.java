@@ -6,7 +6,6 @@ import org.product.service.dao.ProductDao;
 import org.product.service.dto.ProductDto;
 import org.product.service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +19,6 @@ import java.util.List;
 @ResponseBody
 public class ProductController {
 
-    @Autowired
-    Environment environment;
     @Autowired
     private ProductService service;
 
@@ -42,9 +39,9 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{id}")
-    public ProductDto findById(@RequestHeader(value = "Authorization", required = false, defaultValue = "") String token,
-                               @PathVariable @NotNull Long id) throws Exception {
-        return service.findById(id, token);
+    public Object findById(@RequestHeader(value = "Authorization", required = false) @NotBlank String token,
+                           @PathVariable @NotNull Long id) throws Exception {
+        return token == null ? service.findById(id) : service.findById(id, token);
     }
 
     @GetMapping(value = "/latest")
@@ -54,13 +51,13 @@ public class ProductController {
 
     @DeleteMapping("/image/{id}")
     public Product deleteImageById(@PathVariable @NotNull Long id,
-                                   @RequestHeader("Authorization") String token) throws Exception {
+                                   @RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.deleteImageById(id, token);
     }
 
     @DeleteMapping("/manual/{id}")
     public Product deleteManualById(@PathVariable @NotNull Long id,
-                                    @RequestHeader("Authorization") String token) throws Exception {
+                                    @RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.deleteManualById(id, token);
     }
 

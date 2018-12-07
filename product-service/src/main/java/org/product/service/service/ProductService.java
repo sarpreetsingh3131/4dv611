@@ -57,12 +57,7 @@ public class ProductService {
 
     public ProductDto findById(Long id, String token) throws Exception {
         Product product = findById(id);
-        String username;
-        try {
-            username = consumerService.validateAuthorization(token);
-        } catch (Exception e) {
-            return productToProductDto(product, false);
-        }
+        String username = consumerService.validateAuthorization(token);
         return productToProductDto(product, consumerService.hasBadge(username, product));
     }
 
