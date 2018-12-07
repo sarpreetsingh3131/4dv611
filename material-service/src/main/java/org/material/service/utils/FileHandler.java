@@ -5,16 +5,16 @@ import org.springframework.stereotype.Component;
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Component
 public class FileHandler {
 
-    private final String IMAGE_DIR = System.getProperty("user.dir");
+    private final String DIR = System.getProperty("user.dir");
 
     public String writeFile(String data, String extension) throws Exception {
-        String path = IMAGE_DIR + "/" + UUID.randomUUID().toString() + extension;
-        File file = new File(path.contains("\\") ? path.replace("/", "\\") : path);
+        File file = new File(Paths.get(DIR).resolve(UUID.randomUUID().toString() + extension).toUri());
         try {
             FileOutputStream fop = new FileOutputStream(file, false);
             fop.write(DatatypeConverter.parseBase64Binary(data));
@@ -23,11 +23,11 @@ public class FileHandler {
         } catch (Exception e) {
             throw new Exception("Cannot write image to path = " + file.getPath());
         }
-        return "file://" + file.getPath();
+        return file.getAbsolutePath().replace(DIR, "");
     }
 
     public Boolean deleteFile(String url) throws Exception {
-        File file = new File(url.replace("file://", ""));
+        File file = new File(Paths.get(DIR).resolve(url.substring(1)).toUri());
         if (file.exists()) {
             return file.delete();
         }

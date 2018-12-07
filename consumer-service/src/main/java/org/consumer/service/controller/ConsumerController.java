@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+
 @RestController
 @RequestMapping(value = "/api/consumer", produces = MediaType.APPLICATION_JSON_VALUE)
 @ResponseBody

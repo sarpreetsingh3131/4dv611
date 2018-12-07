@@ -6,6 +6,7 @@ import org.product.service.dao.ProductDao;
 import org.product.service.dto.ProductDto;
 import org.product.service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,8 @@ import java.util.List;
 @ResponseBody
 public class ProductController {
 
+    @Autowired
+    Environment environment;
     @Autowired
     private ProductService service;
 
@@ -45,8 +48,8 @@ public class ProductController {
     }
 
     @GetMapping(value = "/latest")
-    public List<Product> findLatest10ByIdDesc() {
-        return service.findTop10ByOrderByIdDesc();
+    public List<Product> findLatest() {
+        return service.findLatest();
     }
 
     @DeleteMapping("/image/{id}")

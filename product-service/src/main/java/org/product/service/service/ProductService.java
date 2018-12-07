@@ -40,8 +40,13 @@ public class ProductService {
         String username = representativeService.validateAuthorization(token);
         Representative representative = representativeService.findByUsername(username);
         Product product = repository.save(productDaoToProduct(new Product(), productDao, representative));
-        product.setImages(imageService.saveAll(productDao.getImages(), product));
-        product.setManuals(manualService.saveAll(productDao.getManuals(), product));
+        try {
+            product.setImages(imageService.saveAll(productDao.getImages(), product));
+            product.setManuals(manualService.saveAll(productDao.getManuals(), product));
+        } catch (Exception e) {
+            repository.delete(product);
+            throw new Exception(e);
+        }
         return product;
     }
 
@@ -84,7 +89,7 @@ public class ProductService {
                         query, query, query);
     }
 
-    public List<Product> findTop10ByOrderByIdDesc() {
+    public List<Product> findLatest() {
         return repository.findTop10ByOrderByIdDesc();
     }
 
