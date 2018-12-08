@@ -27,8 +27,11 @@ public class Product {
     @JsonIgnore
     private Company company;
 
+    @OneToOne(cascade = CascadeType.REMOVE)
+    private Image primaryImage;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
-    private List<Image> images;
+    private List<Image> secondaryImages;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Manual> manuals;

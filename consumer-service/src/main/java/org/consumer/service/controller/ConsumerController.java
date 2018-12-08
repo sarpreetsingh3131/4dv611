@@ -1,6 +1,7 @@
 package org.consumer.service.controller;
 
 import org.consumer.service.dao.ConsumerDao;
+import org.consumer.service.dao.SubscriptionDao;
 import org.consumer.service.service.ConsumerService;
 import org.domain.dao.CredentialDao;
 import org.domain.model.Consumer;
@@ -32,5 +33,11 @@ public class ConsumerController {
     @GetMapping(value = "/profile")
     public Consumer findById(@RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.findProfile(token);
+    }
+
+    @PutMapping(value = "/subscription", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Consumer subscription(@RequestHeader("Authorization") @NotBlank String token,
+                                 @RequestBody @Valid SubscriptionDao subscriptionDao) throws Exception {
+        return service.subscription(token, subscriptionDao);
     }
 }

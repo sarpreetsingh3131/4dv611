@@ -14,7 +14,8 @@ public class ProductDto {
     private String name;
     private String model;
     private Category category;
-    private List<Image> images;
+    private Image primaryImage;
+    private List<Image> secondaryImages;
     private List<Manual> manuals;
     private Boolean hasBadge;
 }

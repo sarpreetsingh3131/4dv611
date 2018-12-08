@@ -20,8 +20,11 @@ public class ProductDao {
     @NotNull(message = "Product's category id is missing")
     private Long categoryId;
 
-    @NotNull(message = "Product's images are missing")
-    private List<ImageDao> images;
+    @NotNull(message = "Product's primary image is missing")
+    private ImageDao primaryImage;
+
+    @NotNull(message = "Product's secondary images are missing")
+    private List<ImageDao> secondaryImages;
 
     @NotNull(message = "Product's manuals are missing")
     private List<ManualDao> manuals;

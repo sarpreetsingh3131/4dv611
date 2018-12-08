@@ -41,7 +41,8 @@ public class ProductService {
         Representative representative = representativeService.findByUsername(username);
         Product product = repository.save(productDaoToProduct(new Product(), productDao, representative));
         try {
-            product.setImages(imageService.saveAll(productDao.getImages(), product));
+            product.setPrimaryImage(imageService.save(productDao.getPrimaryImage(), product));
+            product.setSecondaryImages(imageService.saveAll(productDao.getSecondaryImages(), product));
             product.setManuals(manualService.saveAll(productDao.getManuals(), product));
         } catch (Exception e) {
             repository.delete(product);
@@ -115,7 +116,8 @@ public class ProductService {
         productDto.setName(product.getName());
         productDto.setModel(product.getModel());
         productDto.setCategory(categoryService.findById(product.getCategory().getId()));
-        productDto.setImages(product.getImages());
+        productDto.setPrimaryImage(product.getPrimaryImage());
+        productDto.setSecondaryImages(product.getSecondaryImages());
         productDto.setManuals(product.getManuals());
         productDto.setHasBadge(hasBadge);
         return productDto;

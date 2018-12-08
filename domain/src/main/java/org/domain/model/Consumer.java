@@ -1,8 +1,10 @@
 package org.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -25,6 +27,10 @@ public class Consumer {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private Boolean subscription = false;
+
     @ManyToMany
-    private List<Product> products;
+    @JsonIgnore
+    private List<Product> products = new LinkedList<>();
 }

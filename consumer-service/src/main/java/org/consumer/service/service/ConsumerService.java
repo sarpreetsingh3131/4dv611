@@ -1,6 +1,7 @@
 package org.consumer.service.service;
 
 import org.consumer.service.dao.ConsumerDao;
+import org.consumer.service.dao.SubscriptionDao;
 import org.domain.dao.CredentialDao;
 import org.domain.model.Consumer;
 import org.domain.model.Product;
@@ -48,6 +49,13 @@ public class ConsumerService {
     public Consumer findProfile(String token) throws Exception {
         String username = validateAuthorization(token);
         return findByUsername(username);
+    }
+
+    public Consumer subscription(String token, SubscriptionDao subscriptionDao) throws Exception {
+        String username = validateAuthorization(token);
+        Consumer consumer = findByUsername(username);
+        consumer.setSubscription(subscriptionDao.getSubscription());
+        return repository.save(consumer);
     }
 
     private Consumer consumerDaoToConsumer(Consumer consumer, ConsumerDao consumerDao) {
