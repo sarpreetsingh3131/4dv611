@@ -36,12 +36,10 @@ public class CompanyService {
     }
 
     public String login(CredentialDto credentialDto) throws Exception {
-        return authentication.login(credentialDto, repository);
+        return authentication.assignToken(credentialDto, repository);
     }
 
     public Company findByToken(String token) throws Exception {
-        String username = authentication.validateAuthorization(token, repository);
-        return repository.findByUsername(username)
-                .orElseThrow(() -> new Exception("No company with username = " + username));
+        return (Company) authentication.findUserByToken(token, repository);
     }
 }

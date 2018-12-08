@@ -17,7 +17,7 @@ public class Authentication {
 
     private final byte[] SECRET = UUID.randomUUID().toString().getBytes();
 
-    public String login(CredentialDto credentialDto, Object repository) throws Exception {
+    public String assignToken(CredentialDto credentialDto, Object repository) throws Exception {
         if (repository instanceof RepresentativeRepository) {
             ((RepresentativeRepository) repository)
                     .findByUsernameAndPassword(credentialDto.getUsername(), credentialDto.getPassword())
@@ -34,22 +34,22 @@ public class Authentication {
         return assignToken(credentialDto);
     }
 
-    public String validateAuthorization(String token, Object repository) throws Exception {
+    public Object findUserByToken(String token, Object repository) throws Exception {
         String username = parseToken(token);
         if (repository instanceof RepresentativeRepository) {
-            ((RepresentativeRepository) repository)
+            return ((RepresentativeRepository) repository)
                     .findByUsername(username)
                     .orElseThrow(() -> new Exception("Invalid token"));
         } else if (repository instanceof ConsumerRepository) {
-            ((ConsumerRepository) repository)
+            return ((ConsumerRepository) repository)
                     .findByUsername(username)
                     .orElseThrow(() -> new Exception("Invalid token"));
         } else if (repository instanceof CompanyRepository) {
-            ((CompanyRepository) repository)
+            return ((CompanyRepository) repository)
                     .findByUsername(username)
                     .orElseThrow(() -> new Exception("Invalid token"));
         }
-        return username;
+        throw new Exception("Invalid user");
     }
 
     private String assignToken(CredentialDto credentialDto) {

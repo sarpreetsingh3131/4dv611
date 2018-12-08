@@ -39,13 +39,11 @@ public class ConsumerService {
     }
 
     public String login(CredentialDto credentialDto) throws Exception {
-        return authentication.login(credentialDto, repository);
+        return authentication.assignToken(credentialDto, repository);
     }
 
     public Consumer findByToken(String token) throws Exception {
-        String username = authentication.validateAuthorization(token, repository);
-        return repository.findByUsername(username)
-                .orElseThrow(() -> new Exception("No consumer with username = " + username));
+        return (Consumer) authentication.findUserByToken(token, repository);
     }
 
     public Boolean hasBadge(String token, Product product) throws Exception {
