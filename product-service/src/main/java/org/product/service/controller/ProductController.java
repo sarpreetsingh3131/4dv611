@@ -1,9 +1,9 @@
 package org.product.service.controller;
 
 import org.domain.model.Product;
-import org.product.service.dao.BadgeDao;
-import org.product.service.dao.ProductDao;
+import org.product.service.dto.BadgeDto;
 import org.product.service.dto.ProductDto;
+import org.product.service.dto.ProductWithBadgeDto;
 import org.product.service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,9 +23,9 @@ public class ProductController {
     private ProductService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Product save(@RequestBody @Valid ProductDao productDao,
+    public Product save(@RequestBody @Valid ProductDto productDto,
                         @RequestHeader("Authorization") @NotBlank String token) throws Exception {
-        return service.save(productDao, token);
+        return service.save(productDto, token);
     }
 
     @GetMapping(value = "/category/{id}")
@@ -62,8 +62,8 @@ public class ProductController {
     }
 
     @PostMapping(value = "/badge", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ProductDto badge(@RequestBody @Valid BadgeDao badgeDao,
-                            @RequestHeader("Authorization") @NotBlank String token) throws Exception {
-        return service.badge(badgeDao, token);
+    public ProductWithBadgeDto updateBadge(@RequestBody @Valid BadgeDto badgeDto,
+                                           @RequestHeader("Authorization") @NotBlank String token) throws Exception {
+        return service.updateBadge(badgeDto, token);
     }
 }

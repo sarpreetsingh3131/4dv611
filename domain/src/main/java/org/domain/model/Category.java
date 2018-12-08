@@ -1,6 +1,7 @@
 package org.domain.model;
 
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ public class Category {
     @GeneratedValue
     private Long id;
 
+    @NonNull
     @Column(nullable = false, unique = true)
     private String name;
 }

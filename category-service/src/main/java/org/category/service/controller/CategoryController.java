@@ -1,6 +1,6 @@
 package org.category.service.controller;
 
-import org.category.service.dao.CategoryDao;
+import org.category.service.dto.CategoryDto;
 import org.category.service.service.CategoryService;
 import org.domain.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ public class CategoryController {
     private CategoryService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Category save(@RequestBody @Valid CategoryDao categoryDao) {
-        return service.save(categoryDao);
+    public Category save(@RequestBody @Valid CategoryDto categoryDto) {
+        return service.save(categoryDto);
     }
 
     @GetMapping

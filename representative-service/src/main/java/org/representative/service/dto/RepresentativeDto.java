@@ -1,11 +1,11 @@
-package org.representative.service.dao;
+package org.representative.service.dto;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class RepresentativeDao {
+public class RepresentativeDto {
 
     @NotBlank(message = "Representative name is missing")
     private String name;

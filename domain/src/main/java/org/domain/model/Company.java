@@ -1,6 +1,7 @@
 package org.domain.model;
 
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,15 +16,19 @@ public class Company {
     @GeneratedValue
     private Long id;
 
+    @NonNull
     @Column(unique = true, nullable = false)
     private String name;
 
+    @NonNull
     @Column(nullable = false)
     private String description;
 
+    @NonNull
     @Column(unique = true, nullable = false)
     private String username;
 
+    @NonNull
     @Column(nullable = false)
     private String password;
 }

@@ -1,33 +1,20 @@
-package org.material.service.dao;
+package org.material.service.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
-@ToString
-@NoArgsConstructor
-public class ManualDao {
+@Data
+public class ManualDto {
 
-    @Getter
-    @Setter
     private Long id;
-
-    @Setter
     private String data;
-
-    @Getter
-    @Setter
     private String url;
 
-    @Getter
-    @Setter
     @NotBlank(message = "Manual description is missing")
     private String description;
 
-    public String getData() {
+    public String getBase64Binary() {
         return data.split(",")[1];
     }
 

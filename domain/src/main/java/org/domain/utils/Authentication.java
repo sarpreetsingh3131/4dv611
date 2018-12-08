@@ -2,7 +2,7 @@ package org.domain.utils;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.domain.dao.CredentialDao;
+import org.domain.dto.CredentialDto;
 import org.domain.repository.CompanyRepository;
 import org.domain.repository.ConsumerRepository;
 import org.domain.repository.RepresentativeRepository;
@@ -17,21 +17,21 @@ public class Authentication {
 
     private final byte[] SECRET = UUID.randomUUID().toString().getBytes();
 
-    public String login(CredentialDao credentialDao, Object repository) throws Exception {
+    public String login(CredentialDto credentialDto, Object repository) throws Exception {
         if (repository instanceof RepresentativeRepository) {
             ((RepresentativeRepository) repository)
-                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
+                    .findByUsernameAndPassword(credentialDto.getUsername(), credentialDto.getPassword())
                     .orElseThrow(() -> new Exception("Invalid credentials"));
         } else if (repository instanceof ConsumerRepository) {
             ((ConsumerRepository) repository)
-                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
+                    .findByUsernameAndPassword(credentialDto.getUsername(), credentialDto.getPassword())
                     .orElseThrow(() -> new Exception("Invalid credentials"));
         } else if (repository instanceof CompanyRepository) {
             ((CompanyRepository) repository)
-                    .findByUsernameAndPassword(credentialDao.getUsername(), credentialDao.getPassword())
+                    .findByUsernameAndPassword(credentialDto.getUsername(), credentialDto.getPassword())
                     .orElseThrow(() -> new Exception("Invalid credentials"));
         }
-        return assignToken(credentialDao);
+        return assignToken(credentialDto);
     }
 
     public String validateAuthorization(String token, Object repository) throws Exception {
@@ -52,10 +52,10 @@ public class Authentication {
         return username;
     }
 
-    private String assignToken(CredentialDao credentialDao) {
+    private String assignToken(CredentialDto credentialDto) {
         return "{\"token\": \"" +
                 Jwts.builder()
-                        .setId(credentialDao.getUsername())
+                        .setId(credentialDto.getUsername())
                         .setIssuedAt(new Date(System.currentTimeMillis()))
                         .setSubject("my-manuals")
                         .setIssuer("my-manuals")

@@ -1,8 +1,8 @@
 package org.company.service.controller;
 
-import org.company.service.dao.CompanyDao;
+import org.company.service.dto.CompanyDto;
 import org.company.service.service.CompanyService;
-import org.domain.dao.CredentialDao;
+import org.domain.dto.CredentialDto;
 import org.domain.model.Company;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,8 +21,8 @@ public class CompanyController {
     private CompanyService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Company save(@RequestBody @Valid CompanyDao companyDao) {
-        return service.save(companyDao);
+    public Company save(@RequestBody @Valid CompanyDto companyDto) {
+        return service.save(companyDto);
     }
 
     @GetMapping
@@ -36,7 +36,7 @@ public class CompanyController {
     }
 
     @PutMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String login(@RequestBody @Valid CredentialDao credentialDao) throws Exception {
-        return service.login(credentialDao);
+    public String login(@RequestBody @Valid CredentialDto credentialDto) throws Exception {
+        return service.login(credentialDto);
     }
 }

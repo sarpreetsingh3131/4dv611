@@ -1,11 +1,11 @@
-package org.domain.dao;
+package org.domain.dto;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class CredentialDao {
+public class CredentialDto {
 
     @NotBlank(message = "username is missing")
     private String username;

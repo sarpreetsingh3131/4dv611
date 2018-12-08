@@ -1,9 +1,9 @@
 package org.consumer.service.controller;
 
-import org.consumer.service.dao.ConsumerDao;
-import org.consumer.service.dao.SubscriptionDao;
+import org.consumer.service.dto.ConsumerDto;
+import org.consumer.service.dto.SubscriptionDto;
 import org.consumer.service.service.ConsumerService;
-import org.domain.dao.CredentialDao;
+import org.domain.dto.CredentialDto;
 import org.domain.model.Consumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,13 +21,13 @@ public class ConsumerController {
     private ConsumerService service;
 
     @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Consumer signUp(@RequestBody @Valid ConsumerDao consumerDao) {
-        return service.signUp(consumerDao);
+    public Consumer signUp(@RequestBody @Valid ConsumerDto consumerDto) {
+        return service.signUp(consumerDto);
     }
 
     @PutMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String login(@RequestBody @Valid CredentialDao credentialDao) throws Exception {
-        return service.login(credentialDao);
+    public String login(@RequestBody @Valid CredentialDto credentialDto) throws Exception {
+        return service.login(credentialDto);
     }
 
     @GetMapping(value = "/profile")
@@ -37,7 +37,7 @@ public class ConsumerController {
 
     @PutMapping(value = "/subscription", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Consumer subscription(@RequestHeader("Authorization") @NotBlank String token,
-                                 @RequestBody @Valid SubscriptionDao subscriptionDao) throws Exception {
-        return service.subscription(token, subscriptionDao);
+                                 @RequestBody @Valid SubscriptionDto subscriptionDto) throws Exception {
+        return service.subscription(token, subscriptionDto);
     }
 }

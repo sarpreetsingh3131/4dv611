@@ -3,7 +3,7 @@ package org.material.service.service;
 import org.domain.model.Manual;
 import org.domain.model.Product;
 import org.domain.repository.ManualRepository;
-import org.material.service.dao.ManualDao;
+import org.material.service.dto.ManualDto;
 import org.material.service.utils.FileHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +20,14 @@ public class ManualService {
     @Autowired
     private FileHandler fileHandler;
 
-    public Manual save(ManualDao manualDao, Product product) throws Exception {
-        return repository.save(manualDaoToManual(new Manual(), manualDao, product));
+    public Manual save(ManualDto manualDto, Product product) throws Exception {
+        return repository.save((new Manual(fileHandler.writeFile(manualDto), manualDto.getDescription(), product)));
     }
 
-    public List<Manual> saveAll(List<ManualDao> manualDaos, Product product) throws Exception {
+    public List<Manual> saveAll(List<ManualDto> manualDtos, Product product) throws Exception {
         List<Manual> manuals = new LinkedList<>();
-        for (ManualDao manualDao : manualDaos) {
-            manuals.add(save(manualDao, product));
+        for (ManualDto manualDto : manualDtos) {
+            manuals.add(save(manualDto, product));
         }
         return manuals;
     }
@@ -39,15 +39,8 @@ public class ManualService {
 
     public Manual deleteById(Long id) throws Exception {
         Manual manual = findById(id);
-        fileHandler.deleteFile(manual.getUrl());
+        fileHandler.deleteFile(manual);
         repository.delete(manual);
-        return manual;
-    }
-
-    private Manual manualDaoToManual(Manual manual, ManualDao manualDao, Product product) throws Exception {
-        manual.setUrl(fileHandler.writeFile(manualDao.getData(), manualDao.getExtension()));
-        manual.setDescription(manualDao.getDescription());
-        manual.setProduct(product);
         return manual;
     }
 }

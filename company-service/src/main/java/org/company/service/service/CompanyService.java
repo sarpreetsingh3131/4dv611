@@ -1,7 +1,7 @@
 package org.company.service.service;
 
-import org.company.service.dao.CompanyDao;
-import org.domain.dao.CredentialDao;
+import org.company.service.dto.CompanyDto;
+import org.domain.dto.CredentialDto;
 import org.domain.model.Company;
 import org.domain.repository.CompanyRepository;
 import org.domain.utils.Authentication;
@@ -19,8 +19,11 @@ public class CompanyService {
     @Autowired
     private Authentication authentication;
 
-    public Company save(CompanyDao companyDao) {
-        return repository.save(companyDaoToCompany(new Company(), companyDao));
+    public Company save(CompanyDto companyDto) {
+        return repository.save(new Company(
+                companyDto.getName(), companyDto.getDescription(),
+                companyDto.getUsername(), companyDto.getPassword()
+        ));
     }
 
     public List<Company> findAll() {
@@ -32,24 +35,13 @@ public class CompanyService {
                 .orElseThrow(() -> new Exception("No company with id = " + id));
     }
 
-    public String login(CredentialDao credentialDao) throws Exception {
-        return authentication.login(credentialDao, repository);
+    public String login(CredentialDto credentialDto) throws Exception {
+        return authentication.login(credentialDto, repository);
     }
 
-    public String validateAuthorization(String token) throws Exception {
-        return authentication.validateAuthorization(token, repository);
-    }
-
-    public Company findByUsername(String username) throws Exception {
+    public Company findByToken(String token) throws Exception {
+        String username = authentication.validateAuthorization(token, repository);
         return repository.findByUsername(username)
                 .orElseThrow(() -> new Exception("No company with username = " + username));
-    }
-
-    private Company companyDaoToCompany(Company company, CompanyDao companyDao) {
-        company.setName(companyDao.getName());
-        company.setDescription(companyDao.getDescription());
-        company.setUsername(companyDao.getUsername());
-        company.setPassword(companyDao.getPassword());
-        return company;
     }
 }

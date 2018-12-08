@@ -3,7 +3,7 @@ package org.material.service.service;
 import org.domain.model.Image;
 import org.domain.model.Product;
 import org.domain.repository.ImageRepository;
-import org.material.service.dao.ImageDao;
+import org.material.service.dto.ImageDto;
 import org.material.service.utils.FileHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +20,14 @@ public class ImageService {
     @Autowired
     private FileHandler fileHandler;
 
-    public Image save(ImageDao imageDao, Product product) throws Exception {
-        return repository.save(imageDaoToImage(new Image(), imageDao, product));
+    public Image save(ImageDto imageDto, Product product) throws Exception {
+        return repository.save((new Image(fileHandler.writeFile(imageDto), product)));
     }
 
-    public List<Image> saveAll(List<ImageDao> imageDaos, Product product) throws Exception {
+    public List<Image> saveAll(List<ImageDto> imageDtos, Product product) throws Exception {
         List<Image> images = new LinkedList<>();
-        for (ImageDao imageDao : imageDaos) {
-            images.add(save(imageDao, product));
+        for (ImageDto imageDto : imageDtos) {
+            images.add(save(imageDto, product));
         }
         return images;
     }
@@ -39,14 +39,8 @@ public class ImageService {
 
     public Image deleteById(Long id) throws Exception {
         Image image = findById(id);
-        fileHandler.deleteFile(image.getUrl());
+        fileHandler.deleteFile(image);
         repository.delete(image);
-        return image;
-    }
-
-    private Image imageDaoToImage(Image image, ImageDao imageDao, Product product) throws Exception {
-        image.setUrl(fileHandler.writeFile(imageDao.getData(), imageDao.getExtension()));
-        image.setProduct(product);
         return image;
     }
 }

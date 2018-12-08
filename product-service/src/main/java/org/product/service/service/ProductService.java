@@ -2,13 +2,15 @@ package org.product.service.service;
 
 import org.category.service.service.CategoryService;
 import org.consumer.service.service.ConsumerService;
-import org.domain.model.*;
+import org.domain.model.Image;
+import org.domain.model.Manual;
+import org.domain.model.Product;
 import org.domain.repository.ProductRepository;
 import org.material.service.service.ImageService;
 import org.material.service.service.ManualService;
-import org.product.service.dao.BadgeDao;
-import org.product.service.dao.ProductDao;
+import org.product.service.dto.BadgeDto;
 import org.product.service.dto.ProductDto;
+import org.product.service.dto.ProductWithBadgeDto;
 import org.representative.service.service.RepresentativeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,14 +38,16 @@ public class ProductService {
     @Autowired
     private ConsumerService consumerService;
 
-    public Product save(ProductDao productDao, String token) throws Exception {
-        String username = representativeService.validateAuthorization(token);
-        Representative representative = representativeService.findByUsername(username);
-        Product product = repository.save(productDaoToProduct(new Product(), productDao, representative));
+    public Product save(ProductDto productDto, String token) throws Exception {
+        Product product = repository.save((new Product(
+                productDto.getName(), productDto.getModel(),
+                categoryService.findById(productDto.getCategoryId()),
+                representativeService.findByToken(token).getCompany()
+        )));
         try {
-            product.setPrimaryImage(imageService.save(productDao.getPrimaryImage(), product));
-            product.setSecondaryImages(imageService.saveAll(productDao.getSecondaryImages(), product));
-            product.setManuals(manualService.saveAll(productDao.getManuals(), product));
+            product.setPrimaryImage(imageService.save(productDto.getPrimaryImage(), product));
+            product.setSecondaryImages(imageService.saveAll(productDto.getSecondaryImages(), product));
+            product.setManuals(manualService.saveAll(productDto.getManuals(), product));
         } catch (Exception e) {
             repository.delete(product);
             throw new Exception(e);
@@ -56,23 +60,15 @@ public class ProductService {
                 .orElseThrow(() -> new Exception("No product with id = " + id));
     }
 
-    public ProductDto findById(Long id, String token) throws Exception {
+    public ProductWithBadgeDto findById(Long id, String token) throws Exception {
         Product product = findById(id);
-        String username = consumerService.validateAuthorization(token);
-        return productToProductDto(product, consumerService.hasBadge(username, product));
+        return productToProductWithBadgeDto(product, consumerService.hasBadge(token, product));
     }
 
-    public ProductDto badge(BadgeDao badgeDao, String token) throws Exception {
-        String username = consumerService.validateAuthorization(token);
-        Consumer consumer = consumerService.findByUsername(username);
-        Product product = findById(badgeDao.getProductId());
-        if (badgeDao.getBadge()) {
-            consumer.getProducts().add(product);
-        } else {
-            consumer.getProducts().remove(product);
-        }
-        consumerService.save(consumer);
-        return productToProductDto(product, badgeDao.getBadge());
+    public ProductWithBadgeDto updateBadge(BadgeDto badgeDto, String token) throws Exception {
+        Product product = findById(badgeDto.getProductId());
+        consumerService.updateBadge(token, product, badgeDto.getBadge());
+        return productToProductWithBadgeDto(product, badgeDto.getBadge());
     }
 
     public List<Product> findByCategoryId(Long id) {
@@ -90,36 +86,21 @@ public class ProductService {
     }
 
     public Product deleteImageById(Long id, String token) throws Exception {
-        representativeService.validateAuthorization(token);
+        representativeService.findByToken(token);
         Image image = imageService.deleteById(id);
         return findById(image.getProduct().getId());
     }
 
     public Product deleteManualById(Long id, String token) throws Exception {
-        representativeService.validateAuthorization(token);
+        representativeService.findByToken(token);
         Manual manual = manualService.deleteById(id);
         return findById(manual.getProduct().getId());
     }
 
-    private Product productDaoToProduct(Product product, ProductDao productDao,
-                                        Representative representative) throws Exception {
-        product.setName(productDao.getName());
-        product.setModel(productDao.getModel());
-        product.setCategory(categoryService.findById(productDao.getCategoryId()));
-        product.setCompany(representative.getCompany());
-        return product;
-    }
-
-    private ProductDto productToProductDto(Product product, Boolean hasBadge) throws Exception {
-        ProductDto productDto = new ProductDto();
-        productDto.setId(product.getId());
-        productDto.setName(product.getName());
-        productDto.setModel(product.getModel());
-        productDto.setCategory(categoryService.findById(product.getCategory().getId()));
-        productDto.setPrimaryImage(product.getPrimaryImage());
-        productDto.setSecondaryImages(product.getSecondaryImages());
-        productDto.setManuals(product.getManuals());
-        productDto.setHasBadge(hasBadge);
-        return productDto;
+    private ProductWithBadgeDto productToProductWithBadgeDto(Product product, Boolean hasBadge) {
+        return new ProductWithBadgeDto(
+                product.getId(), product.getName(), product.getModel(), product.getCategory(),
+                product.getPrimaryImage(), product.getSecondaryImages(), product.getManuals(), hasBadge
+        );
     }
 }

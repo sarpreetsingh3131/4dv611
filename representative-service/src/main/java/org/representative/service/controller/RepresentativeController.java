@@ -1,8 +1,8 @@
 package org.representative.service.controller;
 
-import org.domain.dao.CredentialDao;
+import org.domain.dto.CredentialDto;
 import org.domain.model.Representative;
-import org.representative.service.dao.RepresentativeDao;
+import org.representative.service.dto.RepresentativeDto;
 import org.representative.service.service.RepresentativeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,9 +21,9 @@ public class RepresentativeController {
     private RepresentativeService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Representative save(@RequestBody @Valid RepresentativeDao representativeDao,
+    public Representative save(@RequestBody @Valid RepresentativeDto representativeDto,
                                @RequestHeader("Authorization") @NotBlank String token) throws Exception {
-        return service.save(representativeDao, token);
+        return service.save(representativeDto, token);
     }
 
     @GetMapping
@@ -32,7 +32,7 @@ public class RepresentativeController {
     }
 
     @PutMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String login(@RequestBody @Valid CredentialDao credentialDao) throws Exception {
-        return service.login(credentialDao);
+    public String login(@RequestBody @Valid CredentialDto credentialDto) throws Exception {
+        return service.login(credentialDto);
     }
 }

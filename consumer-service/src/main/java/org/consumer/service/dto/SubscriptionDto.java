@@ -1,11 +1,11 @@
-package org.consumer.service.dao;
+package org.consumer.service.dto;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
 @Data
-public class SubscriptionDao {
+public class SubscriptionDto {
 
     @NotNull(message = "Subscription is missing")
     private Boolean subscription;

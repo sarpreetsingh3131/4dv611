@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface RepresentativeRepository extends JpaRepository<Representative, Long> {
 
-    List<Representative> findByCompanyUsername(String username);
+    List<Representative> findByCompanyId(Long id);
 
     Optional<Representative> findByUsernameAndPassword(String username, String password);
 

@@ -1,11 +1,11 @@
-package org.product.service.dao;
+package org.product.service.dto;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
 @Data
-public class BadgeDao {
+public class BadgeDto {
 
     @NotNull(message = "badge is missing")
     private Boolean badge;
