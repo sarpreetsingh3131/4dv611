@@ -21,7 +21,7 @@ public class CompanyController {
     private CompanyService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Company save(@RequestBody @Valid CompanyDto companyDto) {
+    public Company save(@RequestBody @Valid CompanyDto companyDto) throws Exception {
         return service.save(companyDto);
     }
 

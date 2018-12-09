@@ -6,6 +6,7 @@ import org.domain.dto.CredentialDto;
 import org.domain.model.Consumer;
 import org.domain.model.Product;
 import org.domain.repository.ConsumerRepository;
+import org.domain.service.UserService;
 import org.domain.utils.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,11 @@ public class ConsumerService {
     @Autowired
     private Authentication authentication;
 
-    public Consumer signUp(ConsumerDto consumerDto) {
+    @Autowired
+    private UserService userService;
+
+    public Consumer signUp(ConsumerDto consumerDto) throws Exception {
+        userService.verifyUsername(consumerDto.getUsername());
         return repository.save((new Consumer(
                 consumerDto.getName(), consumerDto.getUsername(), consumerDto.getPassword(),
                 consumerDto.getEmail(), false, new LinkedList<>()

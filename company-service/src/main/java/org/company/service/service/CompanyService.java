@@ -4,6 +4,7 @@ import org.company.service.dto.CompanyDto;
 import org.domain.dto.CredentialDto;
 import org.domain.model.Company;
 import org.domain.repository.CompanyRepository;
+import org.domain.service.UserService;
 import org.domain.utils.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,11 @@ public class CompanyService {
     @Autowired
     private Authentication authentication;
 
-    public Company save(CompanyDto companyDto) {
+    @Autowired
+    private UserService userService;
+
+    public Company save(CompanyDto companyDto) throws Exception {
+        userService.verifyUsername(companyDto.getUsername());
         return repository.save(new Company(
                 companyDto.getName(), companyDto.getDescription(),
                 companyDto.getUsername(), companyDto.getPassword()

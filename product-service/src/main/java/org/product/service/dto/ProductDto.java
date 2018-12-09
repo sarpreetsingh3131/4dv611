@@ -5,7 +5,6 @@ import org.material.service.dto.ImageDto;
 import org.material.service.dto.ManualDto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -24,9 +23,9 @@ public class ProductDto {
     @NotNull(message = "Product's primary image is missing")
     private ImageDto primaryImage;
 
-    @NotEmpty(message = "Product's secondary images are missing")
+    @NotNull(message = "Product's secondary images are missing")
     private List<ImageDto> secondaryImages;
 
-    @NotEmpty(message = "Product's manuals are missing")
+    @NotNull(message = "Product's manuals are missing")
     private List<ManualDto> manuals;
 }

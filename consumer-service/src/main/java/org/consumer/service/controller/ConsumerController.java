@@ -21,7 +21,7 @@ public class ConsumerController {
     private ConsumerService service;
 
     @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Consumer signUp(@RequestBody @Valid ConsumerDto consumerDto) {
+    public Consumer signUp(@RequestBody @Valid ConsumerDto consumerDto) throws Exception {
         return service.signUp(consumerDto);
     }
 
