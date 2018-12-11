@@ -5,12 +5,14 @@ import org.consumer.service.dto.SubscriptionDto;
 import org.consumer.service.service.ConsumerService;
 import org.domain.dto.CredentialDto;
 import org.domain.model.Consumer;
+import org.domain.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/consumer", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,5 +41,10 @@ public class ConsumerController {
     public Consumer subscription(@RequestHeader("Authorization") @NotBlank String token,
                                  @RequestBody @Valid SubscriptionDto subscriptionDto) throws Exception {
         return service.subscription(token, subscriptionDto);
+    }
+
+    @GetMapping(value = "/products")
+    public List<Product> findProducts(@RequestHeader("Authorization") @NotBlank String token) throws Exception {
+        return service.findProducts(token);
     }
 }

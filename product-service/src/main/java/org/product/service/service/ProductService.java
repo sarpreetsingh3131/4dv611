@@ -5,16 +5,19 @@ import org.consumer.service.service.ConsumerService;
 import org.domain.model.Image;
 import org.domain.model.Manual;
 import org.domain.model.Product;
+import org.domain.model.Representative;
 import org.domain.repository.ProductRepository;
 import org.material.service.service.ImageService;
 import org.material.service.service.ManualService;
 import org.product.service.dto.BadgeDto;
 import org.product.service.dto.ProductDto;
 import org.product.service.dto.ProductWithBadgeDto;
+import org.product.service.dto.ProductWithSelectionDto;
 import org.representative.service.service.RepresentativeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -95,6 +98,18 @@ public class ProductService {
         representativeService.findByToken(token);
         Manual manual = manualService.deleteById(id);
         return findById(manual.getProduct().getId());
+    }
+
+    public List<ProductWithSelectionDto> countSelection(String token) throws Exception {
+        Representative representative = representativeService.findByToken(token);
+        List<ProductWithSelectionDto> productWithSelectionDtos = new LinkedList<>();
+        for (Product product : repository.findByCategoryId(representative.getCompany().getId())) {
+            productWithSelectionDtos.add(new ProductWithSelectionDto(
+                    product.getId(), product.getName(), product.getModel(), product.getPrimaryImage(),
+                    product.getSecondaryImages(), product.getManuals(), consumerService.countSelection(product)
+            ));
+        }
+        return productWithSelectionDtos;
     }
 
     private ProductWithBadgeDto productToProductWithBadgeDto(Product product, Boolean hasBadge) {

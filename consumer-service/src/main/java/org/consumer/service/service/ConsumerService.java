@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class ConsumerService {
@@ -65,5 +66,19 @@ public class ConsumerService {
         Consumer consumer = findByToken(token);
         consumer.setSubscription(subscriptionDto.getSubscription());
         return repository.save(consumer);
+    }
+
+    public List<Product> findProducts(String token) throws Exception {
+        return findByToken(token).getProducts();
+    }
+
+    public Integer countSelection(Product product) {
+        int count = 0;
+        for (Consumer consumer : repository.findAll()) {
+            if (consumer.getProducts().contains(product)) {
+                count++;
+            }
+        }
+        return count;
     }
 }

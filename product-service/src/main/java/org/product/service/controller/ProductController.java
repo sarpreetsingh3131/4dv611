@@ -4,6 +4,7 @@ import org.domain.model.Product;
 import org.product.service.dto.BadgeDto;
 import org.product.service.dto.ProductDto;
 import org.product.service.dto.ProductWithBadgeDto;
+import org.product.service.dto.ProductWithSelectionDto;
 import org.product.service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -65,5 +66,11 @@ public class ProductController {
     public ProductWithBadgeDto updateBadge(@RequestBody @Valid BadgeDto badgeDto,
                                            @RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.updateBadge(badgeDto, token);
+    }
+
+    @GetMapping(value = "/selection")
+    public List<ProductWithSelectionDto> countSelection(@RequestHeader("Authorization")
+                                                        @NotBlank String token) throws Exception {
+        return service.countSelection(token);
     }
 }

@@ -1,7 +1,6 @@
 package org.product.service.dto;
 
 import lombok.*;
-import org.domain.model.Category;
 import org.domain.model.Image;
 import org.domain.model.Manual;
 
@@ -11,7 +10,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-public class ProductWithBadgeDto {
+public class ProductWithSelectionDto {
 
     @NonNull
     private Long id;
@@ -23,9 +22,6 @@ public class ProductWithBadgeDto {
     private String model;
 
     @NonNull
-    private Category category;
-
-    @NonNull
     private Image primaryImage;
 
     @NonNull
@@ -35,5 +31,5 @@ public class ProductWithBadgeDto {
     private List<Manual> manuals;
 
     @NonNull
-    private Boolean hasBadge;
+    private Integer selection;
 }
