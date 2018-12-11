@@ -1,8 +1,9 @@
 package org.representative.service.controller;
 
+import org.domain.dto.CreateRepresentativeDto;
 import org.domain.dto.CredentialDto;
 import org.domain.model.Representative;
-import org.representative.service.dto.RepresentativeDto;
+import org.domain.service.UserService;
 import org.representative.service.service.RepresentativeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,19 +21,23 @@ public class RepresentativeController {
     @Autowired
     private RepresentativeService service;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Representative save(@RequestBody @Valid RepresentativeDto representativeDto,
+    public Representative save(@RequestBody @Valid CreateRepresentativeDto createRepresentativeDto,
                                @RequestHeader("Authorization") @NotBlank String token) throws Exception {
-        return service.save(representativeDto, token);
+        userService.verifyUsername(createRepresentativeDto.getUsername());
+        return service.save(createRepresentativeDto, userService.findCompany(token));
     }
 
     @GetMapping
     public List<Representative> findByCompany(@RequestHeader("Authorization") @NotBlank String token) throws Exception {
-        return service.findByCompany(token);
+        return service.findByCompany(userService.findCompany(token));
     }
 
     @PutMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String login(@RequestBody @Valid CredentialDto credentialDto) throws Exception {
-        return service.login(credentialDto);
+        return userService.loginAsCompany(credentialDto);
     }
 }

@@ -1,23 +1,16 @@
 package org.product.service.service;
 
-import org.category.service.service.CategoryService;
 import org.consumer.service.service.ConsumerService;
-import org.domain.model.Image;
-import org.domain.model.Manual;
+import org.domain.converter.ProductConverter;
+import org.domain.dto.*;
+import org.domain.model.Consumer;
 import org.domain.model.Product;
+import org.domain.model.Rating;
 import org.domain.model.Representative;
 import org.domain.repository.ProductRepository;
-import org.material.service.service.ImageService;
-import org.material.service.service.ManualService;
-import org.product.service.dto.BadgeDto;
-import org.product.service.dto.ProductDto;
-import org.product.service.dto.ProductWithBadgeDto;
-import org.product.service.dto.ProductWithSelectionDto;
-import org.representative.service.service.RepresentativeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -25,9 +18,6 @@ public class ProductService {
 
     @Autowired
     private ProductRepository repository;
-
-    @Autowired
-    private RepresentativeService representativeService;
 
     @Autowired
     private CategoryService categoryService;
@@ -41,81 +31,81 @@ public class ProductService {
     @Autowired
     private ConsumerService consumerService;
 
-    public Product save(ProductDto productDto, String token) throws Exception {
+    @Autowired
+    private RatingService ratingService;
+
+    @Autowired
+    private ProductConverter converter;
+
+
+    public ProductWithoutBadgeDto save(CreateProductDto createProductDto, Representative representative) throws Exception {
         Product product = repository.save((new Product(
-                productDto.getName(), productDto.getModel(),
-                categoryService.findById(productDto.getCategoryId()),
-                representativeService.findByToken(token).getCompany()
-        )));
+                createProductDto.getName(), createProductDto.getModel(),
+                categoryService.findById(createProductDto.getCategoryId()), representative.getCompany())));
         try {
-            product.setPrimaryImage(imageService.save(productDto.getPrimaryImage(), product));
-            product.setSecondaryImages(imageService.saveAll(productDto.getSecondaryImages(), product));
-            product.setManuals(manualService.saveAll(productDto.getManuals(), product));
+            product.setPrimaryImage(imageService.save(createProductDto.getPrimaryImage(), product));
+            product.setSecondaryImages(imageService.saveAll(createProductDto.getSecondaryImages(), product));
+            product.setManuals(manualService.saveAll(createProductDto.getManuals(), product));
         } catch (Exception e) {
             repository.delete(product);
             throw new Exception(e);
         }
-        return product;
+        return converter.toProductWithoutBadgeDto(product);
     }
 
-    public Product findById(Long id) throws Exception {
+    private Product findById(Long id) throws Exception {
         return repository.findById(id)
                 .orElseThrow(() -> new Exception("No product with id = " + id));
     }
 
-    public ProductWithBadgeDto findById(Long id, String token) throws Exception {
+    public ProductWithoutBadgeDto findByIdWithoutBadge(Long id) throws Exception {
+        return converter.toProductWithoutBadgeDto(findById(id));
+    }
+
+    public ProductWithBadgeDto findByIdWithBadge(Long id, Consumer consumer) throws Exception {
         Product product = findById(id);
-        return productToProductWithBadgeDto(product, consumerService.hasBadge(token, product));
+        return converter.toProductWithBadgeDto(product, consumer.getProducts().contains(product));
     }
 
-    public ProductWithBadgeDto updateBadge(BadgeDto badgeDto, String token) throws Exception {
+    public ProductWithBadgeDto updateBadge(BadgeDto badgeDto, Consumer consumer) throws Exception {
         Product product = findById(badgeDto.getProductId());
-        consumerService.updateBadge(token, product, badgeDto.getBadge());
-        return productToProductWithBadgeDto(product, badgeDto.getBadge());
+        consumerService.updateBadge(consumer, product, badgeDto.getBadge());
+        return converter.toProductWithBadgeDto(product, badgeDto.getBadge());
     }
 
-    public List<Product> findByCategoryId(Long id) {
-        return repository.findByCategoryId(id);
+    public List<ProductWithoutBadgeDto> findByCategoryId(Long id) {
+        return converter.toProductWithoutBadgeDto(repository.findByCategoryId(id));
     }
 
-    public List<Product> search(String query) {
-        return repository
-                .findTop10ByNameIgnoreCaseContainingOrModelIgnoreCaseContainingOrCategoryNameIgnoreCaseContaining(
-                        query, query, query);
+    public List<ProductWithoutBadgeDto> search(String query) {
+        return converter.toProductWithoutBadgeDto(
+                repository
+                        .findTop10ByNameIgnoreCaseContainingOrModelIgnoreCaseContainingOrCategoryNameIgnoreCaseContaining(
+                                query, query, query));
+
     }
 
-    public List<Product> findLatest() {
-        return repository.findTop10ByOrderByIdDesc();
+    public List<ProductWithoutBadgeDto> findLatest() {
+        return converter.toProductWithoutBadgeDto(repository.findTop10ByOrderByIdDesc());
     }
 
-    public Product deleteImageById(Long id, String token) throws Exception {
-        representativeService.findByToken(token);
-        Image image = imageService.deleteById(id);
-        return findById(image.getProduct().getId());
+    public ProductWithoutBadgeDto deleteImageById(Long id, Representative representative) throws Exception {
+        return converter.toProductWithoutBadgeDto(imageService.deleteById(id, representative).getProduct());
     }
 
-    public Product deleteManualById(Long id, String token) throws Exception {
-        representativeService.findByToken(token);
-        Manual manual = manualService.deleteById(id);
-        return findById(manual.getProduct().getId());
+    public ProductWithoutBadgeDto deleteManualById(Long id, Representative representative) throws Exception {
+        return converter.toProductWithoutBadgeDto(manualService.deleteById(id, representative).getProduct());
     }
 
-    public List<ProductWithSelectionDto> countSelection(String token) throws Exception {
-        Representative representative = representativeService.findByToken(token);
-        List<ProductWithSelectionDto> productWithSelectionDtos = new LinkedList<>();
-        for (Product product : repository.findByCategoryId(representative.getCompany().getId())) {
-            productWithSelectionDtos.add(new ProductWithSelectionDto(
-                    product.getId(), product.getName(), product.getModel(), product.getPrimaryImage(),
-                    product.getSecondaryImages(), product.getManuals(), consumerService.countSelection(product)
-            ));
-        }
-        return productWithSelectionDtos;
+    public List<ProductWithSelectionDto> findWithSelection(Representative representative) {
+        return converter.toProductWithSelectionDto(
+                repository.findByCompanyId(representative.getCompany().getId()),
+                consumerService.findAll());
     }
 
-    private ProductWithBadgeDto productToProductWithBadgeDto(Product product, Boolean hasBadge) {
-        return new ProductWithBadgeDto(
-                product.getId(), product.getName(), product.getModel(), product.getCategory(),
-                product.getPrimaryImage(), product.getSecondaryImages(), product.getManuals(), hasBadge
-        );
+    public ProductWithBadgeDto addRating(Consumer consumer, RatingDto ratingDto) throws Exception {
+        Rating rating = ratingService.save(consumer, ratingDto);
+        return converter.toProductWithBadgeDto(rating.getManual().getProduct(),
+                consumer.getProducts().contains(rating.getManual().getProduct()));
     }
 }
