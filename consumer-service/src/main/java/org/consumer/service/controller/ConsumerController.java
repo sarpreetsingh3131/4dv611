@@ -1,8 +1,6 @@
 package org.consumer.service.controller;
 
 import org.consumer.service.service.ConsumerService;
-import org.domain.dto.CreateConsumerDto;
-import org.domain.dto.CredentialDto;
 import org.domain.dto.ProductWithoutBadgeDto;
 import org.domain.dto.SubscriptionDto;
 import org.domain.model.Consumer;
@@ -25,17 +23,6 @@ public class ConsumerController {
 
     @Autowired
     private UserService userService;
-
-    @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Consumer signUp(@RequestBody @Valid CreateConsumerDto createConsumerDto) throws Exception {
-        userService.verifyUsername(createConsumerDto.getUsername());
-        return service.signUp(createConsumerDto);
-    }
-
-    @PutMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String login(@RequestBody @Valid CredentialDto credentialDto) throws Exception {
-        return userService.loginAsConsumer(credentialDto);
-    }
 
     @GetMapping(value = "/profile")
     public Consumer findById(@RequestHeader("Authorization") @NotBlank String token) throws Exception {

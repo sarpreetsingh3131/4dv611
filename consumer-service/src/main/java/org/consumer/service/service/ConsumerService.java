@@ -1,7 +1,6 @@
 package org.consumer.service.service;
 
 import org.domain.converter.ProductConverter;
-import org.domain.dto.CreateConsumerDto;
 import org.domain.dto.ProductWithoutBadgeDto;
 import org.domain.dto.SubscriptionDto;
 import org.domain.model.Consumer;
@@ -10,7 +9,6 @@ import org.domain.repository.ConsumerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -21,12 +19,6 @@ public class ConsumerService {
 
     @Autowired
     private ProductConverter converter;
-
-    public Consumer signUp(CreateConsumerDto createConsumerDto) {
-        return repository.save(new Consumer(createConsumerDto.getName(), createConsumerDto.getUsername(),
-                createConsumerDto.getPassword(), createConsumerDto.getEmail(), false,
-                new LinkedList<>()));
-    }
 
     public Consumer subscription(Consumer consumer, SubscriptionDto subscriptionDto) {
         consumer.setSubscription(subscriptionDto.getSubscription());

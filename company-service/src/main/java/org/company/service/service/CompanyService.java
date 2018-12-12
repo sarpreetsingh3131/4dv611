@@ -1,6 +1,5 @@
 package org.company.service.service;
 
-import org.domain.dto.CreateCompanyDto;
 import org.domain.model.Company;
 import org.domain.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +12,6 @@ public class CompanyService {
 
     @Autowired
     private CompanyRepository repository;
-
-    public Company save(CreateCompanyDto createCompanyDto) {
-        return repository.save(new Company(
-                createCompanyDto.getName(), createCompanyDto.getDescription(),
-                createCompanyDto.getUsername(), createCompanyDto.getPassword()
-        ));
-    }
 
     public List<Company> findAll() {
         return repository.findAll();
