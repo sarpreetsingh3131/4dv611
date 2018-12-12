@@ -58,33 +58,37 @@ public class UserService {
     public String loginAsCompany(CredentialDto credentialDto) throws Exception {
         companyRepository.findByUsernameAndPassword(credentialDto.getUsername(), credentialDto.getPassword())
                 .orElseThrow(() -> new Exception("Invalid credentials"));
-        return jsonWebToken.build(credentialDto);
+        return jsonWebToken.assign(credentialDto);
     }
 
     public String loginAsRepresentative(CredentialDto credentialDto) throws Exception {
         representativeRepository.findByUsernameAndPassword(credentialDto.getUsername(), credentialDto.getPassword())
                 .orElseThrow(() -> new Exception("Invalid credentials"));
-        return jsonWebToken.build(credentialDto);
+        return jsonWebToken.assign(credentialDto);
     }
 
     public String loginAsConsumer(CredentialDto credentialDto) throws Exception {
         consumerRepository.findByUsernameAndPassword(credentialDto.getUsername(), credentialDto.getPassword())
                 .orElseThrow(() -> new Exception("Invalid credentials"));
-        return jsonWebToken.build(credentialDto);
+        return jsonWebToken.assign(credentialDto);
+    }
+
+    public String logOut(String token) {
+        return jsonWebToken.revoke(token);
     }
 
     public Company findCompany(String token) throws Exception {
-        return companyRepository.findByUsername(jsonWebToken.parse(token).getId())
+        return companyRepository.findByUsername(jsonWebToken.parse(token))
                 .orElseThrow(() -> new Exception("Invalid token"));
     }
 
     public Representative findRepresentative(String token) throws Exception {
-        return representativeRepository.findByUsername(jsonWebToken.parse(token).getId())
+        return representativeRepository.findByUsername(jsonWebToken.parse(token))
                 .orElseThrow(() -> new Exception("Invalid token"));
     }
 
     public Consumer findConsumer(String token) throws Exception {
-        return consumerRepository.findByUsername(jsonWebToken.parse(token).getId())
+        return consumerRepository.findByUsername(jsonWebToken.parse(token))
                 .orElseThrow(() -> new Exception("Invalid token"));
     }
 

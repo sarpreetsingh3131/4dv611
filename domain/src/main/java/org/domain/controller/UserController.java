@@ -54,9 +54,8 @@ public class UserController {
         return service.signUp(createConsumerDto);
     }
 
-    /*@GetMapping(value = "/logout")
+    @GetMapping(value = "/logout")
     public String logOut(@RequestHeader("Authorization") @NotBlank String token) {
         return service.logOut(token);
     }
-    */
 }
