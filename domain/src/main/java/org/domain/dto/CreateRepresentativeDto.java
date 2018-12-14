@@ -13,6 +13,6 @@ public class CreateRepresentativeDto {
     @NotBlank(message = "Representative username is missing")
     private String username;
 
-    @NotBlank(message = "Representative name is missing")
+    @NotBlank(message = "Representative password is missing")
     private String password;
 }

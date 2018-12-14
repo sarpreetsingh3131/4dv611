@@ -26,6 +26,10 @@ public class Manual {
     private String description;
 
     @NonNull
+    @Column(nullable = false)
+    private Integer views;
+
+    @NonNull
     @ManyToOne
     @JsonIgnore
     private Product product;

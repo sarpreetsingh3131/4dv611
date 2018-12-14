@@ -36,7 +36,8 @@ public class JsonWebToken {
                 .getId();
     }
 
-    public String revoke(String token) {
+    public String revoke(String token) throws Exception {
+        isValid(token);
         tokens.remove(token);
         return "{\"message\": \"Logged out successfully\"}";
     }

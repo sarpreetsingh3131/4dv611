@@ -7,9 +7,9 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class CredentialDto {
 
-    @NotBlank(message = "username is missing")
+    @NotBlank(message = "Username is missing")
     private String username;
 
-    @NotBlank(message = "password is missing")
+    @NotBlank(message = "Password is missing")
     private String password;
 }

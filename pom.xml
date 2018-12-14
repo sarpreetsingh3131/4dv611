@@ -76,6 +76,7 @@
         <module>consumer-service</module>
         <module>representative-service</module>
         <module>mymanuals-service</module>
-        <module>product-service</module>
+        <module>service-provider-service</module>
+        <module>system-admin-service</module>
     </modules>
 </project>

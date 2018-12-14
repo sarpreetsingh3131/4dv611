@@ -1,29 +1,46 @@
 package org.company.service.controller;
 
 import org.company.service.service.CompanyService;
-import org.domain.model.Company;
+import org.domain.dto.CreateRepresentativeDto;
+import org.domain.dto.CreateServiceProviderDto;
+import org.domain.dto.CredentialDto;
+import org.domain.model.Representative;
+import org.domain.model.ServiceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/company", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 @ResponseBody
 public class CompanyController {
 
     @Autowired
     private CompanyService service;
 
-    @GetMapping
-    public List<Company> findAll() {
-        return service.findAll();
+    @PutMapping(value = "/api/company/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String logIn(@RequestBody @Valid CredentialDto credentialDto) throws Exception {
+        return service.logIn(credentialDto);
     }
 
-    @GetMapping("/{id}")
-    public Company findById(@PathVariable @NotNull Long id) throws Exception {
-        return service.findById(id);
+    @PostMapping(value = "/api/representative", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Representative saveRepresentative(@RequestBody @Valid CreateRepresentativeDto createRepresentativeDto,
+                                             @RequestHeader("Authorization") @NotBlank String token) throws Exception {
+        return service.saveRepresentative(createRepresentativeDto, token);
+    }
+
+    @GetMapping(value = "/api/representative")
+    public List<Representative> findAllRepresentatives(@RequestHeader("Authorization") @NotBlank String token) throws Exception {
+        return service.findAllRepresentatives(token);
+    }
+
+    @PostMapping(value = "/api/serviceprovider", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ServiceProvider saveServiceProvider(@RequestBody @Valid CreateServiceProviderDto createServiceProviderDto,
+                                               @RequestHeader("Authorization") @NotBlank String token) throws Exception {
+        return service.saveServiceProvider(createServiceProviderDto, token);
     }
 }

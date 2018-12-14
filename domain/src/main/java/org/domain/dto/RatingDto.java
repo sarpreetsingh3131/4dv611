@@ -14,6 +14,6 @@ public class RatingDto {
     @Max(value = 5, message = "Product rating must be <= 5")
     private Integer rating;
 
-    @NotNull(message = "Product's manual id is missing")
+    @NotNull(message = "Product manual id is missing")
     private Long manualId;
 }

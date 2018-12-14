@@ -19,4 +19,7 @@ public class ManualDto {
 
     @NonNull
     private Double rating;
+
+    @NonNull
+    private Integer views;
 }

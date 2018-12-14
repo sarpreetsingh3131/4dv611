@@ -1,7 +1,13 @@
 package org.company.service.service;
 
-import org.domain.model.Company;
-import org.domain.repository.CompanyRepository;
+import org.domain.dto.CreateRepresentativeDto;
+import org.domain.dto.CreateServiceProviderDto;
+import org.domain.dto.CredentialDto;
+import org.domain.model.Representative;
+import org.domain.model.ServiceProvider;
+import org.domain.repository.RepresentativeRepository;
+import org.domain.repository.ServiceProviderRepository;
+import org.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +17,35 @@ import java.util.List;
 public class CompanyService {
 
     @Autowired
-    private CompanyRepository repository;
+    private RepresentativeRepository representativeRepository;
 
-    public List<Company> findAll() {
-        return repository.findAll();
+    @Autowired
+    private ServiceProviderRepository serviceProviderRepository;
+
+    @Autowired
+    private UserService userService;
+
+    public String logIn(CredentialDto credentialDto) throws Exception {
+        return userService.logInAsCompany(credentialDto);
     }
 
-    public Company findById(Long id) throws Exception {
-        return repository.findById(id)
-                .orElseThrow(() -> new Exception("No company with id = " + id));
+    public Representative saveRepresentative(CreateRepresentativeDto createRepresentativeDto, String token) throws Exception {
+        userService.verifyUsername(createRepresentativeDto.getUsername());
+        return representativeRepository.save(new Representative(
+                createRepresentativeDto.getName(), createRepresentativeDto.getUsername(),
+                createRepresentativeDto.getPassword(), userService.findCompany(token)));
+    }
+
+    public List<Representative> findAllRepresentatives(String token) throws Exception {
+        return representativeRepository.findByCompanyId(userService.findCompany(token).getId());
+    }
+
+    public ServiceProvider saveServiceProvider(CreateServiceProviderDto createServiceProviderDto,
+                                               String token) throws Exception {
+        userService.verifyUsername(createServiceProviderDto.getUsername());
+        return serviceProviderRepository.save(new ServiceProvider(
+                createServiceProviderDto.getName(), createServiceProviderDto.getUsername(),
+                createServiceProviderDto.getPassword(), createServiceProviderDto.getAuthorization(),
+                userService.findCompany(token)));
     }
 }

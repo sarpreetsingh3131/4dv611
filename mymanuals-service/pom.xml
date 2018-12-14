@@ -43,7 +43,13 @@
 
         <dependency>
             <groupId>mymanuals</groupId>
-            <artifactId>product-service</artifactId>
+            <artifactId>service-provider-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mymanuals</groupId>
+            <artifactId>system-admin-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

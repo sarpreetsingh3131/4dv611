@@ -28,6 +28,7 @@ public class Consumer {
 
     @NonNull
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @NonNull

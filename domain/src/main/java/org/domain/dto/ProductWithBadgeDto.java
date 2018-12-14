@@ -31,7 +31,7 @@ public class ProductWithBadgeDto {
     private List<Image> secondaryImages;
 
     @NonNull
-    private List<ManualDto> manuals;
+    private List<ManualWithNoteDto> manuals;
 
     @NonNull
     private Boolean hasBadge;

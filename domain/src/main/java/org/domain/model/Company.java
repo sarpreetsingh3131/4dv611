@@ -1,5 +1,6 @@
 package org.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -33,5 +34,6 @@ public class Company {
 
     @NonNull
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 }

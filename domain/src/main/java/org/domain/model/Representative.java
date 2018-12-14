@@ -27,6 +27,7 @@ public class Representative {
 
     @NonNull
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @NonNull
