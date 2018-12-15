@@ -9,6 +9,13 @@
     <name>domain</name>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.sendgrid</groupId>
+            <artifactId>sendgrid-java</artifactId>
+        </dependency>
+    </dependencies>
+
     <parent>
         <groupId>mymanuals</groupId>
         <artifactId>mymanuals-rest-api</artifactId>

@@ -2,6 +2,7 @@ package org.mymanuals.service.service;
 
 import org.domain.converter.ProductConverter;
 import org.domain.dto.ProductWithoutBadgeDto;
+import org.domain.model.Consumer;
 import org.domain.model.Manual;
 import org.domain.repository.ProductRepository;
 import org.domain.service.ManualService;
@@ -9,7 +10,11 @@ import org.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.sendgrid.*;
 
 @Service
 public class MyManualsService {
