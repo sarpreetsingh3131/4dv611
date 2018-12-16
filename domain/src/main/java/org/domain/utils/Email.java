@@ -8,15 +8,15 @@ public class Email {
 
     //Needs System environment variable
     public String sendEmail(List<String> emailReceivers, String emailSender, String emailSubject, String emailBody ) {
-        Email from = new Email(emailSender);
+        com.sendgrid.Email from = new com.sendgrid.Email(emailSender);
         Content body = new Content("text/plain", emailBody);
         Mail mail = new Mail(from, emailSubject, from, body);
         Personalization personalization = new Personalization();
         for (String email :
                 emailReceivers) {
-            personalization.addBcc(new Email(email));
+            personalization.addBcc(new com.sendgrid.Email(email));
         }
-        personalization.addTo(new Email(emailSender));
+        personalization.addTo(new com.sendgrid.Email(emailSender));
         mail.addPersonalization(personalization);
 
         SendGrid sendGrid = new SendGrid(System.getenv("SENDGRID_API_KEY"));
