@@ -49,7 +49,6 @@ public class RepresentativeService {
     private ProductConverter converter;
 
     public String logIn(CredentialDto credentialDto) throws Exception {
-        System.out.println(emailService.getEmailApiKey());
         return userService.logInAsRepresentative(credentialDto);
     }
 

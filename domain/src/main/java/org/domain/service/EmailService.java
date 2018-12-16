@@ -24,13 +24,10 @@ public class EmailService {
         request.setEndpoint("mail/send");
         request.setBody(mail.build());
         Response response = sendGrid.api(request);
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
-        System.out.println(response.getHeaders());
         return "{\"message\": \"Sent successfully\"}";
     }
 
-    public String getEmailApiKey() {
+    private String getEmailApiKey() {
         return Dotenv.load()
                 .get("email.api.key");
     }
