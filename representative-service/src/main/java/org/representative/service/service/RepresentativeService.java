@@ -2,7 +2,6 @@ package org.representative.service.service;
 
 import org.domain.converter.ProductConverter;
 import org.domain.dto.*;
-import org.domain.model.Consumer;
 import org.domain.model.Product;
 import org.domain.model.Representative;
 import org.domain.model.ServiceProvider;
@@ -13,7 +12,7 @@ import org.domain.repository.ServiceProviderRepository;
 import org.domain.service.ImageService;
 import org.domain.service.ManualService;
 import org.domain.service.UserService;
-import org.domain.utils.Email;
+import org.domain.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +41,9 @@ public class RepresentativeService {
 
     @Autowired
     private ManualService manualService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private ProductConverter converter;
@@ -96,10 +98,8 @@ public class RepresentativeService {
         return serviceProviderRepository.save(serviceProvider);
     }
 
-    public String sendEmailToConsumers(String token, String emailSubject, String emailBody) throws Exception{
+    public String sendEmail(EmailDto emailDto, String token) throws Exception {
         Representative representative = userService.findRepresentative(token);
-        List<String> consumerEmails = consumerRepository.findConsumerEmailsByProductsAndSubscriptionByCompanyId(representative.getCompany().getId().toString());
-        Email email = new Email();
-        return email.sendEmail(consumerEmails, "example@example.com", emailSubject, emailBody);
+        return emailService.send(consumerRepository.findBySubscription(true), emailDto.getSubject(), emailDto.getBody());
     }
 }

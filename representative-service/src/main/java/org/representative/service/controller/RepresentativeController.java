@@ -57,8 +57,9 @@ public class RepresentativeController {
         return service.updateServiceProviderAuthorization(serviceProviderAuthorizationDto, token);
     }
 
-    @PostMapping(value = "api/representative/email", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String sendEmail(@RequestBody @Valid EmailDto emailDto,@RequestHeader("Authorization") @NotBlank String token) throws Exception {
-        return service.sendEmailToConsumers(token, emailDto.getSubject(), emailDto.getBody());
+    @PostMapping(value = "/api/representative/email", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String sendEmail(@RequestBody @Valid EmailDto emailDto,
+                            @RequestHeader("Authorization") @NotBlank String token) throws Exception {
+        return service.sendEmail(emailDto, token);
     }
 }
