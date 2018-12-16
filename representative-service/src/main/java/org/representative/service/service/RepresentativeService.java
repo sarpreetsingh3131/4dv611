@@ -9,10 +9,10 @@ import org.domain.repository.CategoryRepository;
 import org.domain.repository.ConsumerRepository;
 import org.domain.repository.ProductRepository;
 import org.domain.repository.ServiceProviderRepository;
+import org.domain.service.EmailService;
 import org.domain.service.ImageService;
 import org.domain.service.ManualService;
 import org.domain.service.UserService;
-import org.domain.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +49,7 @@ public class RepresentativeService {
     private ProductConverter converter;
 
     public String logIn(CredentialDto credentialDto) throws Exception {
+        System.out.println(emailService.getEmailApiKey());
         return userService.logInAsRepresentative(credentialDto);
     }
 
