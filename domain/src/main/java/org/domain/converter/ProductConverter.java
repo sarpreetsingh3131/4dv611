@@ -26,9 +26,7 @@ public class ProductConverter {
 
     public List<ProductWithoutBadgeDto> toProductWithoutBadgeDto(List<Product> products) {
         List<ProductWithoutBadgeDto> productWithoutBadgeDtos = new LinkedList<>();
-        for (Product product : products) {
-            productWithoutBadgeDtos.add(toProductWithoutBadgeDto(product));
-        }
+        products.forEach(product -> productWithoutBadgeDtos.add(toProductWithoutBadgeDto(product)));
         return productWithoutBadgeDtos;
     }
 
@@ -51,20 +49,14 @@ public class ProductConverter {
 
     public List<ProductWithSelectionDto> toProductWithSelectionDto(List<Product> products, List<Consumer> consumers) {
         List<ProductWithSelectionDto> productWithSelectionDtos = new LinkedList<>();
-        for (Product product : products) {
-            productWithSelectionDtos.add(toProductWithSelectionDto(product, countSelection(product, consumers)));
-        }
+        products.forEach(product ->
+                productWithSelectionDtos.add(toProductWithSelectionDto(product, countSelection(product, consumers))));
         return productWithSelectionDtos;
     }
 
-
     public Integer countSelection(Product product, List<Consumer> consumers) {
-        int count = 0;
-        for (Consumer consumer : consumers) {
-            if (consumer.getProducts().contains(product)) {
-                count++;
-            }
-        }
-        return count;
+        return (int) consumers.stream()
+                .filter(consumer -> consumer.getProducts().contains(product))
+                .count();
     }
 }

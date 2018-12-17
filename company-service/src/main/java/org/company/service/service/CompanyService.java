@@ -29,6 +29,10 @@ public class CompanyService {
         return userService.logInAsCompany(credentialDto);
     }
 
+    public String logOut(String token) throws Exception {
+        return userService.logOutAsCompany(token);
+    }
+
     public Representative saveRepresentative(CreateRepresentativeDto createRepresentativeDto, String token) throws Exception {
         userService.verifyUsername(createRepresentativeDto.getUsername());
         return representativeRepository.save(new Representative(
@@ -47,5 +51,9 @@ public class CompanyService {
                 createServiceProviderDto.getName(), createServiceProviderDto.getUsername(),
                 createServiceProviderDto.getPassword(), createServiceProviderDto.getAuthorization(),
                 userService.findCompany(token)));
+    }
+
+    public List<ServiceProvider> findAllServiceProviders(String token) throws Exception {
+        return serviceProviderRepository.findByCompanyId(userService.findCompany(token).getId());
     }
 }

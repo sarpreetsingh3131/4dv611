@@ -24,15 +24,12 @@ public class ManualConverter {
     private NoteRepository noteRepository;
 
     public ManualDto manualToManualDto(Manual manual) {
-        return new ManualDto(manual.getId(), manual.getUrl(), manual.getDescription(),
-                findRating(manual), manual.getViews());
+        return new ManualDto(manual.getId(), manual.getUrl(), manual.getDescription(), findRating(manual), manual.getViews());
     }
 
     public List<ManualDto> manualToManualDtos(List<Manual> manuals) {
         List<ManualDto> manualDtos = new LinkedList<>();
-        for (Manual manual : manuals) {
-            manualDtos.add(manualToManualDto(manual));
-        }
+        manuals.forEach(manual -> manualDtos.add(manualToManualDto(manual)));
         return manualDtos;
     }
 
@@ -44,9 +41,7 @@ public class ManualConverter {
 
     public List<ManualWithNoteDto> manualToManualWithNoteDtos(List<Manual> manuals, Consumer consumer) {
         List<ManualWithNoteDto> manualWithNoteDtos = new LinkedList<>();
-        for (Manual manual : manuals) {
-            manualWithNoteDtos.add(manualToManualWithNoteDto(manual, consumer));
-        }
+        manuals.forEach(manual -> manualWithNoteDtos.add(manualToManualWithNoteDto(manual, consumer)));
         return manualWithNoteDtos;
     }
 

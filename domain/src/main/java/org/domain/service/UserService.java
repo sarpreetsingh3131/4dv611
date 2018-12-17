@@ -57,7 +57,23 @@ public class UserService {
         return jsonWebToken.assign(credentialDto);
     }
 
-    public String logOut(String token) throws Exception {
+    public String logOutAsCompany(String token) throws Exception {
+        findCompany(token);
+        return jsonWebToken.revoke(token);
+    }
+
+    public String logOutAsRepresentative(String token) throws Exception {
+        findRepresentative(token);
+        return jsonWebToken.revoke(token);
+    }
+
+    public String logOutAsConsumer(String token) throws Exception {
+        findConsumer(token);
+        return jsonWebToken.revoke(token);
+    }
+
+    public String logOutAsServiceProvider(String token) throws Exception {
+        findServiceProvider(token);
         return jsonWebToken.revoke(token);
     }
 

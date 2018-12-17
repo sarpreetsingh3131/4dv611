@@ -25,10 +25,14 @@ public class ServiceProviderService {
         return userService.logInAsServiceProvider(credentialDto);
     }
 
+    public String logOut(String token) throws Exception {
+        return userService.logOutAsServiceProvider(token);
+    }
+
     public String sendEmail(EmailDto emailDto, String token) throws Exception {
         ServiceProvider serviceProvider = userService.findServiceProvider(token);
         if (serviceProvider.getAuthorization()) {
-            return emailService.send(consumerRepository.findBySubscription(true), emailDto.getSubject(), emailDto.getBody());
+            return emailService.send(consumerRepository.findBySubscription(true), emailDto);
         }
         throw new Exception("Service provider is not authorized to send email");
     }

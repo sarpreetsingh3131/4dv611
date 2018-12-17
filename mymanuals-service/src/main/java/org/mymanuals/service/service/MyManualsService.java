@@ -26,10 +26,6 @@ public class MyManualsService {
     @Autowired
     private ManualService manualService;
 
-    public String logOut(String token) throws Exception {
-        return userService.logOut(token);
-    }
-
     public List<ProductWithoutBadgeDto> findProductsByCategoryId(Long id) {
         return converter.toProductWithoutBadgeDto(productRepository.findByCategoryId(id));
     }
@@ -50,5 +46,10 @@ public class MyManualsService {
         Manual manual = manualService.findById(id);
         manual.setViews(manual.getViews() + 1);
         return manualService.update(manual);
+    }
+
+    public ProductWithoutBadgeDto findProductWithoutBadge(Long id) throws Exception {
+        return converter.toProductWithoutBadgeDto(productRepository.findById(id)
+                .orElseThrow(() -> new Exception("No product with id = " + id)));
     }
 }

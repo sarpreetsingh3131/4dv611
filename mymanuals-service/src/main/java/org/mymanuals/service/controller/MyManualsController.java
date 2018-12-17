@@ -12,34 +12,34 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/public", produces = MediaType.APPLICATION_JSON_VALUE)
 @ResponseBody
 public class MyManualsController {
 
     @Autowired
     private MyManualsService service;
 
-    @GetMapping(value = "/api/logout")
-    public String logOut(@RequestHeader("Authorization") @NotBlank String token) throws Exception {
-        return service.logOut(token);
-    }
-
-    @GetMapping(value = "/api/product/category/{id}")
+    @GetMapping(value = "/products/category/{id}")
     public List<ProductWithoutBadgeDto> findProductsByCategoryId(@PathVariable @NotNull Long id) {
         return service.findProductsByCategoryId(id);
     }
 
-    @GetMapping(value = "/api/product")
+    @GetMapping(value = "/product/{id}")
+    public ProductWithoutBadgeDto findProductById(@PathVariable @NotNull Long id) throws Exception {
+        return service.findProductWithoutBadge(id);
+    }
+
+    @GetMapping(value = "/products")
     public List<ProductWithoutBadgeDto> searchProducts(@RequestParam("search") @NotBlank String query) {
         return service.searchProducts(query);
     }
 
-    @GetMapping(value = "/api/product/latest")
+    @GetMapping(value = "/products/latest")
     public List<ProductWithoutBadgeDto> find10LatestProducts() {
         return service.find10LatestProducts();
     }
 
-    @GetMapping(value = "/api/product/manual/view/{id}")
+    @GetMapping(value = "/product/manual/view/{id}")
     public Manual updateManualView(@PathVariable @NotNull Long id) throws Exception {
         return service.updateManualViews(id);
     }

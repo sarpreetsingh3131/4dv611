@@ -14,39 +14,39 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/system-admin", produces = MediaType.APPLICATION_JSON_VALUE)
 @ResponseBody
 public class SystemAdminController {
 
     @Autowired
     private SystemAdminService service;
 
-    @PostMapping(value = "/api/company", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/company", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Company saveCompany(@RequestBody @Valid CreateCompanyDto createCompanyDto) throws Exception {
         return service.saveCompany(createCompanyDto);
     }
 
-    @GetMapping(value = "/api/company/{id}")
+    @GetMapping(value = "/company/{id}")
     public Company findCompanyById(@PathVariable @NotNull Long id) throws Exception {
         return service.findCompanyById(id);
     }
 
-    @GetMapping(value = "/api/company")
+    @GetMapping(value = "/companies")
     public List<Company> findAllCompanies() {
         return service.findAllCompanies();
     }
 
-    @PostMapping(value = "/api/category", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/category", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Category saveCategory(@RequestBody @Valid CreateCategoryDto createCompanyDto) {
         return service.saveCategory(createCompanyDto);
     }
 
-    @GetMapping(value = "/api/category/{id}")
+    @GetMapping(value = "/category/{id}")
     public Category findCategoryById(@PathVariable @NotNull Long id) throws Exception {
         return service.findCategoryById(id);
     }
 
-    @GetMapping(value = "/api/category")
+    @GetMapping(value = "/categories")
     public List<Category> findAllCategories() {
         return service.findAllCategories();
     }

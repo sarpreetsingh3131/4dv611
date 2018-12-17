@@ -51,6 +51,10 @@ public class ConsumerService {
         return userService.logInAsConsumer(credentialDto);
     }
 
+    public String logOut(String token) throws Exception {
+        return userService.logOutAsConsumer(token);
+    }
+
     public Consumer findProfile(String token) throws Exception {
         return userService.findConsumer(token);
     }
@@ -81,10 +85,6 @@ public class ConsumerService {
         Consumer consumer = userService.findConsumer(token);
         Product product = findProductById(id);
         return converter.toProductWithBadgeDto(product, consumer);
-    }
-
-    public ProductWithoutBadgeDto findProductWithoutBadge(Long id) throws Exception {
-        return converter.toProductWithoutBadgeDto(findProductById(id));
     }
 
     public ProductWithBadgeDto rateAManual(RatingDto ratingDto, String token) throws Exception {

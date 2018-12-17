@@ -15,32 +15,43 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/company", produces = MediaType.APPLICATION_JSON_VALUE)
 @ResponseBody
 public class CompanyController {
 
     @Autowired
     private CompanyService service;
 
-    @PutMapping(value = "/api/company/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String logIn(@RequestBody @Valid CredentialDto credentialDto) throws Exception {
         return service.logIn(credentialDto);
     }
 
-    @PostMapping(value = "/api/representative", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/logout")
+    public String logOut(@RequestHeader("Authorization") @NotBlank String token) throws Exception {
+        return service.logOut(token);
+    }
+
+    @PostMapping(value = "/representative", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Representative saveRepresentative(@RequestBody @Valid CreateRepresentativeDto createRepresentativeDto,
                                              @RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.saveRepresentative(createRepresentativeDto, token);
     }
 
-    @GetMapping(value = "/api/representative")
+    @GetMapping(value = "/representatives")
     public List<Representative> findAllRepresentatives(@RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.findAllRepresentatives(token);
     }
 
-    @PostMapping(value = "/api/serviceprovider", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/service-provider", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ServiceProvider saveServiceProvider(@RequestBody @Valid CreateServiceProviderDto createServiceProviderDto,
                                                @RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.saveServiceProvider(createServiceProviderDto, token);
+    }
+
+    @GetMapping(value = "/service-providers")
+    public List<ServiceProvider> findAllServiceProviders(@RequestHeader("Authorization")
+                                                         @NotBlank String token) throws Exception {
+        return service.findAllServiceProviders(token);
     }
 }

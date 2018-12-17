@@ -52,6 +52,10 @@ public class RepresentativeService {
         return userService.logInAsRepresentative(credentialDto);
     }
 
+    public String logOut(String token) throws Exception {
+        return userService.logOutAsRepresentative(token);
+    }
+
     public ProductWithoutBadgeDto saveProduct(CreateProductDto createProductDto, String token) throws Exception {
         Product product = productRepository.save((new Product(
                 createProductDto.getName(), createProductDto.getModel(),
@@ -99,7 +103,11 @@ public class RepresentativeService {
     }
 
     public String sendEmail(EmailDto emailDto, String token) throws Exception {
-        Representative representative = userService.findRepresentative(token);
-        return emailService.send(consumerRepository.findBySubscription(true), emailDto.getSubject(), emailDto.getBody());
+        userService.findRepresentative(token);
+        return emailService.send(consumerRepository.findBySubscription(true), emailDto);
+    }
+
+    public List<ServiceProvider> findAllServiceProviders(String token) throws Exception {
+        return serviceProviderRepository.findByCompanyId(userService.findRepresentative(token).getCompany().getId());
     }
 }
