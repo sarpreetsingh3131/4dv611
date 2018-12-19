@@ -17,6 +17,7 @@ public class EmailService {
         Mail mail = new Mail(FROM, emailDto.getSubject(), FROM, new Content("text/plain", emailDto.getBody()));
         Personalization personalization = new Personalization();
         consumers.forEach(consumer -> personalization.addBcc(new Email(consumer.getEmail())));
+        personalization.addTo(FROM);
         mail.addPersonalization(personalization);
         SendGrid sendGrid = new SendGrid(getEmailApiKey());
         Request request = new Request();
