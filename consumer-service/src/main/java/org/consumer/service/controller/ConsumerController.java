@@ -52,7 +52,7 @@ public class ConsumerController {
         return service.findInterestedProducts(token);
     }
 
-    @PostMapping(value = "/badge", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/product/badge", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ProductWithBadgeDto updateBadge(@RequestHeader("Authorization") @NotBlank String token,
                                            @RequestBody @Valid BadgeDto badgeDto) throws Exception {
         return service.updateBadge(badgeDto, token);
