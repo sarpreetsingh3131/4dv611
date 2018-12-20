@@ -36,7 +36,7 @@ public class ManualConverter {
     public ManualWithNoteDto manualToManualWithNoteDto(Manual manual, Consumer consumer) {
         return new ManualWithNoteDto(manual.getId(), manual.getUrl(),
                 manual.getDescription(), findRating(manual), manual.getViews(),
-                noteRepository.findByIdAndConsumerId(manual.getId(), consumer.getId()));
+                noteRepository.findByManualIdAndConsumerId(manual.getId(), consumer.getId()));
     }
 
     public List<ManualWithNoteDto> manualToManualWithNoteDtos(List<Manual> manuals, Consumer consumer) {
