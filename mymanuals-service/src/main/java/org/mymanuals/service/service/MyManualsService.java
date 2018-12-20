@@ -5,7 +5,6 @@ import org.domain.dto.ProductWithoutBadgeDto;
 import org.domain.model.Manual;
 import org.domain.repository.ProductRepository;
 import org.domain.service.ManualService;
-import org.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +12,6 @@ import java.util.List;
 
 @Service
 public class MyManualsService {
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private ProductConverter converter;

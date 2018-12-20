@@ -58,7 +58,7 @@ public class ConsumerController {
         return service.updateBadge(badgeDto, token);
     }
 
-    @GetMapping(value = "/product/id")
+    @GetMapping(value = "/product/{id}")
     public Object findProductById(@RequestHeader("Authorization") @NotBlank String token,
                                   @PathVariable @NotNull Long id) throws Exception {
         return service.findProductWithBadge(id, token);
