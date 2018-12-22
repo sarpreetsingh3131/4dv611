@@ -61,7 +61,7 @@ public class RepresentativeService {
                 createProductDto.getName(), createProductDto.getModel(),
                 categoryRepository.findById(createProductDto.getCategoryId())
                         .orElseThrow(() -> new Exception("No category with id = " + createProductDto.getCategoryId())),
-                userService.findRepresentative(token).getCompany())));
+                userService.findRepresentative(token).getCompany(), 0)));
         try {
             product.setPrimaryImage(imageService.save(createProductDto.getPrimaryImage(), product));
             product.setSecondaryImages(imageService.saveAll(createProductDto.getSecondaryImages(), product));

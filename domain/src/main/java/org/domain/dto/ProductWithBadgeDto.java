@@ -35,4 +35,7 @@ public class ProductWithBadgeDto {
 
     @NonNull
     private Boolean hasBadge;
+
+    @NonNull
+    private Integer views;
 }

@@ -32,4 +32,7 @@ public class ProductWithoutBadgeDto {
 
     @NonNull
     private List<ManualDto> manuals;
+
+    @NonNull
+    private Integer views;
 }

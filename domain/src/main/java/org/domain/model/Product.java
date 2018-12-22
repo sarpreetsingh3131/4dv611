@@ -43,4 +43,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Manual> manuals;
+
+    @NonNull
+    @Column(nullable = false)
+    private Integer views;
 }

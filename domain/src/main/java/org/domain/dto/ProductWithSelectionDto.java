@@ -31,4 +31,7 @@ public class ProductWithSelectionDto {
 
     @NonNull
     private Integer selection;
+
+    @NonNull
+    private Integer views;
 }

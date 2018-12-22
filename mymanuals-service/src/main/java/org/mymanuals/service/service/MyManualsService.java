@@ -3,6 +3,7 @@ package org.mymanuals.service.service;
 import org.domain.converter.ProductConverter;
 import org.domain.dto.ProductWithoutBadgeDto;
 import org.domain.model.Manual;
+import org.domain.model.Product;
 import org.domain.repository.ProductRepository;
 import org.domain.service.ManualService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,9 @@ public class MyManualsService {
     }
 
     public ProductWithoutBadgeDto findProductWithoutBadge(Long id) throws Exception {
-        return converter.toProductWithoutBadgeDto(productRepository.findById(id)
-                .orElseThrow(() -> new Exception("No product with id = " + id)));
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new Exception("No product with id = " + id));
+        product.setViews(product.getViews() + 1);
+        return converter.toProductWithoutBadgeDto(productRepository.save(product));
     }
 }

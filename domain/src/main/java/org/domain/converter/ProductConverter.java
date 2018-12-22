@@ -21,7 +21,7 @@ public class ProductConverter {
         return new ProductWithoutBadgeDto(
                 product.getId(), product.getName(), product.getModel(), product.getCategory(),
                 product.getPrimaryImage(), product.getSecondaryImages(),
-                manualConverter.manualToManualDtos(product.getManuals()));
+                manualConverter.manualToManualDtos(product.getManuals()), product.getViews());
     }
 
     public List<ProductWithoutBadgeDto> toProductWithoutBadgeDto(List<Product> products) {
@@ -36,15 +36,14 @@ public class ProductConverter {
                 product.getCategory(), product.getPrimaryImage(),
                 product.getSecondaryImages(),
                 manualConverter.manualToManualWithNoteDtos(product.getManuals(), consumer),
-                consumer.getProducts().contains(product));
+                consumer.getProducts().contains(product), product.getViews());
     }
 
     private ProductWithSelectionDto toProductWithSelectionDto(Product product, Integer selection) {
         return new ProductWithSelectionDto(
                 product.getId(), product.getName(), product.getModel(), product.getPrimaryImage(),
                 product.getSecondaryImages(), manualConverter.manualToManualDtos(product.getManuals()),
-                selection
-        );
+                selection, product.getViews());
     }
 
     public List<ProductWithSelectionDto> toProductWithSelectionDto(List<Product> products, List<Consumer> consumers) {

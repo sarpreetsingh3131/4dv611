@@ -84,7 +84,8 @@ public class ConsumerService {
     public ProductWithBadgeDto findProductWithBadge(Long id, String token) throws Exception {
         Consumer consumer = userService.findConsumer(token);
         Product product = findProductById(id);
-        return converter.toProductWithBadgeDto(product, consumer);
+        product.setViews(product.getViews() + 1);
+        return converter.toProductWithBadgeDto(productRepository.save(product), consumer);
     }
 
     public ProductWithBadgeDto rateAManual(RatingDto ratingDto, String token) throws Exception {
