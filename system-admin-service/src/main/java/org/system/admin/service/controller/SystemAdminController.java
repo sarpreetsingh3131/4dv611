@@ -1,7 +1,9 @@
 package org.system.admin.service.controller;
 
+import org.domain.dto.CreateAdAgentDto;
 import org.domain.dto.CreateCategoryDto;
 import org.domain.dto.CreateCompanyDto;
+import org.domain.model.AdAgent;
 import org.domain.model.Category;
 import org.domain.model.Company;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +51,20 @@ public class SystemAdminController {
     @GetMapping(value = "/categories")
     public List<Category> findAllCategories() {
         return service.findAllCategories();
+    }
+
+    @PostMapping(value = "/ad-agent", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public AdAgent saveAdAgent(@RequestBody @Valid CreateAdAgentDto createAdAgentDto) throws Exception {
+        return service.saveAdAgent(createAdAgentDto);
+    }
+
+    @GetMapping(value = "/ad-agent/{id}")
+    public AdAgent findAdAgentById(@PathVariable @NotNull Long id) throws Exception {
+        return service.findAdAgentById(id);
+    }
+
+    @GetMapping(value = "/ad-agents")
+    public List<AdAgent> findAllAdAgents() {
+        return service.findAllAdAgents();
     }
 }

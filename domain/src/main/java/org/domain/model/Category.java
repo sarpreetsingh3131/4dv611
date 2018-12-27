@@ -13,6 +13,7 @@ import javax.persistence.Id;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 public class Category {
 
     @Id

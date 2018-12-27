@@ -75,4 +75,10 @@ public class ConsumerController {
                                                @RequestBody @Valid NoteDto noteDto) throws Exception {
         return service.addNoteOnManual(noteDto, token);
     }
+
+    @GetMapping(value = "/service-providers")
+    public List<ServiceProviderDto> findAllServiceProviders(@RequestHeader("Authorization")
+                                                            @NotBlank String token) throws Exception {
+        return service.findAllServiceProviders(token);
+    }
 }

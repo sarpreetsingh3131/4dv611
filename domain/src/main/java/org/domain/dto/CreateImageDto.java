@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class CreateImageDto {
 
-    @NotBlank(message = "Manual data is missing")
+    @NotBlank(message = "data is missing")
     private String data;
 
     public String getBase64Binary() {

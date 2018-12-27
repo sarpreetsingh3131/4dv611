@@ -7,10 +7,10 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class CreateManualDto {
 
-    @NotBlank(message = "Manual data is missing")
+    @NotBlank(message = "data is missing")
     private String data;
 
-    @NotBlank(message = "Manual description is missing")
+    @NotBlank(message = "description is missing")
     private String description;
 
     public String getBase64Binary() {

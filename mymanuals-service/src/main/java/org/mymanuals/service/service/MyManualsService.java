@@ -47,7 +47,7 @@ public class MyManualsService {
 
     public ProductWithoutBadgeDto findProductWithoutBadge(Long id) throws Exception {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new Exception("No product with id = " + id));
+                .orElseThrow(() -> new Exception("no product with id = " + id));
         product.setViews(product.getViews() + 1);
         return converter.toProductWithoutBadgeDto(productRepository.save(product));
     }

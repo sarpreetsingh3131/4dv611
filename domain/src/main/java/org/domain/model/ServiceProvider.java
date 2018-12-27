@@ -11,6 +11,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 public class ServiceProvider {
 
     @Id
@@ -38,4 +39,12 @@ public class ServiceProvider {
     @ManyToOne
     @JsonIgnore
     private Company company;
+
+    @NonNull
+    @Column(nullable = false)
+    private String email;
+
+    @NonNull
+    @Column(nullable = false)
+    private Integer phone;
 }

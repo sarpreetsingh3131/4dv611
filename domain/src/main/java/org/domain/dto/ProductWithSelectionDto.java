@@ -9,6 +9,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
+@ToString
 public class ProductWithSelectionDto {
 
     @NonNull

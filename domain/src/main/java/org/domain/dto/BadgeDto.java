@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 @Data
 public class BadgeDto {
 
-    @NotNull(message = "Badge is missing")
+    @NotNull(message = "badge is missing")
     private Boolean badge;
 
-    @NotNull(message = "Product id is missing")
+    @NotNull(message = "productId is missing")
     private Long productId;
 }

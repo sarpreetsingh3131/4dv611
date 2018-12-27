@@ -8,16 +8,16 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class CreateConsumerDto {
 
-    @NotBlank(message = "Consumer name is missing")
+    @NotBlank(message = "name is missing")
     private String name;
 
-    @NotBlank(message = "Consumer username is missing")
+    @NotBlank(message = "username is missing")
     private String username;
 
-    @NotBlank(message = "Consumer password is missing")
+    @NotBlank(message = "password is missing")
     private String password;
 
-    @NotBlank(message = "Consumer email is missing")
-    @Email(message = "Consumer email is invalid")
+    @NotBlank(message = "email is missing")
+    @Email(message = "email is invalid")
     private String email;
 }

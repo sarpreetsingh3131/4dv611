@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 @Data
 public class EmailDto {
 
-    @NotNull(message = "Subject is missing")
+    @NotNull(message = "subject is missing")
     private String subject;
 
-    @NotNull(message = "Body is missing")
+    @NotNull(message = "body is missing")
     private String body;
 }

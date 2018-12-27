@@ -7,15 +7,15 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class CreateCompanyDto {
 
-    @NotBlank(message = "Company name is missing")
+    @NotBlank(message = "name is missing")
     private String name;
 
-    @NotBlank(message = "Company description is missing")
+    @NotBlank(message = "description is missing")
     private String description;
 
-    @NotBlank(message = "Company username is missing")
+    @NotBlank(message = "username is missing")
     private String username;
 
-    @NotBlank(message = "Company password is missing")
+    @NotBlank(message = "password is missing")
     private String password;
 }

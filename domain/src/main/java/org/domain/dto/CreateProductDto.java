@@ -9,21 +9,21 @@ import java.util.List;
 @Data
 public class CreateProductDto {
 
-    @NotBlank(message = "Product name is missing")
+    @NotBlank(message = "name is missing")
     private String name;
 
-    @NotBlank(message = "Product model is missing")
+    @NotBlank(message = "model is missing")
     private String model;
 
-    @NotNull(message = "Product category id is missing")
+    @NotNull(message = "categoryId is missing")
     private Long categoryId;
 
-    @NotNull(message = "Product primary image is missing")
+    @NotNull(message = "primaryImage is missing")
     private CreateImageDto primaryImage;
 
-    @NotNull(message = "Product secondary images are missing")
+    @NotNull(message = "secondaryImages are missing")
     private List<CreateImageDto> secondaryImages;
 
-    @NotNull(message = "Product manuals are missing")
+    @NotNull(message = "manuals are missing")
     private List<CreateManualDto> manuals;
 }

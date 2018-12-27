@@ -1,12 +1,10 @@
 package org.consumer.service.service;
 
 import org.domain.converter.ProductConverter;
+import org.domain.converter.ServiceProviderConverter;
 import org.domain.dto.*;
 import org.domain.model.*;
-import org.domain.repository.ConsumerRepository;
-import org.domain.repository.NoteRepository;
-import org.domain.repository.ProductRepository;
-import org.domain.repository.RatingRepository;
+import org.domain.repository.*;
 import org.domain.service.ManualService;
 import org.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +29,19 @@ public class ConsumerService {
     private RatingRepository ratingRepository;
 
     @Autowired
+    private ServiceProviderRepository serviceProviderRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
     private ManualService manualService;
 
     @Autowired
-    private ProductConverter converter;
+    private ProductConverter productConverter;
+
+    @Autowired
+    private ServiceProviderConverter serviceProviderConverter;
 
     public Consumer signUp(CreateConsumerDto createConsumerDto) throws Exception {
         userService.verifyUsername(createConsumerDto.getUsername());
@@ -66,7 +70,7 @@ public class ConsumerService {
     }
 
     public List<ProductWithoutBadgeDto> findInterestedProducts(String token) throws Exception {
-        return converter.toProductWithoutBadgeDto(userService.findConsumer(token).getProducts());
+        return productConverter.toProductWithoutBadgeDto(userService.findConsumer(token).getProducts());
     }
 
     public ProductWithBadgeDto updateBadge(BadgeDto badgeDto, String token) throws Exception {
@@ -78,32 +82,37 @@ public class ConsumerService {
             consumer.getProducts().remove(product);
         }
         consumerRepository.save(consumer);
-        return converter.toProductWithBadgeDto(product, consumer);
+        return productConverter.toProductWithBadgeDto(product, consumer);
     }
 
     public ProductWithBadgeDto findProductWithBadge(Long id, String token) throws Exception {
         Consumer consumer = userService.findConsumer(token);
         Product product = findProductById(id);
         product.setViews(product.getViews() + 1);
-        return converter.toProductWithBadgeDto(productRepository.save(product), consumer);
+        return productConverter.toProductWithBadgeDto(productRepository.save(product), consumer);
     }
 
     public ProductWithBadgeDto rateAManual(RatingDto ratingDto, String token) throws Exception {
         Consumer consumer = userService.findConsumer(token);
         Rating rating = ratingRepository.save(new Rating(ratingDto.getRating(), consumer,
                 manualService.findById(ratingDto.getManualId())));
-        return converter.toProductWithBadgeDto(rating.getManual().getProduct(), consumer);
+        return productConverter.toProductWithBadgeDto(rating.getManual().getProduct(), consumer);
     }
 
     public ProductWithBadgeDto addNoteOnManual(NoteDto noteDto, String token) throws Exception {
         Consumer consumer = userService.findConsumer(token);
         Manual manual = manualService.findById(noteDto.getManualId());
         noteRepository.save(new Note(noteDto.getNote(), manual, consumer));
-        return converter.toProductWithBadgeDto(manual.getProduct(), consumer);
+        return productConverter.toProductWithBadgeDto(manual.getProduct(), consumer);
+    }
+
+    public List<ServiceProviderDto> findAllServiceProviders(String token) throws Exception {
+        Consumer consumer = userService.findConsumer(token);
+        return serviceProviderConverter.toServiceProviderDtos(serviceProviderRepository.findAll());
     }
 
     private Product findProductById(Long id) throws Exception {
         return productRepository.findById(id)
-                .orElseThrow(() -> new Exception("No product with id = " + id));
+                .orElseThrow(() -> new Exception("no product with id = " + id));
     }
 }

@@ -46,7 +46,7 @@ public class RepresentativeService {
     private EmailService emailService;
 
     @Autowired
-    private ProductConverter converter;
+    private ProductConverter productConverter;
 
     public String logIn(CredentialDto credentialDto) throws Exception {
         return userService.logInAsRepresentative(credentialDto);
@@ -60,7 +60,7 @@ public class RepresentativeService {
         Product product = productRepository.save((new Product(
                 createProductDto.getName(), createProductDto.getModel(),
                 categoryRepository.findById(createProductDto.getCategoryId())
-                        .orElseThrow(() -> new Exception("No category with id = " + createProductDto.getCategoryId())),
+                        .orElseThrow(() -> new Exception("no category with id = " + createProductDto.getCategoryId())),
                 userService.findRepresentative(token).getCompany(), 0)));
         try {
             product.setPrimaryImage(imageService.save(createProductDto.getPrimaryImage(), product));
@@ -70,23 +70,23 @@ public class RepresentativeService {
             productRepository.delete(product);
             throw new Exception(e);
         }
-        return converter.toProductWithoutBadgeDto(product);
+        return productConverter.toProductWithoutBadgeDto(product);
     }
 
     public ProductWithoutBadgeDto deleteImageById(Long id, String token) throws Exception {
-        return converter.toProductWithoutBadgeDto(
+        return productConverter.toProductWithoutBadgeDto(
                 imageService.deleteById(id, userService.findRepresentative(token))
                         .getProduct());
     }
 
     public ProductWithoutBadgeDto deleteManualById(Long id, String token) throws Exception {
-        return converter.toProductWithoutBadgeDto(
+        return productConverter.toProductWithoutBadgeDto(
                 manualService.deleteById(id, userService.findRepresentative(token))
                         .getProduct());
     }
 
     public List<ProductWithSelectionDto> findProductsWithSelection(String token) throws Exception {
-        return converter.toProductWithSelectionDto(
+        return productConverter.toProductWithSelectionDto(
                 productRepository.findByCompanyId(userService.findRepresentative(token).getCompany().getId()),
                 consumerRepository.findAll());
     }
@@ -96,7 +96,7 @@ public class RepresentativeService {
         Representative representative = userService.findRepresentative(token);
         ServiceProvider serviceProvider = serviceProviderRepository.findByIdAndCompanyId(
                 serviceProviderAuthorizationDto.getServiceProviderId(), representative.getCompany().getId())
-                .orElseThrow(() -> new Exception("No service provider with id = " +
+                .orElseThrow(() -> new Exception("no service provider with id = " +
                         serviceProviderAuthorizationDto.getServiceProviderId()));
         serviceProvider.setAuthorization(serviceProviderAuthorizationDto.getAuthorization());
         return serviceProviderRepository.save(serviceProvider);

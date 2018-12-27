@@ -12,6 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 public class Consumer {
 
     @Id

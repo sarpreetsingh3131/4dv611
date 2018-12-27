@@ -52,6 +52,12 @@
             <artifactId>system-admin-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>mymanuals</groupId>
+            <artifactId>ad-agent-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

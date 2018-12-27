@@ -89,5 +89,6 @@
         <module>mymanuals-service</module>
         <module>service-provider-service</module>
         <module>system-admin-service</module>
+        <module>ad-agent-service</module>
     </modules>
 </project>

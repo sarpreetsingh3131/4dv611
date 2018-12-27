@@ -42,7 +42,7 @@ public class FileHandler {
             fop.flush();
             fop.close();
         } catch (Exception e) {
-            throw new Exception("Cannot write image to path = " + file.getPath());
+            throw new Exception("cannot write image to path = " + file.getPath());
         }
         return HOST + file.getAbsolutePath().replace(DIR, "");
     }

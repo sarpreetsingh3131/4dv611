@@ -50,7 +50,8 @@ public class CompanyService {
         return serviceProviderRepository.save(new ServiceProvider(
                 createServiceProviderDto.getName(), createServiceProviderDto.getUsername(),
                 createServiceProviderDto.getPassword(), createServiceProviderDto.getAuthorization(),
-                userService.findCompany(token)));
+                userService.findCompany(token), createServiceProviderDto.getEmail(),
+                createServiceProviderDto.getPhone()));
     }
 
     public List<ServiceProvider> findAllServiceProviders(String token) throws Exception {

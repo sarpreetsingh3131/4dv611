@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 @Data
 public class NoteDto {
 
-    @NotNull(message = "Note manual id is missing")
+    @NotNull(message = "manualId is missing")
     private Long manualId;
 
-    @NotNull(message = "Note note is missing")
+    @NotNull(message = "note is missing")
     private String note;
 }

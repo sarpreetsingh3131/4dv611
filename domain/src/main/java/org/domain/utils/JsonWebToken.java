@@ -39,12 +39,12 @@ public class JsonWebToken {
     public String revoke(String token) throws Exception {
         isValid(token);
         tokens.remove(token);
-        return "{\"message\": \"Logged out successfully\"}";
+        return "{\"message\": \"logged out successfully\"}";
     }
 
     private void isValid(String token) throws Exception {
         if (!tokens.contains(token)) {
-            throw new Exception("Invalid token");
+            throw new Exception("invalid token");
         }
     }
 }

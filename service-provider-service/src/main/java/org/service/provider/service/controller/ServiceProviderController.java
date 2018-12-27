@@ -2,6 +2,8 @@ package org.service.provider.service.controller;
 
 import org.domain.dto.CredentialDto;
 import org.domain.dto.EmailDto;
+import org.domain.dto.UpdateServiceProviderDto;
+import org.domain.model.ServiceProvider;
 import org.service.provider.service.service.ServiceProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,5 +34,11 @@ public class ServiceProviderController {
     public String sendEmail(@RequestBody @Valid EmailDto emailDto,
                             @RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.sendEmail(emailDto, token);
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ServiceProvider updateEmailAndPhone(@RequestBody @Valid UpdateServiceProviderDto updateServiceProviderDto,
+                                  @RequestHeader("Authorization") @NotBlank String token) throws Exception {
+        return service.updateEmailAndPhone(updateServiceProviderDto, token);
     }
 }

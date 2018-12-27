@@ -11,6 +11,7 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 public class Rating {
 
     @Id

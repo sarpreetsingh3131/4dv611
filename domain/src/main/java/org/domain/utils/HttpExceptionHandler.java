@@ -8,15 +8,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 @ControllerAdvice
 public class HttpExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseEntity<MyError> defaultErrorHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
+    public ResponseEntity<MyError> defaultErrorHandler(Exception e) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new MyError(e.getMessage()));
@@ -26,6 +23,6 @@ public class HttpExceptionHandler {
     private class MyError {
 
         @NonNull
-        private String error;
+        private String message;
     }
 }

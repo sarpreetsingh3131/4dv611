@@ -1,5 +1,6 @@
 package org.mymanuals.service;
 
+import org.ad.agent.service.AdAgentServiceMain;
 import org.company.service.CompanyServiceMain;
 import org.consumer.service.ConsumerServiceMain;
 import org.domain.DomainMain;
@@ -19,7 +20,7 @@ public class MyManualsServiceMain {
                 .sources(DomainMain.class, CompanyServiceMain.class,
                         ConsumerServiceMain.class, RepresentativeServiceMain.class,
                         MyManualsServiceMain.class, ServiceProviderServiceMain.class,
-                        SystemAdminServiceMain.class)
+                        SystemAdminServiceMain.class, AdAgentServiceMain.class)
                 .run(args);
     }
 }

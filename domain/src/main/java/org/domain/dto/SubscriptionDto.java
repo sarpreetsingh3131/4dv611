@@ -7,6 +7,6 @@ import javax.validation.constraints.NotNull;
 @Data
 public class SubscriptionDto {
 
-    @NotNull(message = "Subscription is missing")
+    @NotNull(message = "subscription is missing")
     private Boolean subscription;
 }
