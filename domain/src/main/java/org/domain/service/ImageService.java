@@ -35,7 +35,7 @@ public class ImageService {
 
     public Image findById(Long id) throws Exception {
         return imageRepository.findById(id)
-                .orElseThrow(() -> new Exception("No image with id = " + id));
+                .orElseThrow(() -> new Exception("no image with id = " + id));
     }
 
     public Image deleteById(Long id, Representative representative) throws Exception {
@@ -45,6 +45,6 @@ public class ImageService {
             imageRepository.delete(image);
             return image;
         }
-        throw new Exception("Unauthorized representative");
+        throw new Exception("unauthorized representative");
     }
 }

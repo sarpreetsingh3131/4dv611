@@ -62,12 +62,12 @@ public class SystemAdminService {
     public AdAgent saveAdAgent(CreateAdAgentDto createAdAgentDto) throws Exception {
         userService.verifyUsername(createAdAgentDto.getUsername());
         return adAgentRepository.save(new AdAgent(
-           createAdAgentDto.getName(), createAdAgentDto.getUsername(),
-           createAdAgentDto.getPassword(), createAdAgentDto.getEmail()));
+                createAdAgentDto.getName(), createAdAgentDto.getUsername(),
+                createAdAgentDto.getPassword(), createAdAgentDto.getEmail()));
     }
 
     public List<AdAgent> findAllAdAgents() {
-        return  adAgentRepository.findAll();
+        return adAgentRepository.findAll();
     }
 
     public AdAgent findAdAgentById(Long id) throws Exception {

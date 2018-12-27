@@ -94,8 +94,8 @@ public class ConsumerService {
 
     public ProductWithBadgeDto rateAManual(RatingDto ratingDto, String token) throws Exception {
         Consumer consumer = userService.findConsumer(token);
-        Rating rating = ratingRepository.save(new Rating(ratingDto.getRating(), consumer,
-                manualService.findById(ratingDto.getManualId())));
+        Rating rating = ratingRepository.save(new Rating(
+                ratingDto.getRating(), consumer, manualService.findById(ratingDto.getManualId())));
         return productConverter.toProductWithBadgeDto(rating.getManual().getProduct(), consumer);
     }
 

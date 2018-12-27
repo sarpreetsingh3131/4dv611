@@ -17,7 +17,8 @@ public class ServiceProviderConverter {
     }
 
     public ServiceProviderDto toServiceProviderDto(ServiceProvider serviceProvider) {
-        return new ServiceProviderDto(serviceProvider.getName(), serviceProvider.getEmail(),
+        return new ServiceProviderDto(
+                serviceProvider.getName(), serviceProvider.getEmail(),
                 serviceProvider.getPhone(), serviceProvider.getCompany().getName());
     }
 }

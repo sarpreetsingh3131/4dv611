@@ -32,9 +32,8 @@ public class ProductConverter {
 
     public ProductWithBadgeDto toProductWithBadgeDto(Product product, Consumer consumer) {
         return new ProductWithBadgeDto(
-                product.getId(), product.getName(), product.getModel(),
-                product.getCategory(), product.getPrimaryImage(),
-                product.getSecondaryImages(),
+                product.getId(), product.getName(), product.getModel(), product.getCategory(),
+                product.getPrimaryImage(), product.getSecondaryImages(),
                 manualConverter.manualToManualWithNoteDtos(product.getManuals(), consumer),
                 consumer.getProducts().contains(product), product.getViews());
     }

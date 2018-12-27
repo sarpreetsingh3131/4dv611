@@ -32,19 +32,22 @@ public class RepresentativeController {
 
     @PostMapping(value = "/product", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ProductWithoutBadgeDto saveProduct(@RequestBody @Valid CreateProductDto createProductDto,
-                                              @RequestHeader("Authorization") @NotBlank String token) throws Exception {
+                                              @RequestHeader("Authorization")
+                                              @NotBlank String token) throws Exception {
         return service.saveProduct(createProductDto, token);
     }
 
     @DeleteMapping(value = "/product/image/{id}")
     public ProductWithoutBadgeDto deleteImageById(@PathVariable @NotNull Long id,
-                                                  @RequestHeader("Authorization") @NotBlank String token) throws Exception {
+                                                  @RequestHeader("Authorization")
+                                                  @NotBlank String token) throws Exception {
         return service.deleteImageById(id, token);
     }
 
     @DeleteMapping(value = "/product/manual/{id}")
     public ProductWithoutBadgeDto deleteManualById(@PathVariable @NotNull Long id,
-                                                   @RequestHeader("Authorization") @NotBlank String token) throws Exception {
+                                                   @RequestHeader("Authorization")
+                                                   @NotBlank String token) throws Exception {
         return service.deleteManualById(id, token);
     }
 

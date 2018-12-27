@@ -23,7 +23,8 @@ public class ManualService {
 
     public Manual save(CreateManualDto createManualDto, Product product) throws Exception {
         return manualRepository.save((new Manual(
-                fileHandler.writeFile(createManualDto), createManualDto.getDescription(), 0, product)));
+                fileHandler.writeFile(createManualDto),
+                createManualDto.getDescription(), 0, product)));
     }
 
     public List<Manual> saveAll(List<CreateManualDto> createManualDtos, Product product) throws Exception {
@@ -36,17 +37,17 @@ public class ManualService {
 
     public Manual findById(Long id) throws Exception {
         return manualRepository.findById(id)
-                .orElseThrow(() -> new Exception("No manual with id " + id));
+                .orElseThrow(() -> new Exception("no manual with id " + id));
     }
 
     public Manual deleteById(Long id, Representative representative) throws Exception {
         Manual manual = findById(id);
-        if (!manualRepository.findByProductCompanyId(representative.getCompany().getId()).contains(manual)) {
-            throw new Exception("Unauthorized representative");
+        if (manualRepository.findByProductCompanyId(representative.getCompany().getId()).contains(manual)) {
+            fileHandler.deleteFile(manual);
+            manualRepository.delete(manual);
+            return manual;
         }
-        fileHandler.deleteFile(manual);
-        manualRepository.delete(manual);
-        return manual;
+        throw new Exception("unauthorized representative");
     }
 
     public Manual update(Manual manual) {

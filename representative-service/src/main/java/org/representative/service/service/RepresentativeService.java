@@ -2,6 +2,7 @@ package org.representative.service.service;
 
 import org.domain.converter.ProductConverter;
 import org.domain.dto.*;
+import org.domain.model.Category;
 import org.domain.model.Product;
 import org.domain.model.Representative;
 import org.domain.model.ServiceProvider;
@@ -58,9 +59,7 @@ public class RepresentativeService {
 
     public ProductWithoutBadgeDto saveProduct(CreateProductDto createProductDto, String token) throws Exception {
         Product product = productRepository.save((new Product(
-                createProductDto.getName(), createProductDto.getModel(),
-                categoryRepository.findById(createProductDto.getCategoryId())
-                        .orElseThrow(() -> new Exception("no category with id = " + createProductDto.getCategoryId())),
+                createProductDto.getName(), createProductDto.getModel(), findCategoryById(createProductDto),
                 userService.findRepresentative(token).getCompany(), 0)));
         try {
             product.setPrimaryImage(imageService.save(createProductDto.getPrimaryImage(), product));
@@ -91,13 +90,11 @@ public class RepresentativeService {
                 consumerRepository.findAll());
     }
 
-    public ServiceProvider updateServiceProviderAuthorization(ServiceProviderAuthorizationDto serviceProviderAuthorizationDto,
+    public ServiceProvider updateServiceProviderAuthorization(ServiceProviderAuthorizationDto
+                                                                      serviceProviderAuthorizationDto,
                                                               String token) throws Exception {
-        Representative representative = userService.findRepresentative(token);
-        ServiceProvider serviceProvider = serviceProviderRepository.findByIdAndCompanyId(
-                serviceProviderAuthorizationDto.getServiceProviderId(), representative.getCompany().getId())
-                .orElseThrow(() -> new Exception("no service provider with id = " +
-                        serviceProviderAuthorizationDto.getServiceProviderId()));
+        ServiceProvider serviceProvider = findServiceProviderByIdAndCompanyId(
+                serviceProviderAuthorizationDto, userService.findRepresentative(token));
         serviceProvider.setAuthorization(serviceProviderAuthorizationDto.getAuthorization());
         return serviceProviderRepository.save(serviceProvider);
     }
@@ -109,5 +106,19 @@ public class RepresentativeService {
 
     public List<ServiceProvider> findAllServiceProviders(String token) throws Exception {
         return serviceProviderRepository.findByCompanyId(userService.findRepresentative(token).getCompany().getId());
+    }
+
+    private ServiceProvider findServiceProviderByIdAndCompanyId(ServiceProviderAuthorizationDto
+                                                                        serviceProviderAuthorizationDto,
+                                                                Representative representative) throws Exception {
+        return serviceProviderRepository.findByIdAndCompanyId(
+                serviceProviderAuthorizationDto.getServiceProviderId(), representative.getCompany().getId())
+                .orElseThrow(() -> new Exception(
+                        "no service provider with id = " + serviceProviderAuthorizationDto.getServiceProviderId()));
+    }
+
+    private Category findCategoryById(CreateProductDto createProductDto) throws Exception {
+        return categoryRepository.findById(createProductDto.getCategoryId())
+                .orElseThrow(() -> new Exception("no category with id = " + createProductDto.getCategoryId()));
     }
 }

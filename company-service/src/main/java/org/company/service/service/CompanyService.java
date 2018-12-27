@@ -33,7 +33,8 @@ public class CompanyService {
         return userService.logOutAsCompany(token);
     }
 
-    public Representative saveRepresentative(CreateRepresentativeDto createRepresentativeDto, String token) throws Exception {
+    public Representative saveRepresentative(CreateRepresentativeDto createRepresentativeDto,
+                                             String token) throws Exception {
         userService.verifyUsername(createRepresentativeDto.getUsername());
         return representativeRepository.save(new Representative(
                 createRepresentativeDto.getName(), createRepresentativeDto.getUsername(),

@@ -39,7 +39,8 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/representatives")
-    public List<Representative> findAllRepresentatives(@RequestHeader("Authorization") @NotBlank String token) throws Exception {
+    public List<Representative> findAllRepresentatives(@RequestHeader("Authorization")
+                                                       @NotBlank String token) throws Exception {
         return service.findAllRepresentatives(token);
     }
 

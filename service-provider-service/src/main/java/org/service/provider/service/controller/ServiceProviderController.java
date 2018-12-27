@@ -38,7 +38,7 @@ public class ServiceProviderController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ServiceProvider updateEmailAndPhone(@RequestBody @Valid UpdateServiceProviderDto updateServiceProviderDto,
-                                  @RequestHeader("Authorization") @NotBlank String token) throws Exception {
+                                               @RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.updateEmailAndPhone(updateServiceProviderDto, token);
     }
 }

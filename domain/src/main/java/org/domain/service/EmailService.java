@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class EmailService {
 
-    private final Email FROM = new Email("sb223ce@student.lnu.se");
+    private final Email FROM = new Email("ma224wv@student.lnu.se");
 
     public String send(List<Consumer> consumers, EmailDto emailDto) throws Exception {
         Mail mail = new Mail(FROM, emailDto.getSubject(), FROM, new Content("text/plain", emailDto.getBody()));
