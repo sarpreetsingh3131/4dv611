@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface AdAgentRepository extends JpaRepository<AdAgent, Long> {
 
     Optional<AdAgent> findByUsername(String username);
+
+    Optional<AdAgent> findByUsernameAndPassword(String username, String password);
 }

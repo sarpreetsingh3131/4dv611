@@ -54,6 +54,12 @@ public class UserService {
         return jsonWebToken.assign(credentialDto);
     }
 
+    public String logInAsAdAgent(CredentialDto credentialDto) throws Exception {
+        adAgentRepository.findByUsernameAndPassword(credentialDto.getUsername(), credentialDto.getPassword())
+                .orElseThrow(() -> new Exception("invalid credentials"));
+        return jsonWebToken.assign(credentialDto);
+    }
+
     public String logOutAsCompany(String token) throws Exception {
         findCompany(token);
         return jsonWebToken.revoke(token);
@@ -74,6 +80,11 @@ public class UserService {
         return jsonWebToken.revoke(token);
     }
 
+    public String logOutAsAdAgent(String token) throws Exception {
+        findAdAgent(token);
+        return jsonWebToken.revoke(token);
+    }
+
     public Company findCompany(String token) throws Exception {
         return companyRepository.findByUsername(jsonWebToken.parse(token))
                 .orElseThrow(() -> new Exception("invalid token"));
@@ -91,6 +102,11 @@ public class UserService {
 
     public ServiceProvider findServiceProvider(String token) throws Exception {
         return serviceProviderRepository.findByUsername(jsonWebToken.parse(token))
+                .orElseThrow(() -> new Exception("invalid token"));
+    }
+
+    public AdAgent findAdAgent(String token) throws Exception {
+        return adAgentRepository.findByUsername(jsonWebToken.parse(token))
                 .orElseThrow(() -> new Exception("invalid token"));
     }
 
