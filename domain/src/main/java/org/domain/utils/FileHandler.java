@@ -1,5 +1,6 @@
 package org.domain.utils;
 
+import org.domain.dto.CreateAdvertisementDto;
 import org.domain.dto.CreateImageDto;
 import org.domain.dto.CreateManualDto;
 import org.domain.model.Image;
@@ -24,6 +25,10 @@ public class FileHandler {
 
     public String writeFile(CreateManualDto createManualDto) throws Exception {
         return writeFile(createManualDto.getBase64Binary(), createManualDto.getExtension());
+    }
+
+    public String writeFile(CreateAdvertisementDto createAdvertisementDto) throws Exception {
+        return writeFile(createAdvertisementDto.getBase64Binary(), createAdvertisementDto.getExtension());
     }
 
     public Boolean deleteFile(Image image) throws Exception {
