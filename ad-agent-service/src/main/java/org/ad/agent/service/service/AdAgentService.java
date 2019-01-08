@@ -9,6 +9,8 @@ import org.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdAgentService {
 
@@ -32,5 +34,9 @@ public class AdAgentService {
     public Advertisement saveAdvertisement(CreateAdvertisementDto createAdvertisementDto, String token) throws Exception {
         Advertisement advertisement = advertisementService.save(createAdvertisementDto, userService.findAdAgent(token));
         return advertisement;
+    }
+
+    public List<Advertisement> getAllAdAgentAdvertisements(String token) throws Exception {
+        return advertisementService.getAllAgentAdvertisements(userService.findAdAgent(token));
     }
 }

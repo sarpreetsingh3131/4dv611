@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/ad-agent", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,5 +34,11 @@ public class AdAgentController {
                                            @RequestHeader("Authorization")
                                            @NotBlank String token) throws Exception {
         return service.saveAdvertisement(createAdvertisementDto, token);
+    }
+
+    @GetMapping(value = "/advertisement", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<Advertisement> getAllAdAgentAdvertisements(@RequestHeader("Authorization")
+                                                           @NotBlank String token) throws Exception{
+        return service.getAllAdAgentAdvertisements(token);
     }
 }

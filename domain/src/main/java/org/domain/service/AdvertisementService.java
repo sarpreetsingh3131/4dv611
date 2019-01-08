@@ -8,6 +8,8 @@ import org.domain.utils.FileHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdvertisementService {
 
@@ -23,5 +25,9 @@ public class AdvertisementService {
                 createAdvertisementDto.getAdvertisementText(),
                 adAgent)
         ));
+    }
+
+    public List<Advertisement> getAllAgentAdvertisements(AdAgent adAgent) throws Exception {
+        return advertisementRepository.findByAdAgentId(adAgent.getId());
     }
 }
