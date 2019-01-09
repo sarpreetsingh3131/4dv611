@@ -23,6 +23,7 @@ public class AdvertisementService {
         return advertisementRepository.save((new Advertisement(
                 fileHandler.writeFile(createAdvertisementDto),
                 createAdvertisementDto.getAdvertisementText(),
+                0,
                 adAgent)
         ));
     }

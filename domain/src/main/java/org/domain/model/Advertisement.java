@@ -27,6 +27,10 @@ public class Advertisement {
     private String advertisementText;
 
     @NonNull
+    @Column(nullable = false)
+    private Integer views;
+
+    @NonNull
     @ManyToOne
     @JsonIgnore
     private AdAgent adAgent;
