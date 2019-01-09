@@ -1,20 +1,20 @@
 package org.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
-@ToString
 public class Company {
 
     @Id

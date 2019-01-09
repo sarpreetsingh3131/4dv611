@@ -1,12 +1,13 @@
 package org.domain.dto;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-@ToString
+@Data
 public class ManualDto {
 
     @NonNull

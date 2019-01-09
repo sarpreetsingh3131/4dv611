@@ -48,7 +48,8 @@ public class ConsumerService {
         return consumerRepository.save(new Consumer(
                 createConsumerDto.getName(), createConsumerDto.getUsername(),
                 createConsumerDto.getPassword(), createConsumerDto.getEmail(),
-                false, new LinkedList<>()));
+                false, new LinkedList<>()
+        ));
     }
 
     public String logIn(CredentialDto credentialDto) throws Exception {
@@ -95,7 +96,9 @@ public class ConsumerService {
     public ProductWithBadgeDto rateAManual(RatingDto ratingDto, String token) throws Exception {
         Consumer consumer = userService.findConsumer(token);
         Rating rating = ratingRepository.save(new Rating(
-                ratingDto.getRating(), consumer, manualService.findById(ratingDto.getManualId())));
+                ratingDto.getRating(), consumer,
+                manualService.findById(ratingDto.getManualId())
+        ));
         return productConverter.toProductWithBadgeDto(rating.getManual().getProduct(), consumer);
     }
 
@@ -106,9 +109,13 @@ public class ConsumerService {
         return productConverter.toProductWithBadgeDto(manual.getProduct(), consumer);
     }
 
-    public List<ServiceProviderDto> findAllServiceProviders(String token) throws Exception {
+    public List<ServiceProviderDto> findServiceProvidersByProductId(Long id, String token) throws Exception {
         Consumer consumer = userService.findConsumer(token);
-        return serviceProviderConverter.toServiceProviderDtos(serviceProviderRepository.findAll());
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new Exception("no product with id = " + id));
+        return serviceProviderConverter.toServiceProviderDtos(
+                serviceProviderRepository.findByCompanyId(product.getCompany().getId())
+        );
     }
 
     private Product findProductById(Long id) throws Exception {

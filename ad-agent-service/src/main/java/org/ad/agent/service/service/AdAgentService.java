@@ -3,7 +3,6 @@ package org.ad.agent.service.service;
 import org.domain.dto.CreateAdvertisementDto;
 import org.domain.dto.CredentialDto;
 import org.domain.model.Advertisement;
-import org.domain.repository.AdvertisementRepository;
 import org.domain.service.AdvertisementService;
 import org.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,7 @@ import java.util.List;
 public class AdAgentService {
 
     @Autowired
-    private AdvertisementRepository advertisementRepository;
-
-    @Autowired
     private AdvertisementService advertisementService;
-
     @Autowired
     private UserService userService;
 
@@ -32,11 +27,10 @@ public class AdAgentService {
     }
 
     public Advertisement saveAdvertisement(CreateAdvertisementDto createAdvertisementDto, String token) throws Exception {
-        Advertisement advertisement = advertisementService.save(createAdvertisementDto, userService.findAdAgent(token));
-        return advertisement;
+        return advertisementService.save(createAdvertisementDto, userService.findAdAgent(token));
     }
 
-    public List<Advertisement> getAllAdAgentAdvertisements(String token) throws Exception {
-        return advertisementService.getAllAgentAdvertisements(userService.findAdAgent(token));
+    public List<Advertisement> findAdvertisementsByAgentId(String token) throws Exception {
+        return advertisementService.findByAgentId(userService.findAdAgent(token).getId());
     }
 }

@@ -3,21 +3,14 @@ package org.domain.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 public class CreateAdvertisementDto {
 
-    @NotBlank(message = "data is missing")
-    private String data;
+    @NotNull(message = "image is missing")
+    private CreateImageDto image;
 
-    @NotBlank(message = "text is missing")
-    private String advertisementText;
-
-    public String getBase64Binary() {
-        return data.split(",")[1];
-    }
-
-    public String getExtension() {
-        return "." + data.split(",")[0].split("/")[1].split(";")[0];
-    }
+    @NotBlank(message = "title is missing")
+    private String title;
 }

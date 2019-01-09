@@ -41,4 +41,9 @@ public class ServiceProviderController {
                                                @RequestHeader("Authorization") @NotBlank String token) throws Exception {
         return service.updateEmailAndPhone(updateServiceProviderDto, token);
     }
+
+    @GetMapping("/profile")
+    public ServiceProvider findProfile(@RequestHeader("Authorization") @NotBlank String token) throws Exception {
+        return service.findProfile(token);
+    }
 }

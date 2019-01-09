@@ -116,8 +116,8 @@ public class UserService {
         Optional<Consumer> consumer = consumerRepository.findByUsername(username);
         Optional<ServiceProvider> serviceProvider = serviceProviderRepository.findByUsername(username);
         Optional<AdAgent> adAgent = adAgentRepository.findByUsername(username);
-        if (company.isPresent() || representative.isPresent() || consumer.isPresent()
-                || serviceProvider.isPresent() || adAgent.isPresent()) {
+        if (company.isPresent() || representative.isPresent() || consumer.isPresent() ||
+                serviceProvider.isPresent() || adAgent.isPresent()) {
             throw new Exception("user already exists with username = " + username);
         }
     }

@@ -1,6 +1,7 @@
 package org.mymanuals.service.controller;
 
 import org.domain.dto.ProductWithoutBadgeDto;
+import org.domain.model.Advertisement;
 import org.domain.model.Manual;
 import org.mymanuals.service.service.MyManualsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,10 @@ public class MyManualsController {
     @GetMapping(value = "/product/manual/view/{id}")
     public Manual updateManualView(@PathVariable @NotNull Long id) throws Exception {
         return service.updateManualViews(id);
+    }
+
+    @GetMapping(value = "/advertisement")
+    public Advertisement findRandomAdvertisement() throws Exception {
+        return service.findRandomAdvertisement();
     }
 }

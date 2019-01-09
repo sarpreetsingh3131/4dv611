@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AdvertisementRepository extends JpaRepository<Advertisement, Long>{
+public interface AdvertisementRepository extends JpaRepository<Advertisement, Long> {
 
     List<Advertisement> findByAdAgentId(Long id);
 }

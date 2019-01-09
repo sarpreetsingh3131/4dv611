@@ -1,17 +1,17 @@
 package org.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
-@ToString
 public class Note {
 
     @Id

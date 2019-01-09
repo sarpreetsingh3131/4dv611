@@ -1,7 +1,8 @@
 package org.ad.agent.service.controller;
 
-import org.domain.dto.*;
 import org.ad.agent.service.service.AdAgentService;
+import org.domain.dto.CreateAdvertisementDto;
+import org.domain.dto.CredentialDto;
 import org.domain.model.Advertisement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -36,9 +37,9 @@ public class AdAgentController {
         return service.saveAdvertisement(createAdvertisementDto, token);
     }
 
-    @GetMapping(value = "/advertisement", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<Advertisement> getAllAdAgentAdvertisements(@RequestHeader("Authorization")
-                                                           @NotBlank String token) throws Exception{
-        return service.getAllAdAgentAdvertisements(token);
+    @GetMapping(value = "/advertisements")
+    public List<Advertisement> findAdvertisementsByAgentId(@RequestHeader("Authorization")
+                                                           @NotBlank String token) throws Exception {
+        return service.findAdvertisementsByAgentId(token);
     }
 }

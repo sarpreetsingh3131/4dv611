@@ -7,6 +7,9 @@ import lombok.NonNull;
 public class ServiceProviderDto {
 
     @NonNull
+    private Long id;
+
+    @NonNull
     private String name;
 
     @NonNull

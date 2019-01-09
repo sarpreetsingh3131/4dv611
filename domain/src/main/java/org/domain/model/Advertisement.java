@@ -1,17 +1,17 @@
 package org.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
-@ToString
 public class Advertisement {
 
     @Id
@@ -20,11 +20,11 @@ public class Advertisement {
 
     @NonNull
     @Column(nullable = false)
-    private String url;
+    private String imageUrl;
 
     @NonNull
     @Column(nullable = false)
-    private String advertisementText;
+    private String title;
 
     @NonNull
     @Column(nullable = false)

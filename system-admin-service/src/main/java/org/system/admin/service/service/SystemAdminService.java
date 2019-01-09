@@ -34,7 +34,8 @@ public class SystemAdminService {
         userService.verifyUsername(createCompanyDto.getUsername());
         return companyRepository.save(new Company(
                 createCompanyDto.getName(), createCompanyDto.getDescription(),
-                createCompanyDto.getUsername(), createCompanyDto.getPassword()));
+                createCompanyDto.getUsername(), createCompanyDto.getPassword()
+        ));
     }
 
     public List<Company> findAllCompanies() {
@@ -63,7 +64,8 @@ public class SystemAdminService {
         userService.verifyUsername(createAdAgentDto.getUsername());
         return adAgentRepository.save(new AdAgent(
                 createAdAgentDto.getName(), createAdAgentDto.getUsername(),
-                createAdAgentDto.getPassword(), createAdAgentDto.getEmail()));
+                createAdAgentDto.getPassword(), createAdAgentDto.getEmail()
+        ));
     }
 
     public List<AdAgent> findAllAdAgents() {

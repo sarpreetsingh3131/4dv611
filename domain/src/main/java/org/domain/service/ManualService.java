@@ -50,7 +50,9 @@ public class ManualService {
         throw new Exception("unauthorized representative");
     }
 
-    public Manual update(Manual manual) {
+    public Manual updateManualViews(Long id) throws Exception {
+        Manual manual = findById(id);
+        manual.setViews(manual.getViews() + 1);
         return manualRepository.save(manual);
     }
 }

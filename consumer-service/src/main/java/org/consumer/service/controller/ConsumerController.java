@@ -59,8 +59,8 @@ public class ConsumerController {
     }
 
     @GetMapping(value = "/product/{id}")
-    public Object findProductById(@RequestHeader("Authorization") @NotBlank String token,
-                                  @PathVariable @NotNull Long id) throws Exception {
+    public ProductWithBadgeDto findProductById(@RequestHeader("Authorization") @NotBlank String token,
+                                               @PathVariable @NotNull Long id) throws Exception {
         return service.findProductWithBadge(id, token);
     }
 
@@ -76,9 +76,10 @@ public class ConsumerController {
         return service.addNoteOnManual(noteDto, token);
     }
 
-    @GetMapping(value = "/service-providers")
-    public List<ServiceProviderDto> findAllServiceProviders(@RequestHeader("Authorization")
-                                                            @NotBlank String token) throws Exception {
-        return service.findAllServiceProviders(token);
+    @GetMapping(value = "/product/{id}/service-providers")
+    public List<ServiceProviderDto> findServiceProvidersByProductId(@RequestHeader("Authorization")
+                                                                    @NotBlank String token,
+                                                                    @PathVariable @NotNull Long id) throws Exception {
+        return service.findServiceProvidersByProductId(id, token);
     }
 }

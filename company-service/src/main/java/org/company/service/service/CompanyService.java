@@ -38,7 +38,8 @@ public class CompanyService {
         userService.verifyUsername(createRepresentativeDto.getUsername());
         return representativeRepository.save(new Representative(
                 createRepresentativeDto.getName(), createRepresentativeDto.getUsername(),
-                createRepresentativeDto.getPassword(), userService.findCompany(token)));
+                createRepresentativeDto.getPassword(), userService.findCompany(token)
+        ));
     }
 
     public List<Representative> findAllRepresentatives(String token) throws Exception {
@@ -52,7 +53,8 @@ public class CompanyService {
                 createServiceProviderDto.getName(), createServiceProviderDto.getUsername(),
                 createServiceProviderDto.getPassword(), createServiceProviderDto.getAuthorization(),
                 userService.findCompany(token), createServiceProviderDto.getEmail(),
-                createServiceProviderDto.getPhone()));
+                createServiceProviderDto.getPhone()
+        ));
     }
 
     public List<ServiceProvider> findAllServiceProviders(String token) throws Exception {

@@ -2,9 +2,11 @@ package org.mymanuals.service.service;
 
 import org.domain.converter.ProductConverter;
 import org.domain.dto.ProductWithoutBadgeDto;
+import org.domain.model.Advertisement;
 import org.domain.model.Manual;
 import org.domain.model.Product;
 import org.domain.repository.ProductRepository;
+import org.domain.service.AdvertisementService;
 import org.domain.service.ManualService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,9 @@ public class MyManualsService {
     private ProductRepository productRepository;
 
     @Autowired
+    private AdvertisementService advertisementService;
+
+    @Autowired
     private ManualService manualService;
 
     public List<ProductWithoutBadgeDto> findProductsByCategoryId(Long id) {
@@ -31,8 +36,9 @@ public class MyManualsService {
         return converter.toProductWithoutBadgeDto(
                 productRepository
                         .findTop10ByNameIgnoreCaseContainingOrModelIgnoreCaseContainingOrCategoryNameIgnoreCaseContaining(
-                                query, query, query));
-
+                                query, query, query
+                        )
+        );
     }
 
     public List<ProductWithoutBadgeDto> find10LatestProducts() {
@@ -40,9 +46,7 @@ public class MyManualsService {
     }
 
     public Manual updateManualViews(Long id) throws Exception {
-        Manual manual = manualService.findById(id);
-        manual.setViews(manual.getViews() + 1);
-        return manualService.update(manual);
+        return manualService.updateManualViews(id);
     }
 
     public ProductWithoutBadgeDto findProductWithoutBadge(Long id) throws Exception {
@@ -50,5 +54,9 @@ public class MyManualsService {
                 .orElseThrow(() -> new Exception("no product with id = " + id));
         product.setViews(product.getViews() + 1);
         return converter.toProductWithoutBadgeDto(productRepository.save(product));
+    }
+
+    public Advertisement findRandomAdvertisement() throws Exception {
+        return advertisementService.findRandomAdvertisement();
     }
 }

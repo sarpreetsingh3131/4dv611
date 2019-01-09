@@ -49,4 +49,8 @@ public class ServiceProviderService {
         serviceProvider.setPhone(updateServiceProviderDto.getPhone());
         return serviceProviderRepository.save(serviceProvider);
     }
+
+    public ServiceProvider findProfile(String token) throws Exception {
+        return userService.findServiceProvider(token);
+    }
 }
