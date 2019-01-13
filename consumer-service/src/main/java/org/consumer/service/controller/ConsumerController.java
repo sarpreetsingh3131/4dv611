@@ -82,4 +82,10 @@ public class ConsumerController {
                                                                     @PathVariable @NotNull Long id) throws Exception {
         return service.findServiceProvidersByProductId(id, token);
     }
+
+    @PostMapping(value = "/product/comment", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ProductWithBadgeDto saveComment(@RequestHeader("Authorization") @NotBlank String token,
+                                           @RequestBody @Valid CreateCommentDto createCommentDto) throws Exception {
+        return service.saveComment(createCommentDto, token);
+    }
 }

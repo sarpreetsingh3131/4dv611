@@ -28,6 +28,9 @@ public class UserService {
     private AdAgentRepository adAgentRepository;
 
     @Autowired
+    private SystemAdminRepository systemAdminRepository;
+
+    @Autowired
     private JsonWebToken jsonWebToken;
 
     public String logInAsCompany(CredentialDto credentialDto) throws Exception {
@@ -60,6 +63,12 @@ public class UserService {
         return jsonWebToken.assign(credentialDto);
     }
 
+    public String logInAsSystemAdmin(CredentialDto credentialDto) throws Exception {
+        systemAdminRepository.findByUsernameAndPassword(credentialDto.getUsername(), credentialDto.getPassword())
+                .orElseThrow(() -> new Exception("invalid credentials"));
+        return jsonWebToken.assign(credentialDto);
+    }
+
     public String logOutAsCompany(String token) throws Exception {
         findCompany(token);
         return jsonWebToken.revoke(token);
@@ -82,6 +91,11 @@ public class UserService {
 
     public String logOutAsAdAgent(String token) throws Exception {
         findAdAgent(token);
+        return jsonWebToken.revoke(token);
+    }
+
+    public String logOutAsSystemAdmin(String token) throws Exception {
+        findSystemAdmin(token);
         return jsonWebToken.revoke(token);
     }
 
@@ -110,14 +124,20 @@ public class UserService {
                 .orElseThrow(() -> new Exception("invalid token"));
     }
 
+    public SystemAdmin findSystemAdmin(String token) throws Exception {
+        return systemAdminRepository.findByUsername(jsonWebToken.parse(token))
+                .orElseThrow(() -> new Exception("invalid token"));
+    }
+
     public void verifyUsername(String username) throws Exception {
         Optional<Company> company = companyRepository.findByUsername(username);
         Optional<Representative> representative = representativeRepository.findByUsername(username);
         Optional<Consumer> consumer = consumerRepository.findByUsername(username);
         Optional<ServiceProvider> serviceProvider = serviceProviderRepository.findByUsername(username);
         Optional<AdAgent> adAgent = adAgentRepository.findByUsername(username);
-        if (company.isPresent() || representative.isPresent() || consumer.isPresent() ||
-                serviceProvider.isPresent() || adAgent.isPresent()) {
+        Optional<SystemAdmin> systemAdmin = systemAdminRepository.findByUsername(username);
+        if (company.isPresent() || representative.isPresent() || consumer.isPresent()
+                || serviceProvider.isPresent() || adAgent.isPresent() || systemAdmin.isPresent()) {
             throw new Exception("user already exists with username = " + username);
         }
     }

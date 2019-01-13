@@ -40,4 +40,7 @@ public class ProductWithBadgeDto {
 
     @NonNull
     private Integer views;
+
+    @NonNull
+    private List<CommentDto> comments;
 }

@@ -17,6 +17,9 @@ public class ProductConverter {
     @Autowired
     private ManualConverter manualConverter;
 
+    @Autowired
+    private CommentConverter commentConverter;
+
     public ProductWithoutBadgeDto toProductWithoutBadgeDto(Product product) {
         return new ProductWithoutBadgeDto(
                 product.getId(), product.getName(), product.getModel(), product.getCategory(),
@@ -36,7 +39,8 @@ public class ProductConverter {
                 product.getId(), product.getName(), product.getModel(), product.getCategory(),
                 product.getPrimaryImage(), product.getSecondaryImages(),
                 manualConverter.manualToManualWithNoteDtos(product.getManuals(), consumer),
-                consumer.getProducts().contains(product), product.getViews()
+                consumer.getProducts().contains(product), product.getViews(),
+                commentConverter.toCommentDto(product)
         );
     }
 

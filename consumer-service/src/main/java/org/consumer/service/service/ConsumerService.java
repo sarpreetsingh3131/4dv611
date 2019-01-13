@@ -43,6 +43,9 @@ public class ConsumerService {
     @Autowired
     private ServiceProviderConverter serviceProviderConverter;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
     public Consumer signUp(CreateConsumerDto createConsumerDto) throws Exception {
         userService.verifyUsername(createConsumerDto.getUsername());
         return consumerRepository.save(new Consumer(
@@ -111,11 +114,17 @@ public class ConsumerService {
 
     public List<ServiceProviderDto> findServiceProvidersByProductId(Long id, String token) throws Exception {
         Consumer consumer = userService.findConsumer(token);
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new Exception("no product with id = " + id));
+        Product product = findProductById(id);
         return serviceProviderConverter.toServiceProviderDtos(
                 serviceProviderRepository.findByCompanyId(product.getCompany().getId())
         );
+    }
+
+    public ProductWithBadgeDto saveComment(CreateCommentDto createCommentDto, String token) throws Exception {
+        Consumer consumer = userService.findConsumer(token);
+        Product product = findProductById(createCommentDto.getProductId());
+        commentRepository.save(new Comment(createCommentDto.getText(), consumer, product));
+        return productConverter.toProductWithBadgeDto(product, consumer);
     }
 
     private Product findProductById(Long id) throws Exception {

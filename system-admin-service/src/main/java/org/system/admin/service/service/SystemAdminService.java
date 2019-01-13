@@ -1,14 +1,9 @@
 package org.system.admin.service.service;
 
-import org.domain.dto.CreateAdAgentDto;
-import org.domain.dto.CreateCategoryDto;
-import org.domain.dto.CreateCompanyDto;
-import org.domain.model.AdAgent;
-import org.domain.model.Category;
-import org.domain.model.Company;
-import org.domain.repository.AdAgentRepository;
-import org.domain.repository.CategoryRepository;
-import org.domain.repository.CompanyRepository;
+import org.domain.converter.ProductConverter;
+import org.domain.dto.*;
+import org.domain.model.*;
+import org.domain.repository.*;
 import org.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,9 +23,22 @@ public class SystemAdminService {
     private AdAgentRepository adAgentRepository;
 
     @Autowired
+    private SystemAdminRepository systemAdminRepository;
+
+    @Autowired
     private UserService userService;
 
-    public Company saveCompany(CreateCompanyDto createCompanyDto) throws Exception {
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private ProductConverter productConverter;
+
+    @Autowired
+    private AdvertisementRepository advertisementRepository;
+
+    public Company saveCompany(CreateCompanyDto createCompanyDto, String token) throws Exception {
+        userService.findSystemAdmin(token);
         userService.verifyUsername(createCompanyDto.getUsername());
         return companyRepository.save(new Company(
                 createCompanyDto.getName(), createCompanyDto.getDescription(),
@@ -38,29 +46,35 @@ public class SystemAdminService {
         ));
     }
 
-    public List<Company> findAllCompanies() {
+    public List<Company> findAllCompanies(String token) throws Exception {
+        userService.findSystemAdmin(token);
         return companyRepository.findAll();
     }
 
-    public Company findCompanyById(Long id) throws Exception {
+    public Company findCompanyById(Long id, String token) throws Exception {
+        userService.findSystemAdmin(token);
         return companyRepository.findById(id)
                 .orElseThrow(() -> new Exception("no company with id = " + id));
     }
 
-    public Category saveCategory(CreateCategoryDto createCategoryDto) {
+    public Category saveCategory(CreateCategoryDto createCategoryDto, String token) throws Exception {
+        userService.findSystemAdmin(token);
         return categoryRepository.save(new Category(createCategoryDto.getName()));
     }
 
-    public List<Category> findAllCategories() {
+    public List<Category> findAllCategories(String token) throws Exception {
+        userService.findSystemAdmin(token);
         return categoryRepository.findAll();
     }
 
-    public Category findCategoryById(Long id) throws Exception {
+    public Category findCategoryById(Long id, String token) throws Exception {
+        userService.findSystemAdmin(token);
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new Exception("no category with id = " + id));
     }
 
-    public AdAgent saveAdAgent(CreateAdAgentDto createAdAgentDto) throws Exception {
+    public AdAgent saveAdAgent(CreateAdAgentDto createAdAgentDto, String token) throws Exception {
+        userService.findSystemAdmin(token);
         userService.verifyUsername(createAdAgentDto.getUsername());
         return adAgentRepository.save(new AdAgent(
                 createAdAgentDto.getName(), createAdAgentDto.getUsername(),
@@ -68,12 +82,42 @@ public class SystemAdminService {
         ));
     }
 
-    public List<AdAgent> findAllAdAgents() {
+    public List<AdAgent> findAllAdAgents(String token) throws Exception {
+        userService.findSystemAdmin(token);
         return adAgentRepository.findAll();
     }
 
-    public AdAgent findAdAgentById(Long id) throws Exception {
+    public AdAgent findAdAgentById(Long id, String token) throws Exception {
+        userService.findSystemAdmin(token);
         return adAgentRepository.findById(id)
                 .orElseThrow(() -> new Exception("no ad agent with id = " + id));
+    }
+
+    public SystemAdmin saveSystemAdmin(CreateSystemAdminDto createSystemAdminDto) throws Exception {
+        userService.verifyUsername(createSystemAdminDto.getUsername());
+        return systemAdminRepository.save(new SystemAdmin(
+                createSystemAdminDto.getName(), createSystemAdminDto.getUsername(),
+                createSystemAdminDto.getPassword(), createSystemAdminDto.getEmail()
+        ));
+    }
+
+    public String logIn(CredentialDto credentialDto) throws Exception {
+        return userService.logInAsSystemAdmin(credentialDto);
+    }
+
+    public String logOut(String token) throws Exception {
+        return userService.logOutAsSystemAdmin(token);
+    }
+
+    public CompaniesAndProductsDto findAllCompaniesAndProducts(String token) throws Exception {
+        return new CompaniesAndProductsDto(
+                findAllCompanies(token),
+                productConverter.toProductWithoutBadgeDto(productRepository.findAll())
+        );
+    }
+
+    public List<Advertisement> findAllAdvertisements(String token) throws Exception {
+        userService.findSystemAdmin(token);
+        return advertisementRepository.findAll();
     }
 }
