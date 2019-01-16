@@ -33,6 +33,9 @@ public class SystemAdminService {
     @Autowired
     private AdvertisementRepository advertisementRepository;
 
+    @Autowired
+    private ProductFeaturedRepository productFeaturedRepository;
+
     public Company saveCompany(CreateCompanyDto createCompanyDto, String token) throws Exception {
         userService.findSystemAdmin(token);
         userService.verifyUsername(createCompanyDto.getUsername());
@@ -104,5 +107,18 @@ public class SystemAdminService {
     public List<Advertisement> findAllAdvertisements(String token) throws Exception {
         userService.findSystemAdmin(token);
         return advertisementRepository.findAll();
+    }
+
+    public ProductFeatured setProductFeatured(ProductFeaturedDto productFeaturedDto, String token) throws Exception {
+        userService.findSystemAdmin(token);
+        ProductFeatured productFeatured = productFeaturedRepository.findFirstById().get();
+        ProductFeatured newProductFeatured = new ProductFeatured((productRepository.findById(productFeaturedDto.getProductId())).get());
+        productFeatured.setProductId(newProductFeatured.getProductId());
+        return productFeaturedRepository.save(productFeatured);
+    }
+
+    public ProductFeatured getProductFeatured(String token) throws Exception {
+        userService.findSystemAdmin(token);
+        return productFeaturedRepository.findFirstById().get();
     }
 }
