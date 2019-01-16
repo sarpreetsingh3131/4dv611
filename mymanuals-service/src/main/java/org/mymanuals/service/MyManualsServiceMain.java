@@ -1,6 +1,6 @@
 package org.mymanuals.service;
 
-import org.ad.agent.service.service.AdAgentService;
+import org.ad.agent.service.AdAgentServiceMain;
 import org.company.service.CompanyServiceMain;
 import org.consumer.service.ConsumerServiceMain;
 import org.domain.DomainMain;
@@ -17,7 +17,7 @@ public class MyManualsServiceMain {
     public static void main(String[] args) {
         new SpringApplicationBuilder()
                 .bannerMode(Banner.Mode.CONSOLE)
-                .sources(AdAgentService.class,
+                .sources(AdAgentServiceMain.class,
                         CompanyServiceMain.class,
                         ConsumerServiceMain.class,
                         DomainMain.class,
