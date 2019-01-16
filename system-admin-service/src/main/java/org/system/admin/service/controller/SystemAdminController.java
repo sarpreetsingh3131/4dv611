@@ -97,4 +97,15 @@ public class SystemAdminController {
                                                      @NotBlank String token) throws Exception {
         return service.findAllAdvertisements(token);
     }
+
+    @PutMapping(value = "/product-featured")
+    public ProductFeatured setProductFeatured(@RequestBody @Valid ProductFeaturedDto productFeaturedDto, @RequestHeader("Authorization")
+                                              @NotBlank String token) throws Exception{
+        return service.setProductFeatured(productFeaturedDto, token);
+    }
+
+    @GetMapping(value = "/product-featured")
+    public ProductFeatured getProductFeatured(@NotBlank String token) throws Exception{
+        return service.getProductFeatured(token);
+    }
 }
