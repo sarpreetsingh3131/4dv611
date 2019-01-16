@@ -2,13 +2,9 @@ package org.mymanuals.service.service;
 
 import org.domain.converter.ProductConverter;
 import org.domain.dto.ProductWithoutBadgeDto;
-import org.domain.model.Advertisement;
-import org.domain.model.Category;
-import org.domain.model.Manual;
-import org.domain.model.Product;
+import org.domain.model.*;
 import org.domain.repository.CategoryRepository;
-import org.domain.model.ProductFeatured;
-import org.domain.repository.ProductFeaturedRepository;
+import org.domain.repository.FeaturedProductRepository;
 import org.domain.repository.ProductRepository;
 import org.domain.service.AdvertisementService;
 import org.domain.service.ManualService;
@@ -36,7 +32,7 @@ public class MyManualsService {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private ProductFeaturedRepository productFeaturedRepository;
+    private FeaturedProductRepository featuredProductRepository;
 
     public List<ProductWithoutBadgeDto> findProductsByCategoryId(Long id) {
         return converter.toProductWithoutBadgeDto(productRepository.findByCategoryId(id));
@@ -53,12 +49,12 @@ public class MyManualsService {
 
     public List<ProductWithoutBadgeDto> find10LatestProducts() {
         List<Product> productList = productRepository.findTop10ByOrderByIdDesc();
-        ProductFeatured productFeatured = productFeaturedRepository.findFirstById().orElse(null);
-        if (productFeatured != null) {
-            productList.remove(productList.size() - 1);
-            productList.add(0, productRepository.findById((productFeatured.getProductId().getId())).get());
+        List<FeaturedProduct> featuredProducts = featuredProductRepository.findAll();
+        if (!featuredProducts.isEmpty()) {
+            productList.remove(0);
+            productList.add(0, featuredProducts.get(0).getProduct());
         }
-        return converter.toProductWithoutBadgeDto(productRepository.findTop10ByOrderByIdDesc());
+        return converter.toProductWithoutBadgeDto(productList);
     }
 
     public Manual updateManualViews(Long id) throws Exception {

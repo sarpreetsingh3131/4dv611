@@ -1,5 +1,6 @@
 package org.system.admin.service.service;
 
+import org.domain.converter.ProductConverter;
 import org.domain.dto.*;
 import org.domain.model.*;
 import org.domain.repository.*;
@@ -34,7 +35,10 @@ public class SystemAdminService {
     private AdvertisementRepository advertisementRepository;
 
     @Autowired
-    private ProductFeaturedRepository productFeaturedRepository;
+    private FeaturedProductRepository featuredProductRepository;
+
+    @Autowired
+    private ProductConverter productConverter;
 
     public Company saveCompany(CreateCompanyDto createCompanyDto, String token) throws Exception {
         userService.findSystemAdmin(token);
@@ -109,16 +113,21 @@ public class SystemAdminService {
         return advertisementRepository.findAll();
     }
 
-    public ProductFeatured setProductFeatured(ProductFeaturedDto productFeaturedDto, String token) throws Exception {
+    public ProductWithoutBadgeDto createFeaturedProduct(Long id, String token) throws Exception {
         userService.findSystemAdmin(token);
-        ProductFeatured productFeatured = productFeaturedRepository.findFirstById().get();
-        ProductFeatured newProductFeatured = new ProductFeatured((productRepository.findById(productFeaturedDto.getProductId())).get());
-        productFeatured.setProductId(newProductFeatured.getProductId());
-        return productFeaturedRepository.save(productFeatured);
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new Exception("no product with id = " + id));
+        featuredProductRepository.deleteAll();
+        featuredProductRepository.save(new FeaturedProduct(product));
+        return productConverter.toProductWithoutBadgeDto(product);
     }
 
-    public ProductFeatured getProductFeatured(String token) throws Exception {
+    public ProductWithoutBadgeDto findFeaturedProduct(String token) throws Exception {
         userService.findSystemAdmin(token);
-        return productFeaturedRepository.findFirstById().get();
+        List<FeaturedProduct> featuredProducts = featuredProductRepository.findAll();
+        if (featuredProducts.isEmpty()) {
+            throw new Exception("no featured product");
+        }
+        return productConverter.toProductWithoutBadgeDto(featuredProducts.get(0).getProduct());
     }
 }

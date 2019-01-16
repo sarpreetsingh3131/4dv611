@@ -88,14 +88,16 @@ public class SystemAdminController {
         return service.findAllAdvertisements(token);
     }
 
-    @PutMapping(value = "/product-featured")
-    public ProductFeatured setProductFeatured(@RequestBody @Valid ProductFeaturedDto productFeaturedDto, @RequestHeader("Authorization")
-                                              @NotBlank String token) throws Exception{
-        return service.setProductFeatured(productFeaturedDto, token);
+    @PostMapping(value = "/featured-product/{id}")
+    public ProductWithoutBadgeDto createFeaturedProduct(@PathVariable @NotNull Long id,
+                                                        @RequestHeader("Authorization")
+                                                        @NotBlank String token) throws Exception {
+        return service.createFeaturedProduct(id, token);
     }
 
-    @GetMapping(value = "/product-featured")
-    public ProductFeatured getProductFeatured(@NotBlank String token) throws Exception{
-        return service.getProductFeatured(token);
+    @GetMapping(value = "/featured-product")
+    public ProductWithoutBadgeDto findFeaturedProduct(@RequestHeader("Authorization")
+                                                      @NotBlank String token) throws Exception {
+        return service.findFeaturedProduct(token);
     }
 }
