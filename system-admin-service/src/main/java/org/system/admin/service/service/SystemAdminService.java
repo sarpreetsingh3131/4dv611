@@ -1,6 +1,5 @@
 package org.system.admin.service.service;
 
-import org.domain.converter.ProductConverter;
 import org.domain.dto.*;
 import org.domain.model.*;
 import org.domain.repository.*;
@@ -32,9 +31,6 @@ public class SystemAdminService {
     private ProductRepository productRepository;
 
     @Autowired
-    private ProductConverter productConverter;
-
-    @Autowired
     private AdvertisementRepository advertisementRepository;
 
     public Company saveCompany(CreateCompanyDto createCompanyDto, String token) throws Exception {
@@ -60,17 +56,6 @@ public class SystemAdminService {
     public Category saveCategory(CreateCategoryDto createCategoryDto, String token) throws Exception {
         userService.findSystemAdmin(token);
         return categoryRepository.save(new Category(createCategoryDto.getName()));
-    }
-
-    public List<Category> findAllCategories(String token) throws Exception {
-        userService.findSystemAdmin(token);
-        return categoryRepository.findAll();
-    }
-
-    public Category findCategoryById(Long id, String token) throws Exception {
-        userService.findSystemAdmin(token);
-        return categoryRepository.findById(id)
-                .orElseThrow(() -> new Exception("no category with id = " + id));
     }
 
     public AdAgent saveAdAgent(CreateAdAgentDto createAdAgentDto, String token) throws Exception {
@@ -109,10 +94,10 @@ public class SystemAdminService {
         return userService.logOutAsSystemAdmin(token);
     }
 
-    public CompaniesAndProductsDto findAllCompaniesAndProducts(String token) throws Exception {
+    public CompaniesAndProductsDto countCompaniesAndProducts(String token) throws Exception {
+        userService.findSystemAdmin(token);
         return new CompaniesAndProductsDto(
-                findAllCompanies(token),
-                productConverter.toProductWithoutBadgeDto(productRepository.findAll())
+                companyRepository.findAll().size(), productRepository.findAll().size()
         );
     }
 

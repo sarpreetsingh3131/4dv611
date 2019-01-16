@@ -3,8 +3,10 @@ package org.mymanuals.service.service;
 import org.domain.converter.ProductConverter;
 import org.domain.dto.ProductWithoutBadgeDto;
 import org.domain.model.Advertisement;
+import org.domain.model.Category;
 import org.domain.model.Manual;
 import org.domain.model.Product;
+import org.domain.repository.CategoryRepository;
 import org.domain.repository.ProductRepository;
 import org.domain.service.AdvertisementService;
 import org.domain.service.ManualService;
@@ -27,6 +29,9 @@ public class MyManualsService {
 
     @Autowired
     private ManualService manualService;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public List<ProductWithoutBadgeDto> findProductsByCategoryId(Long id) {
         return converter.toProductWithoutBadgeDto(productRepository.findByCategoryId(id));
@@ -58,5 +63,15 @@ public class MyManualsService {
 
     public Advertisement findRandomAdvertisement() throws Exception {
         return advertisementService.findRandomAdvertisement();
+    }
+
+
+    public List<Category> findAllCategories() {
+        return categoryRepository.findAll();
+    }
+
+    public Category findCategoryById(Long id) throws Exception {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new Exception("no category with id = " + id));
     }
 }

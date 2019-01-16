@@ -43,16 +43,6 @@ public class SystemAdminController {
         return service.saveCategory(createCompanyDto, token);
     }
 
-    @GetMapping(value = "/category/{id}")
-    public Category findCategoryById(@PathVariable @NotNull Long id,
-                                     @RequestHeader("Authorization") @NotBlank String token) throws Exception {
-        return service.findCategoryById(id, token);
-    }
-
-    @GetMapping(value = "/categories")
-    public List<Category> findAllCategories(@RequestHeader("Authorization") @NotBlank String token) throws Exception {
-        return service.findAllCategories(token);
-    }
 
     @PostMapping(value = "/ad-agent", consumes = MediaType.APPLICATION_JSON_VALUE)
     public AdAgent saveAdAgent(@RequestBody @Valid CreateAdAgentDto createAdAgentDto,
@@ -86,10 +76,10 @@ public class SystemAdminController {
         return service.logOut(token);
     }
 
-    @GetMapping(value = "/companies-products")
-    public CompaniesAndProductsDto findAllCompaniesAndProducts(@RequestHeader("Authorization")
-                                                               @NotBlank String token) throws Exception {
-        return service.findAllCompaniesAndProducts(token);
+    @GetMapping(value = "/count/companies-products")
+    public CompaniesAndProductsDto countCompaniesAndProducts(@RequestHeader("Authorization")
+                                                             @NotBlank String token) throws Exception {
+        return service.countCompaniesAndProducts(token);
     }
 
     @GetMapping(value = "/advertisements")
