@@ -100,4 +100,10 @@ public class SystemAdminController {
                                                       @NotBlank String token) throws Exception {
         return service.findFeaturedProduct(token);
     }
+
+    @GetMapping(value = "/products")
+    public List<ProductWithoutBadgeDto> findAllProducts(@RequestHeader("Authorization")
+                                                            @NotBlank String token) throws Exception {
+        return service.findAllProducts(token);
+    }
 }

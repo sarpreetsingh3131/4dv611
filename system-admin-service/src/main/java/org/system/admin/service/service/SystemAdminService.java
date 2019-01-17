@@ -130,4 +130,9 @@ public class SystemAdminService {
         }
         return productConverter.toProductWithoutBadgeDto(featuredProducts.get(0).getProduct());
     }
+
+    public List<ProductWithoutBadgeDto> findAllProducts(String token) throws Exception {
+        userService.findSystemAdmin(token);
+        return productConverter.toProductWithoutBadgeDto(productRepository.findAll());
+    }
 }
