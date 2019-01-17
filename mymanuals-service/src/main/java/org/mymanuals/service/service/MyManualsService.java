@@ -54,6 +54,11 @@ public class MyManualsService {
         );
         List<FeaturedProduct> featuredProducts = featuredProductRepository.findAll();
         LatestProductsDto latestProductsDto = new LatestProductsDto();
+        latestProductsDto.setFeaturedProduct(
+                featuredProducts.isEmpty()
+                        ? null
+                        : converter.toProductWithoutBadgeDto(featuredProducts.get(0).getProduct())
+        );
         latestProductsDto.setProducts(
                 featuredProducts.isEmpty()
                         ? products
