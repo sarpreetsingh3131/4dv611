@@ -53,13 +53,13 @@ public class MyManualsService {
                 productRepository.findTop10ByOrderByIdDesc()
         );
         List<FeaturedProduct> featuredProducts = featuredProductRepository.findAll();
-        if (featuredProducts.isEmpty()) {
-            return new LatestProductsDto(null, products);
-        }
-        return new LatestProductsDto(
-                converter.toProductWithoutBadgeDto(featuredProducts.get(0).getProduct()),
-                products.subList(0, products.size() == 10 ? 8 : products.size())
+        LatestProductsDto latestProductsDto = new LatestProductsDto();
+        latestProductsDto.setProducts(
+                featuredProducts.isEmpty()
+                        ? products
+                        : products.subList(0, products.size() == 10 ? 8 : products.size())
         );
+        return latestProductsDto;
     }
 
     public Manual updateManualViews(Long id) throws Exception {

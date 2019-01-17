@@ -103,7 +103,7 @@ public class SystemAdminController {
 
     @GetMapping(value = "/products")
     public List<ProductWithoutBadgeDto> findAllProducts(@RequestHeader("Authorization")
-                                                            @NotBlank String token) throws Exception {
+                                                        @NotBlank String token) throws Exception {
         return service.findAllProducts(token);
     }
 }
