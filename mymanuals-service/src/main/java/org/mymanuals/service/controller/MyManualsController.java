@@ -1,5 +1,6 @@
 package org.mymanuals.service.controller;
 
+import org.domain.dto.LatestProductsDto;
 import org.domain.dto.ProductWithoutBadgeDto;
 import org.domain.model.Advertisement;
 import org.domain.model.Category;
@@ -37,7 +38,7 @@ public class MyManualsController {
     }
 
     @GetMapping(value = "/products/latest")
-    public List<ProductWithoutBadgeDto> find10LatestProducts() {
+    public LatestProductsDto find10LatestProducts() {
         return service.find10LatestProducts();
     }
 

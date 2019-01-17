@@ -1,6 +1,7 @@
 package org.mymanuals.service.service;
 
 import org.domain.converter.ProductConverter;
+import org.domain.dto.LatestProductsDto;
 import org.domain.dto.ProductWithoutBadgeDto;
 import org.domain.model.*;
 import org.domain.repository.CategoryRepository;
@@ -47,14 +48,18 @@ public class MyManualsService {
         );
     }
 
-    public List<ProductWithoutBadgeDto> find10LatestProducts() {
-        List<Product> productList = productRepository.findTop10ByOrderByIdDesc();
+    public LatestProductsDto find10LatestProducts() {
+        List<ProductWithoutBadgeDto> products = converter.toProductWithoutBadgeDto(
+                productRepository.findTop10ByOrderByIdDesc()
+        );
         List<FeaturedProduct> featuredProducts = featuredProductRepository.findAll();
-        if (!featuredProducts.isEmpty()) {
-            productList.remove(0);
-            productList.add(0, featuredProducts.get(0).getProduct());
+        if (featuredProducts.isEmpty()) {
+            return new LatestProductsDto(null, products);
         }
-        return converter.toProductWithoutBadgeDto(productList);
+        return new LatestProductsDto(
+                converter.toProductWithoutBadgeDto(featuredProducts.get(0).getProduct()),
+                products.subList(0, products.size() == 10 ? 8 : products.size())
+        );
     }
 
     public Manual updateManualViews(Long id) throws Exception {
